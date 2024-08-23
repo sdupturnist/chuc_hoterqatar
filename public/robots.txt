@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+
+
+
+Sitemap: https://chuchoterqatar.com/sitemap.xml

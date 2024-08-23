@@ -1,0 +1,468 @@
+/* GOOGLE FONTS */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Italiana&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css');
+
+
+@import "~react-image-gallery/styles/scss/image-gallery.scss";
+
+
+/* TAILWINDCSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+@font-face {
+  font-family: 'bon_vivantregular';
+  src: url('/fonts/bonvivant-regular-webfont.woff2') format('woff2'),
+       url('/fonts/bonvivant-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+
+
+
+
+
+
+
+body {
+    @apply font-tertiary;
+    background: #fff;
+  }
+
+
+
+footer{
+  .collapse-title:after {
+    top: -1px !important;
+    height: 5px !important;
+    width: 5px !important;
+    font-size: 17px;
+  }
+}
+
+  .container {
+    width: 100%;
+    max-width: 100%; /* Optional: Remove any max-width restrictions */
+  }
+
+  .btn{
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .btn:hover{
+    background: #111;
+    border-color: #111;
+  }
+
+ .main-nav .collapse-title:after {
+  
+    top: 0;
+}
+
+
+
+.theme-chocolates-header-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/choclate-bg-mobile-header.webp') no-repeat center center;
+  background-size: cover; /* Ensure the image covers the element */
+  filter: grayscale(100%);
+  z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+.theme-chocolates-header-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #c89a3f;
+  background-size: cover; /* Ensure the image covers the element */
+  opacity: 0.8;
+z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+
+
+.theme-flowers-header-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/flower-bg-mobile-header.webp') no-repeat center center;
+  background-size: cover; /* Ensure the image covers the element */
+  filter: grayscale(100%);
+  z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+.theme-flowers-header-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #E62263;
+  background-size: cover; /* Ensure the image covers the element */
+  opacity: 0.8;
+z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+
+.theme-cakes-header-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/cake-bg-mobile-header.webp') no-repeat center center;
+  background-size: cover; /* Ensure the image covers the element */
+  filter: grayscale(100%);
+  z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+.theme-cakes-header-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #E79F02;
+  background-size: cover; /* Ensure the image covers the element */
+  opacity: 0.8;
+z-index: -1; /* Make sure it’s behind the content */
+}
+
+.theme-events-header-mobile::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('/images/event-bg-mobile-header.webp') no-repeat center center;
+  background-size: cover; /* Ensure the image covers the element */
+  filter: grayscale(100%);
+  z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+.theme-events-header-mobile::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #258F89;
+  background-size: cover; /* Ensure the image covers the element */
+  opacity: 0.8;
+z-index: -1; /* Make sure it’s behind the content */
+}
+
+
+.card-cat:hover .btn-cart{
+  opacity: 1 !important;
+}
+
+/* [--chkfg:${themeLayout}] */
+
+
+.\[--chkfg\:chocolate\] {
+    --chkfg: #FCF9F4;
+}
+.\[--chkfg\:flowers\] {
+    --chkfg: #fdd9d9;
+}
+
+
+.\[--chkfg\:cakes\] {
+    --chkfg: #fffbe8;
+}
+
+
+.\[--chkfg\:events\] {
+    --chkfg: #eaf4f3;
+}
+
+
+
+
+
+
+.\[--chkbg\:theme\(colors\.chocolate\.100\)\] {
+    --chkbg: #c89a3f;
+}
+
+.\[--chkbg\:theme\(colors\.flowers\.100\)\] {
+    --chkbg: #E62263;
+}
+
+.\[--chkbg\:theme\(colors\.cakes\.100\)\] {
+    --chkbg: #E79F02;
+}
+
+.\[--chkbg\:theme\(colors\.events\.100\)\] {
+    --chkbg: #258F89;
+}
+
+
+
+.sticky-column {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+
+
+.ht-content{
+*::first-letter{
+  text-transform: uppercase;
+}
+   h1,h2,h3,h4,h5,h6{
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+   }
+   ul{
+    list-style: circle;
+    padding-left: 21px;
+    li{
+      margin-bottom: 4px;
+    }
+   }
+   p{
+    margin-bottom: 20px;
+    line-height: 1.6rem;
+   }
+
+   br{
+    display: block;
+    margin-bottom: 10px;
+   }
+}
+
+
+.tabs-lifted > .tab:is(.tab-active, [aria-selected="true"]):not(.tab-disabled):not([disabled]):before, .tabs-lifted > .tab:is(input:checked):before {
+  background: #896767;
+  z-index: 1;
+  content: "";
+  display: block;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: var(--tab-radius, 0.5rem);
+  bottom: -3px;
+  background-size: var(--tab-radius, 0.5rem);
+  background-position: top left, top right;
+  background-repeat: no-repeat;
+  --tab-grad: calc(69% - var(--tab-border, 1px));
+  --radius-start: 0;
+  --radius-end: 0;
+  background: white;
+  background: white;
+}
+
+.review-list{
+  li{
+    border-bottom: solid thin  #ddd;
+    padding-bottom: 24px;;
+    padding-top: 24px;
+    &:first-child{
+     padding-top: 0 !important;
+    }
+    &:last-child{
+      border: 0 !important;
+      padding-bottom: 0 !important;
+      border-bottom-width:0 !important;
+    }
+  }
+
+}
+
+
+
+.input:focus, .input:focus-within {
+ 
+  // border-color: transparent  !important;
+  outline: none  !important;
+}
+
+
+.checked\:bg-flowers-100:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(230 34 99 / var(--tw-bg-opacity)) !important;
+}
+
+
+.checked\:bg-chocolates-100:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(200 154 63 / var(--tw-bg-opacity)) !important; 
+}
+
+
+.checked\:bg-cakes-100:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(231 159 2 / var(--tw-bg-opacity))!important; 
+}
+
+
+.checked\:bg-events-100:checked {
+  --tw-bg-opacity: 1;
+  background-color: rgb(37 143 137 / var(--tw-bg-opacity))!important; 
+}
+
+
+.slider-featured-items{
+.slick-slide {
+  // margin-right: 24px;
+  
+
+}
+
+}
+
+
+
+/* styles/Slider.module.css */
+.slider.home-hero-slider {
+  position: relative;
+  width: 100%;
+
+
+.items {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  padding-bottom: 56.25%;
+}
+
+.item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.item.current {
+  opacity: 1;
+ z-index: 99;
+}
+
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.dots {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  outline: none;
+  padding: 0;
+  background: #777;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity 0.4s ease-in-out;
+  margin-left: 5px;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.dot.current {
+  opacity: 1;
+}
+
+}
+
+
+.input, textarea, input{
+  background: #fff ;
+}
+
+
+.fade-- {
+  transition: background 1s ease, color 1s ease, opacity 1s ease;
+  opacity: 1;
+}
+
+.fade-out-- {
+  opacity: 1;
+}
+
+
+.content-general{
+
+  *{
+    margin-bottom: 24px;
+  }
+  p{
+    margin-bottom: 10px;
+  }
+  h1,h2,h3,h4,h5, h6{
+    font-size: 22px;
+    font-weight: 500;
+    margin: 24px 0 16px 0;
+
+    @media only screen and (max-width: 575px) {
+      font-size: 20px;
+     
+    }
+
+
+  }
+
+  a{
+    color: #c89a3f;
+  }
+}
