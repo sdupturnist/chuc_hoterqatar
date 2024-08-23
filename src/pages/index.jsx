@@ -416,41 +416,40 @@ export default function Home({ heroSlideData_, pageData_, homeTwoData_, featured
 
 
 
-export async function getServerSideProps(context) {
-  const page = parseInt(context.query.page) || 1; // Default to page 1 if not provided
+export async function getStaticProps() {
   const pageSize = 4; // Set your desired page size
 
   try {
+    // Fetching the page data
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query{
-  home{
-    data{
-      attributes{
-         Heading
+        query: `query {
+  home {
+    data {
+      attributes {
+        Heading
         Content
-        seo{
+        seo {
           metaTitle
           metaDescription
-          metaImage{
-            data{
-              attributes{
+          metaImage {
+            data {
+              attributes {
                 url
               }
             }
           }
-          metaSocial{
+          metaSocial {
             title
             description
             socialNetwork
           }
           keywords
           metaRobots
-          
           canonicalURL
           OGtitle
           OGSitename
@@ -465,8 +464,7 @@ export async function getServerSideProps(context) {
     });
     const pageData_ = await pageData.json();
 
-
-    //HERO DATA
+    // Fetching the hero slide data
     const heroSlideData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -474,78 +472,69 @@ export async function getServerSideProps(context) {
       },
       body: JSON.stringify({
         query: `query {
-homeSlideBanners{
-  data{
-    id
-   attributes{
-      Category{
-        ProductMainCategory
+  homeSlideBanners {
+    data {
+      id
+      attributes {
+        Category {
+          ProductMainCategory
+        }
+        Heading
+        Description
       }
-      Heading
-      Description
     }
   }
-}
-}
-`,
-        variables: { page, pageSize },
+}`,
       }),
     });
     const heroSlideData_ = await heroSlideData.json();
 
-
-
-    //HOME2DATA
+    // Fetching the home2 data
     const homeTwoData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query{
- home2S{
-  data{
-    attributes{
-    Category{
-      ProductMainCategory
-    }
-      Heading
-      Description
-      Slug
-      Banner1{
-        data{
-          attributes{
-            alternativeText
-            width
-            height
-          url
+        query: `query {
+  home2S {
+    data {
+      attributes {
+        Category {
+          ProductMainCategory
+        }
+        Heading
+        Description
+        Slug
+        Banner1 {
+          data {
+            attributes {
+              alternativeText
+              width
+              height
+              url
+            }
+          }
+        }
+        Banner2 {
+          data {
+            attributes {
+              alternativeText
+              width
+              height
+              url
+            }
           }
         }
       }
-      Banner2{
-            data{
-          attributes{
-            alternativeText
-            width
-            height
-          url
-          }
-        }
-      }
-      
     }
   }
-}
-}
-`,
-        variables: { page, pageSize },
+}`,
       }),
     });
     const homeTwoData_ = await homeTwoData.json();
 
-
-
-    //PRODUCTS FEATURED CHOCLATES
+    // Fetching the featured products
     const featuredProducts = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -555,7 +544,7 @@ homeSlideBanners{
         query: `query {
   shops(
     filters: { 
-       Featured: { eq: true }
+      Featured: { eq: true }
     }, 
     sort: "createdAt:desc",
     pagination: { limit: 5 }
@@ -563,7 +552,7 @@ homeSlideBanners{
     data {
       id
       attributes {
-       Featured
+        Featured
         Slug
         Heading
         photo {
@@ -580,27 +569,26 @@ homeSlideBanners{
         normalPrice
         offerPrice
         productCode
-      sub_categories{
-        data{
-          attributes{
-            Title
-             slug
+        sub_categories {
+          data {
+            attributes {
+              Title
+              slug
+            }
           }
         }
-      }
         Includes
-         main_categories {
-            data{
-          attributes{
-            Title
-            Slug
+        main_categories {
+          data {
+            attributes {
+              Title
+              Slug
+            }
           }
-        }
         }
         createdAt
         updatedAt
         publishedAt
-       
         seo {
           metaTitle
           metaDescription
@@ -625,7 +613,7 @@ homeSlideBanners{
           }
           keywords
           metaRobots
-           metaViewport
+          metaViewport
           canonicalURL
           OGSitename
           OGmodifiedtime
@@ -644,15 +632,10 @@ homeSlideBanners{
       }
     }
   }
-}
-`,
-        variables: { page, pageSize },
+}`,
       }),
     });
     const featuredProducts_ = await featuredProducts.json();
-
-
-
 
     return {
       props: {
@@ -661,6 +644,7 @@ homeSlideBanners{
         homeTwoData_,
         featuredProducts_,
       },
+      revalidate: 60, // Revalidate the page every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -671,6 +655,7 @@ homeSlideBanners{
         homeTwoData_: null,
         featuredProducts_: null,
       },
+      revalidate: 60, // Optional: You can still specify a revalidation interval even if there's an error
     };
   }
 }
