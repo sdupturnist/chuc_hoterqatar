@@ -32,6 +32,23 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
   const [currentUrl, setCurrentUrl] = useState('');
 
 
+
+  //console.log(productData_?.data?.shops?.data?.length)
+
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (productData_?.data?.shops?.data?.length === 0) {
+        router.push('/404');
+      }
+    }, 1000); // Delay in milliseconds (e.g., 1000ms = 1 second)
+
+    // Cleanup function to clear the timeout if the component unmounts or dependencies change
+    return () => clearTimeout(timeoutId);
+  }, [productData_?.data?.shops?.data?.length, router]);
+  
+
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setCurrentUrl(`${window.location.origin}${router.asPath}`);

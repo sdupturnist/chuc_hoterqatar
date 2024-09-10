@@ -78,7 +78,7 @@ export default function Card({ theme, desc, type, item, review }) {
                                     height={item?.attributes?.photo?.data[0]?.attributes?.height ?? '170'}
                                     quality={100}
                                     placeholder={true}
-                                    imageurl={adminUrl + (item?.attributes?.photo?.data[0]?.attributes?.url || '')}
+                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url ||  frontendUrl + 'images/plcaeholder-ni-image.webp'}
                                     classes={'w-full object-cover rounded-[10px] aspect-square 2xl:min-w-[170px]'}
                                     alt={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
                                     title={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
@@ -195,12 +195,14 @@ export default function Card({ theme, desc, type, item, review }) {
                     <div className='grid gap-[10px] w-full card-cat sm:mb-[10px] max-w-[190px]' data-id={item?.id ?? null}>
                         <div className='relative overflow-hidden'>
                             <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase() ?? null}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? null}`}>
+                             
+                           
                                 <Images
                                     width={item?.attributes?.photo?.data[0]?.attributes?.width ?? '170'}
                                     height={item?.attributes?.photo?.data[0]?.attributes?.height ?? '170'}
                                     quality={100}
                                     placeholder={true}
-                                    imageurl={adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url ?? []}
+                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url ||  frontendUrl + 'images/plcaeholder-ni-image.webp'}
                                     classes={'w-full object-cover rounded-[10px] aspect-square 2xl:min-w-[170px]'}
                                     alt={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
                                     title={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}

@@ -31,7 +31,6 @@ export default function ProductSingle({ singleProductData }) {
 
 
 
-
   useEffect(() => {
     // Redirect to 404 page if product ID is not available
     if (singleProductData && !singleProductData?.data?.shops?.data[0]?.id) {

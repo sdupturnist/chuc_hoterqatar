@@ -1,32 +1,324 @@
-import { frontendUrl, wordpressGraphQlApiUrl } from "@/utils/variables";
+import { adminUrl, wordpressGraphQlApiUrl } from "@/utils/variables";
 import Layout from "@/components/Layout";
 import Metatags from '@/components/Seo';
 import Link from "next/link";
+import Images from '@/components/Images';
+import { useEffect, useState } from "react";
+import { useThemeContext } from "@/context/themeContext";
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+import { useRef } from "react";
+import Header from "@/components/Header";
 import Slider from "react-slick";
 import Card from "@/components/Cards";
-import Images from '@/components/Images';
-import { useThemeContext } from "@/context/themeContext";
-import Header from "@/components/Header";
-import { useCallback, useEffect, useRef, useState } from "react";
+import useWindowWidth from "@/components/WindowWidth";
 
 
-export default function Home({ heroSlideData_, pageData_, homeTwoData_, featuredProducts_ }) {
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-  const sliderBanner = heroSlideData_?.data?.homeSlideBanners?.data ?? [];
-  const homePageData = pageData_?.data?.home?.data?.attributes ?? [];
-  const homePageTwoData = homeTwoData_?.data?.home2S?.data ?? [];
+
+export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featuredProducts_ }) {
+
+  const homePageData = pageDataAbout_?.data?.home?.data?.attributes ?? [];
   const productsFeatured = featuredProducts_?.data?.shops?.data ?? [];
-  // const reviews = reviewCountData_?.data?.review?.data
-  const homePageData_0 = homePageTwoData[0].attributes
-  const homePageData_1 = homePageTwoData[1].attributes
-  const homePageData_2 = homePageTwoData[2].attributes
-  const homePageData_3 = homePageTwoData[3].attributes
-
-
-
+  const homePageTwoData = homeTwoData_?.data?.home2S?.data ?? [];
 
 
   const { setThemeLayout } = useThemeContext()
+
+
+  const chocolate = useRef();
+  const flowers = useRef();
+  const cakes = useRef();
+  const events = useRef();
+
+  const windowWidth = useWindowWidth();
+
+
+  useGSAP(
+    () => {
+
+      const imageLeft = gsap.utils.toArray('.section-chocolate .wrpr .chocolate-image-1');
+      const imageRight = gsap.utils.toArray('.section-chocolate .wrpr .chocolate-image-2');
+      const content = gsap.utils.toArray('.section-chocolate .wrpr .content');
+
+
+
+      imageLeft.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            x: 100,
+            opacity: 0.9,
+            y: 170
+          },
+          {
+            opacity: 0,
+            x: 0,
+            y: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 0, // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+
+      imageRight.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            x: -50,
+            opacity: 0.9,
+            y: -70
+          },
+          {
+            opacity: 0,
+            x: -50,
+            y: -200,
+            scrollTrigger: {
+              trigger: box,
+              start: 0, // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+      content.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            opacity: 1,
+          },
+          {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+    },
+    {
+      scope: chocolate
+    }
+  );
+
+
+  useGSAP(
+    () => {
+
+      const imageLeft = gsap.utils.toArray('.section-flowers .wrpr .chocolate-image-1');
+      const content = gsap.utils.toArray('.section-flowers .wrpr .content');
+      const content2 = gsap.utils.toArray('.section-flowers .wrpr .content2');
+
+
+
+      imageLeft.forEach((box) => {
+        gsap.fromTo(box,
+          {
+
+            opacity: 0,
+            y: -1000,
+
+          },
+          {
+            opacity: 0.8,
+            x: 0,
+            y: 0,
+
+            scrollTrigger: {
+              trigger: box,
+              start: '+=100',
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+      content.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            opacity: 1,
+          },
+          {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+
+    },
+    {
+      scope: flowers
+    }
+  );
+
+  useGSAP(
+    () => {
+
+      const imageLeft = gsap.utils.toArray('.section-cakes .wrpr .cakes-image-1');
+      const imageRight = gsap.utils.toArray('.section-cakes .wrpr .cakes-image-2');
+      const content = gsap.utils.toArray('.section-cakes .wrpr .content');
+
+
+
+      imageLeft.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            x: 400,
+            opacity: 0.3,
+            y: 200
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+
+      imageRight.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            x: -100,
+            opacity: 0.3,
+            y: -500
+          },
+          {
+            opacity: 1,
+            x: 0,
+            y: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+      content.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            opacity: 1,
+          },
+          {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+    },
+    {
+      scope: cakes
+    }
+  );
+
+  useGSAP(
+    () => {
+
+      const imageLeft = gsap.utils.toArray('.section-events .wrpr .events-image-1');
+      const content = gsap.utils.toArray('.section-events .wrpr .content');
+
+
+
+
+      imageLeft.forEach((box) => {
+        gsap.fromTo(box,
+          {
+
+            filter: 'grayscale(100%)',
+            opacity: 0,
+            y: -1000,
+
+          },
+          {
+            filter: 'grayscale(30%)',
+            opacity: 0.8,
+            x: 0,
+            y: 0,
+
+            scrollTrigger: {
+              trigger: box,
+              start: '+=100',
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+      content.forEach((box) => {
+        gsap.fromTo(box,
+          {
+            opacity: 1,
+          },
+          {
+            opacity: 0,
+            scrollTrigger: {
+              trigger: box,
+              start: 'top top', // Start when the top of the box hits the top of the viewport
+              end: 'bottom top', // End when the bottom of the box hits the top of the viewport
+              scrub: true,
+              //markers: true,
+            },
+          }
+        );
+      });
+
+
+
+    },
+    {
+      scope: events
+    }
+  );
+
+
+
 
 
   const sliderRef = useRef(null);
@@ -75,210 +367,74 @@ export default function Home({ heroSlideData_, pageData_, homeTwoData_, featured
     slidesToShow: 5,
     slidesToScroll: 1,
     pauseOnHover: false,
+
   };
 
 
 
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Function to go to the next slide
-  const nextSlide = useCallback(() => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % sliderBanner?.length ?? 4);
-  }, []);
-
-  // Set up interval for autoplay
-  useEffect(() => {
-    const id = setInterval(nextSlide, 4000);
-    return () => clearInterval(id); // Cleanup interval on unmount
-  }, [nextSlide]);
-
-  // Handle dot click to go to specific slide
-  const handleDotClick = (index) => {
-    setCurrentIndex(index);
-  };
+  // console.log(pageData_)
 
 
-  
+
 
   return (
     <>
-      <Metatags seo={pageData_ && pageData_?.data?.home?.data?.attributes?.seo} />
-
-
-      <div className="hidden lg:block">
-        <Layout
-          page="home"
-          header="color"
-        >
-          <>
-            <div className="overflow-hidden">
-              <div className="slider home-hero-slider">
-                <ul className="items">
-
-                  {heroSlideData_ && sliderBanner.map((item, index) => {
-
-                    const mainCat = item.attributes.Category.ProductMainCategory
-                    return (
-
-                      <li key={index}
-                        className={`items-between  flex bg-${mainCat.toLowerCase()}-900 item ${index === currentIndex ? 'current' : ''} bg-green-400 right-0 w-full`}
-                      >
-                        <section
-                          className={`relative bg-${mainCat.toLowerCase()}-900 pb-[70px] text-${mainCat.toLowerCase()}-100 grid items-top w-full`}
-                          style={{
-                            backgroundImage: `url(images/${mainCat.toLowerCase()}-hero-bg.webp)`,
-                            backgroundRepeat: 'no-repeat',
-                            backgroundPosition: 'right bottom',
-                            backgroundSize: '50%'
-                          }}
-                        >
-                          <Header
-                            page="home"
-                            theme={mainCat.toLowerCase()}
-                          />
-
-                          <div className="container px-0">
-                            <div className="mx-auto 2xl:w-[80%] xl:w-[90%] grid gap-[20px]">
-                              <div className="w-[60%]">
-                                <h1 className="text-[4.8vw] font-primary leading-[1]">
-                                  {item.attributes.Heading}
-                                </h1>
-                                <h2 className="text-[6vw] font-secondary leading-[1.4] ml-[5%] mt-[-20px]">
-                                  {mainCat.toLowerCase()}
-                                </h2>
-                                <div className="grid gap-[30px]">
-                                  <div className="sm:[&>*]:text-[17px] text-[14px] w-[65%]">
-                                    <p>
-                                      {item.attributes.Description}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <Link
-                                      aria-label="Shop Now"
-                                      title="Shop Now"
-                                      href={'/store'}
-                                      onClick={(e) => setThemeLayout('chocolates')}
-                                      className={`btn btn-lg px-[30px] bg-transparent cursor-pointer border border-solid border-${mainCat.toLowerCase()}-100 hover:bg-${mainCat.toLowerCase()}-100 text-${mainCat.toLowerCase()}-100 hover:border-${mainCat.toLowerCase()}-100 hover:text-white rounded-full`}
-                                    >
-                                      Start shopping
-                                    </Link>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </section>
-                      </li>
-                    )
-                  })}
-
-                </ul>
-                {/* <div className="dots"> */}
-                {/* {images.map((_, index) => ( */}
-                {/* <button */}
-                {/* key={index} */}
-                {/* className={`dot ${index === currentIndex ? 'current' : ''}`} */}
-                {/* onClick={() => handleDotClick(index)} */}
-                {/* /> */}
-                {/* ))} */}
-                {/* </div> */}
-              </div>
-            </div>
-            {featuredProducts_ && <section>
-            
-              <div className="container">
-                <div className="mx-auto 2xl:w-[70%] xl:w-[90%]  gap-[20px] md:py-[60px] py-[50px]">
-                  <h2 className="text-[16px] uppercase font-semibold mb-[30px]">Featured products</h2>
-                  <div className="slider-container slider-featured-items mt-[30px]">
-                    <Slider {...featuredProductsSlider}>
-                      {featuredProducts_ && productsFeatured.map((item, key) => {
-
-                        const publicReviews = item?.attributes?.reviews?.filter(review => review.showPublic);
-                        return (
-                          <Card
-                            key={key}
-                            theme="chocolates"
-                            item={item}
-                            review={publicReviews ? publicReviews.length : null}
-                          />
-
-                        )
-                      })}
-                    </Slider>
-                  </div>
-                </div>
-              </div>
-            </section>}
-            <section>
-              <div className="container">
-                <div className={`mx-auto 2xl:w-[70%] xl:w-[90%] grid gap-[20px] md:py-[60px] py-[70px] justify-end ${featuredProducts_ && 'border-t border-solid border-black '}`}>
-                  <div className="md:pl-[15%]">
-                    <h3 className="md:text-[30px] text-[26px] uppercase font-medium">
-                      {pageData_ && homePageData.Heading}
-                    </h3>
-                  </div>
-                  <div className="grid gap-[4px] md:pl-[40%]">
-                    <p>
-                      {pageData_ && homePageData.Content[0].children[0].text}
-                    </p>
-                    <Link
-                      href="/about"
-                      aria-label="About"
-                      title="About"
-                      className="font-secondary text-[50px]"
-                    >
-                      read full
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </section>
-          </>
-        </Layout>
-      </div>
-      <div className="lg:hidden">
-        <Layout
-          page="home"
-          header="color"
-        >
-          <div className="text-center">
-
-            <section
-              className=" bg-chocolates-900 pb-[50px] items-start grid text-chocolates-100" >
-              <Header
-                page="home2"
-                theme='chocolates'
+      <Metatags seo={pageData_ && pageData_?.data?.homeTwoPage?.data?.attributes?.seo} />
+      <Layout
+        page="home2"
+        header="color"
+      >
+        {/* LARGE DEVICES */}
+        <>
+          <section
+            ref={chocolate}
+            className="section-chocolate lg:min-h-screen bg-chocolates-900  items-start grid text-chocolates-100 relative overflow-hidden sm:pb-[100px] pb-[50px]  text-center xl:text-start py-">
+            <Header
+              page="home2"
+              theme='chocolate'
+            />
+            <div className="wrpr sm:pt-[100px] pt-[80px]">
+              <Images
+                width={190}
+                height={290}
+                quality={100}
+                placeholder={true}
+                classes={'chocolate-image-1 max-width-[100%] absolute top-0 left-[2%] hidden xl:block max-w-[150px]'}
+                imageurl={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                alt={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
               />
-              <div className="container">
-                <Images
-                  width={300}
-                  height={300}
-                  quality={100}
-                  placeholder={false}
-                  imageurl={`/images/${homeTwoData_ && homePageData_0.Category.ProductMainCategory.toLowerCase()}-hero-bg.webp`}
-                  classes={'mx-auto w-full block'}
-                  alt={homeTwoData_ && homePageData_0.Heading}
-                  title={homeTwoData_ && homePageData_0.Heading}
-                />
-
-
-                <div className="container">
-                  <div className="grid gap-[10px]">
-                    <h1 className="text-[9vw] font-primary leading-[1]">
-                      {homeTwoData_ && homePageData_0.Heading}
+              <div className="container relative z-[1] content">
+                <div className="mx-auto 2xl:w-[80%] xl:w-[90%] grid gap-[20px] px-[20px]">
+                  <div className="w-[100%]">
+                    <h1 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] mt-[-50px] xl:pl-[20%]">
+                      <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%] text-end block">
+                        {homeTwoData_ && homePageTwoData[0].attributes.Category.AllCategories}
+                      </span>
+                      <span className="mt-[-50px] block">
+                        {homeTwoData_ && homePageTwoData[0].attributes.Heading}
+                      </span>
                     </h1>
-                    <h2 className="text-[12vw] font-secondary leading-[1.4] ml-[5%] mt-[-15px]">
-                      {homeTwoData_ && homePageData_0.Category.ProductMainCategory}
-                    </h2>
-                    <div className="grid gap-[30px]">
-                      <div className="sm:[&>*]:text-[17px] text-[14px]">
-                        <p>
-                          {homeTwoData_ && homePageData_0.Description[0].children[0].text}
+                    <Images
+                      width={300}
+                      height={300}
+                      quality={100}
+                      placeholder={false}
+                      imageurl={`/images/chocolates-hero-bg_new3.webp`}
+                      classes={'mx-auto w-full block xl:hidden my-[30px] max-w-[330px]'}
+                      alt={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                      title={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                    />
+                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]">
+                      <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[65%] tracking-[3%] sm:leading-[1.6] leading-[1.8] uppercase">
+                        <p className="">
+                          {homeTwoData_ && homePageTwoData[0].attributes.Description[0].children[0].text}
                         </p>
                       </div>
                       <div>
                         <Link
-                          aria-label={homeTwoData_ && homePageData_0.Category.ProductMainCategory} title={homeTwoData_ && homePageData_0.Category.ProductMainCategory} href={`/${homeTwoData_ && homePageData_0.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageData_0.Category.ProductMainCategory)}
+                          aria-label={homeTwoData_ && homePageTwoData[0].attributes.Category.AllCategories} title={homeTwoData_ && homePageTwoData[0].attributes.Category.AllCategories} href={`/${homeTwoData_ && homePageTwoData[0].attributes.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageTwoData[0].attributes.Slug)}
                           className="btn btn-lg px-[40px] bg-transparent border border-solid border-chocolates-100 hover:bg-chocolates-100 text-chocolates-100 hover:border-chocolates-100 hover:text-white rounded-full"
                         >
                           Shop Now
@@ -288,139 +444,323 @@ export default function Home({ heroSlideData_, pageData_, homeTwoData_, featured
                   </div>
                 </div>
               </div>
-            </section>
-            <section
-              className=" bg-flowers-900 pt-[50px] items-center grid text-flowers-100" >
-              <div className="container">
-                <div className="grid gap-[10px]">
-                  <h1 className="text-[9vw] font-primary leading-[1]">
-                    {homeTwoData_ && homePageData_1.Heading}
-                  </h1>
-                  <h2 className="text-[12vw] font-secondary leading-[1.4] ml-[5%] mt-[-15px]">
-                    {homeTwoData_ && homePageData_1.Category.ProductMainCategory}
-                  </h2>
-                  <div className="grid gap-[30px]">
-                    <div className="sm:[&>*]:text-[17px] text-[14px]">
-                      <p>
-                        {homeTwoData_ && homePageData_1.Description[0].children[0].text}
-                      </p>
+              <Images
+                width={388}
+                height={489}
+                quality={100}
+                placeholder={true}
+                classes={'chocolate-image-2 max-width-[100%] block lg:absolute bottom-[0%] right-[0%] hidden xl:block max-w-[250px]'}
+                imageurl={homePageTwoData[0]?.attributes?.Banner2?.data?.attributes?.url ? adminUrl + homePageTwoData[0]?.attributes?.Banner2?.data?.attributes?.url : ''}
+                alt={homePageTwoData[0]?.attributes?.Banner2?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[0]?.attributes?.Banner2?.data?.attributes?.alternativeText || 'Default title text'}
+              />
+            </div>
+          </section>
+          <section
+            ref={flowers}
+            className="section-flowers lg:min-h-screen bg-flowers-900 xl:py-[150px] pt-[50px] items-center grid text-flowers-100 text-center relative overflow-hidden">
+            <div className="wrpr">
+              <div className="container z-[1] relative">
+                <div className="mx-auto 2xl:w-[60%] xl:w-[70%] grid gap-[20px] px-[20px]">
+                  <div >
+                    <div className="content z-20 relative">
+                      <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] sm:pt-[100px] pt-[50px] xl:pt-[0]">
+                        <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%]  block">
+                          {homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories}
+                        </span>
+                        <span className="mt-[-50px] block">
+                          {homeTwoData_ && homePageTwoData[1].attributes.Heading}
+                        </span>
+                      </h2>
                     </div>
-                    <div>
-                      <Link
-                        aria-label={homeTwoData_ && homePageData_1.Category.ProductMainCategory} title={homeTwoData_ && homePageData_1.Category.ProductMainCategory} href={`/${homeTwoData_ && homePageData_1.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageData_1.Category.ProductMainCategory)}
-                        className="btn btn-lg px-[40px] bg-transparent border border-solid border-flowers-100 hover:bg-flowers-100 text-flowers-100 hover:border-flowers-100 hover:text-white rounded-full"
-                      >
-                        Shop Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                    <Images
+                      width={707}
+                      height={829}
+                      quality={100}
+                      placeholder={true}
+                      imageurl={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                      classes={'chocolate-image-1 max-width-[100%] block mx-auto  bottom-[5%] right-0 left-0 z-[-1] hidden xl:block'}
+                      alt={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                      title={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                    />
 
-                <Images
-                  width={300}
-                  height={300}
-                  quality={100}
-                  placeholder={false}
-                  classes={'mx-auto w-full block'}
-                  imageurl={`/images/${homeTwoData_ && homePageData_1.Category.ProductMainCategory.toLowerCase()}-hero-bg.webp`}
-                  alt={homeTwoData_ && homePageData_1.Heading}
-                  title={homeTwoData_ && homePageData_1.Heading}
-                />
-              </div>
-            </section>
-            <section
-              className=" bg-cakes-900 py-[50px] items-center grid text-cakes-100" >
-              <div className="container">
-                <div className="items-end flex w-full">
-                  <Images
-                    width={300}
-                    height={300}
-                    quality={100}
-                    placeholder={false}
-                    imageurl={`/images/${homeTwoData_ && homePageData_2.Category.ProductMainCategory.toLowerCase()}-hero-bg.webp`}
-                    alt={homeTwoData_ && homePageData_2.Heading}
-                    title={homeTwoData_ && homePageData_2.Heading}
-                    classes={'max-width-[20%] block mx-auto mb-3'}
+                    <div className="content2">
+                      <div className="grid gap-[30px] xl:mt-[50px] mt-[30px]">
+                        <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[85%] tracking-[3%] sm:leading-[1.6] leading-[1.7] uppercase mx-auto">
+                          <p className="">
+                            {homeTwoData_ && homePageTwoData[1].attributes.Description[0].children[0].text}
+                          </p>
+                        </div>
+                        <div>
+                          <Link
+                            aria-label={homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories} title={homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories} href={`/${homeTwoData_ && homePageTwoData[1].attributes.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageTwoData[1].attributes.Slug)}
+                            className="btn btn-lg px-[40px] bg-transparent border border-solid border-flowers-100 hover:bg-flowers-100 text-flowers-100 hover:border-flowers-100 hover:text-white rounded-full"
+                          >
+                            Shop Now
+                          </Link>
 
-                  />
-                </div>
-                <div className="grid gap-[10px]">
-                  <h1 className="text-[9vw] font-primary leading-[1]">
-                    {homeTwoData_ && homePageData_2.Heading}
-                  </h1>
-                  <h2 className="text-[12vw] font-secondary leading-[1.4] ml-[5%] mt-[-15px]">
-                    {homeTwoData_ && homePageData_2.Category.ProductMainCategory}
-                  </h2>
-                  <div className="grid gap-[30px]">
-                    <div className="sm:[&>*]:text-[17px] text-[14px]">
-                      <p>
-                        {homeTwoData_ && homePageData_2.Description[0].children[0].text}
-                      </p>
-                    </div>
-                    <div>
-                      <Link
-                        aria-label={homeTwoData_ && homePageData_2.Category.ProductMainCategory} title={homeTwoData_ && homePageData_2.Category.ProductMainCategory} href={`/${homeTwoData_ && homePageData_2.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageData_2.Category.ProductMainCategory)}
-                        className="btn btn-lg px-[40px] bg-transparent border border-solid border-cakes-100 hover:bg-cakes-100 text-cakes-100 hover:border-cakes-100 hover:text-white rounded-full"
-                      >
-                        Shop Now
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-
-
-              </div>
-            </section>
-            <section
-              className=" bg-events-900 py-[50px] items-center grid text-events-100"
-              style={{
-                backgroundImage: `url('/images/${homeTwoData_ && homePageData_3.Category.ProductMainCategory.toLowerCase()}-hero-bg.webp')`,
-                backgroundRepeat: 'no-repeat',
-                backgroundPosition: 'right bottom',
-                backgroundSize: '50%'
-              }}
-            >
-              <div className="container">
-                <div className="grid gap-[10px]">
-                  <h1 className="text-[9vw] font-primary leading-[1]">
-                    {homeTwoData_ && homePageData_3.Heading}
-                  </h1>
-                  <h2 className="text-[12vw] font-secondary leading-[1.4] ml-[5%] mt-[-15px]">
-                    {homeTwoData_ && homePageData_3.Category.ProductMainCategory}
-                  </h2>
-                  <div className="grid gap-[30px]">
-                    <div className="sm:[&>*]:text-[17px] text-[14px]">
-                      <p>
-                        {homeTwoData_ && homePageData_3.Description[0].children[0].text}
-                      </p>
-                    </div>
-                    <div>
-                      <Link
-                        aria-label={homeTwoData_ && homePageData_3.Category.ProductMainCategory} title={homeTwoData_ && homePageData_3.Category.ProductMainCategory} href={`/${homeTwoData_ && homePageData_3.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageData_3.Category.ProductMainCategory)}
-                        className="btn btn-lg px-[40px] bg-transparent border border-solid border-events-100 hover:bg-events-100 text-events-100 hover:border-events-100 hover:text-white rounded-full"
-                      >
-                        Shop Now
-                      </Link>
+                          <Images
+                            width={300}
+                            height={300}
+                            quality={100}
+                            placeholder={false}
+                            imageurl={`/images/flowers-hero-bg.webp`}
+                            classes={'mx-auto w-full block xl:hidden'}
+                            alt={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                            title={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </section>
-          </div>
-        </Layout>
-      </div>
+            </div>
+          </section>
+          <section
+            ref={cakes}
+            className="section-cakes lg:min-h-screen bg-cakes-900  items-center grid text-cakes-100 relative overflow-hidden sm:py-[100px] py-[50px] text-center xl:text-start">
+            <div className="wrpr sm:pt-[0] pt-[0]">
+              <Images
+                width={190}
+                height={290}
+                quality={100}
+                placeholder={true}
+                classes={'cakes-image-1 max-width-[100%] absolute top-0 left-[2%] hidden xl:block'}
+                imageurl={homePageTwoData[2]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[2]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                alt={homePageTwoData[2]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[2]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
 
+              />
+              <div className="container relative z-[1] content">
+                <div className="mx-auto 2xl:w-[80%] xl:w-[90%] grid gap-[20px] px-[20px]">
+                  <div className="w-[100%]">
+                    <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] xl:pl-[20%] sm:pt-[50px] pt-[50px] xl:pt-[0]">
+                      <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%] text-end block">
+                        {homeTwoData_ && homePageTwoData[2].attributes.Category.AllCategories}
+                      </span>
+                      <span className="mt-[-50px] block">
+                        {homeTwoData_ && homePageTwoData[2].attributes.Heading}
+                      </span>
+                    </h2>
+                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]">
+                      <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[65%] tracking-[3%] sm:leading-[1.6] leading-[1.8] uppercase">
+                        <p className="">
+                          {homeTwoData_ && homePageTwoData[2].attributes.Description[0].children[0].text}
+                        </p>
+                      </div>
+                      <div>
+                        <Link
+                          aria-label={homeTwoData_ && homePageTwoData[2].attributes.Category.AllCategories} title={homeTwoData_ && homePageTwoData[2].attributes.Category.AllCategories} href={`/${homeTwoData_ && homePageTwoData[2].attributes.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageTwoData[2].attributes.Slug)}
+                          className="btn btn-lg px-[40px] bg-transparent border border-solid border-cakes-100 hover:bg-cakes-100 text-cakes-100 hover:border-cakes-100 hover:text-white rounded-full"
+                        >
+                          Shop Now
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Images
+                width={300}
+                height={300}
+                quality={100}
+                placeholder={false}
+                imageurl={`/images/cakes-hero-bg-1.webp`}
+                classes={'mx-auto w-full block xl:hidden mx-auto max-w-[300px] mt-[30px]'}
+                alt={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+              />
+              <Images
+                width={388}
+                height={489}
+                quality={100}
+                placeholder={true}
+                classes={'cakes-image-2 max-width-[100%] block lg:absolute bottom-[5%] right-[2%] hidden xl:block'}
+                imageurl={homePageTwoData[2]?.attributes?.Banner2?.data?.attributes?.url ? adminUrl + homePageTwoData[2]?.attributes?.Banner2?.data?.attributes?.url : ''}
+                alt={homePageTwoData[2]?.attributes?.Banner2?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[2]?.attributes?.Banner2?.data?.attributes?.alternativeText || 'Default title text'}
+              />
+
+            </div>
+          </section>
+          <section
+            ref={events}
+            className="section-events lg:min-h-screen bg-events-900 xl:py-[150px] pt-[50px] items-center grid text-events-100 text-center relative overflow-hidden">
+            <div className="wrpr">
+              <div className="container z-[1] relative">
+                <div className="mx-auto 2xl:w-[60%] xl:w-[70%] grid gap-[20px] px-[20px]">
+                  <div >
+                    <div className="content z-20 relative">
+                      <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] sm:pt-[100px] pt-[50px] xl:pt-[0]">
+                        <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%]  block">
+                          {homeTwoData_ && homePageTwoData[3].attributes.Category.AllCategories}
+                        </span>
+                        <span className="mt-[-50px] block">
+                          {homeTwoData_ && homePageTwoData[3].attributes.Heading}
+                        </span>
+                      </h2>
+                    </div>
+                    <div className="overflow-hidden events-image-1 mx-auto h-[70vh] w-[50%] hidden xl:block">
+                      <video
+                        className="mx-auto"
+                        src={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                        muted
+                        autoPlay={"autoplay"}
+                        loop
+                      >
+                        video tag is not supported by your browser
+                      </video>
+                    </div>
+
+                    <div className="content2">
+                      <div className="grid gap-[30px] xl:mt-[50px] mt-[10px]">
+                        <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[85%] mx-auto tracking-[3%] sm:leading-[1.6] leading-[1.7] uppercase">
+                          <p className="">
+                            {homeTwoData_ && homePageTwoData[3].attributes.Description[0].children[0].text}
+                          </p>
+                        </div>
+                        <div>
+                          <Link
+                            aria-label={homeTwoData_ && homePageTwoData[3].attributes.Category.AllCategories} title={homeTwoData_ && homePageTwoData[3].attributes.Category.AllCategories} href={`/${homeTwoData_ && homePageTwoData[3].attributes.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageTwoData[3].attributes.Slug)}
+                            className="btn btn-lg px-[40px] bg-transparent border border-solid border-events-100 hover:bg-events-100 text-events-100 hover:border-events-100 hover:text-white rounded-full"
+                          >
+                            Shop Now
+                          </Link>
+
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <Images
+                width={300}
+                height={300}
+                quality={100}
+                placeholder={false}
+                imageurl={`/images/events-hero-bg-1.webp`}
+                classes={'mx-auto w-full block xl:hidden'}
+                alt={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                title={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+              />
+            </div>
+          </section>
+          {productsFeatured.length !== 0 && windowWidth > 999 ? <section>
+
+            <div className="container">
+              <div className="mx-auto 2xl:w-[70%] xl:w-[90%]  gap-[20px] md:py-[60px] py-[50px]">
+                <h2 className="text-[16px] uppercase font-semibold mb-[30px]">Featured products</h2>
+                <div className="slider-container slider-featured-items mt-[30px]">
+                  <Slider {...featuredProductsSlider}>
+                    {featuredProducts_ && productsFeatured.map((item, key) => {
+
+                      const publicReviews = item?.attributes?.reviews?.filter(review => review.showPublic);
+                      return (
+                        <Card
+                          key={key}
+                          theme="chocolates"
+                          item={item}
+                          review={publicReviews ? publicReviews.length : null}
+                        />
+
+                      )
+                    })}
+                  </Slider>
+                </div>
+              </div>
+            </div>
+          </section>
+            : null
+          }
+          <section>
+            <div className="container">
+              <div className={`mx-auto 2xl:w-[70%] xl:w-[90%] grid sm:gap-[20px] gap-[16px] md:py-[60px] py-[30px] justify-end ${productsFeatured.length !== 0 && windowWidth > 999 ? 'border-t border-solid border-black ' : null}`}>
+                <div className="md:pl-[15%]">
+                  <h3 className="md:text-[30px] sm:text-[26px] text-[22px] uppercase font-medium">
+                    {pageData_ && homePageData.Heading}
+                  </h3>
+                </div>
+                <div className="grid gap-[8px] sm:gap-[4px] md:pl-[40%]">
+                  <p>
+                    {pageData_ && homePageData.Content[0].children[0].text}
+                  </p>
+                  <Link
+                    href="/about"
+                    aria-label="About"
+                    title="About"
+                    className="font-secondary text-[50px]"
+                  >
+                    read full
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      </Layout>
     </>
   );
 }
 
 
 
-export async function getStaticProps() {
+export async function getServerSideProps(context) {
+  const page = parseInt(context.query.page) || 1; // Default to page 1 if not provided
   const pageSize = 4; // Set your desired page size
 
   try {
-    // Fetching the page data
+
+
+
+    const pageDataAbout = await fetch(wordpressGraphQlApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `query{
+  home{
+    data{
+      attributes{
+         Heading
+        Content
+        seo{
+          metaTitle
+          metaDescription
+          metaImage{
+            data{
+              attributes{
+                url
+              }
+            }
+          }
+          metaSocial{
+            title
+            description
+            socialNetwork
+          }
+          keywords
+          metaRobots
+          
+          canonicalURL
+          OGtitle
+          OGSitename
+          OGdescription
+          OGmodifiedtime
+        }
+      }
+    }
+  }
+}`,
+      }),
+    });
+    const pageDataAbout_ = await pageDataAbout.json();
+
+
+
+
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -428,22 +768,20 @@ export async function getStaticProps() {
       },
       body: JSON.stringify({
         query: `query {
-  home {
-    data {
-      attributes {
-        Heading
-        Content
-        seo {
+  homeTwoPage{
+     data{
+      attributes{
+     seo{
           metaTitle
           metaDescription
-          metaImage {
-            data {
-              attributes {
+          metaImage{
+            data{
+              attributes{
                 url
               }
             }
           }
-          metaSocial {
+          metaSocial{
             title
             description
             socialNetwork
@@ -459,82 +797,65 @@ export async function getStaticProps() {
       }
     }
   }
-}`,
+}
+`,
       }),
     });
     const pageData_ = await pageData.json();
 
-    // Fetching the hero slide data
-    const heroSlideData = await fetch(wordpressGraphQlApiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query {
-  homeSlideBanners {
-    data {
-      id
-      attributes {
-        Category {
-          ProductMainCategory
-        }
-        Heading
-        Description
-      }
-    }
-  }
-}`,
-      }),
-    });
-    const heroSlideData_ = await heroSlideData.json();
 
-    // Fetching the home2 data
+
+
+    //HOME2DATA
     const homeTwoData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query {
-  home2S {
-    data {
-      attributes {
-        Category {
-          ProductMainCategory
-        }
-        Heading
-        Description
-        Slug
-        Banner1 {
-          data {
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        Banner2 {
-          data {
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
+        query: `query{
+ home2S{
+  data{
+    attributes{
+      Category{
+        ProductMainCategory
+      }
+      Heading
+      Description
+      Slug
+      Banner1{
+        data{
+          attributes{
+            alternativeText
+            width
+            height
+          url
           }
         }
       }
+      Banner2{
+            data{
+          attributes{
+            alternativeText
+            width
+            height
+          url
+          }
+        }
+      }
+      
     }
   }
-}`,
+}
+}
+`,
+        variables: { page, pageSize },
       }),
     });
     const homeTwoData_ = await homeTwoData.json();
 
-    // Fetching the featured products
+
+
     const featuredProducts = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -544,7 +865,7 @@ export async function getStaticProps() {
         query: `query {
   shops(
     filters: { 
-      Featured: { eq: true }
+       Featured: { eq: true }
     }, 
     sort: "createdAt:desc",
     pagination: { limit: 5 }
@@ -552,7 +873,7 @@ export async function getStaticProps() {
     data {
       id
       attributes {
-        Featured
+       Featured
         Slug
         Heading
         photo {
@@ -569,26 +890,27 @@ export async function getStaticProps() {
         normalPrice
         offerPrice
         productCode
-        sub_categories {
-          data {
-            attributes {
-              Title
-              slug
-            }
+      sub_categories{
+        data{
+          attributes{
+            Title
+             slug
           }
         }
+      }
         Includes
-        main_categories {
-          data {
-            attributes {
-              Title
-              Slug
-            }
+         main_categories {
+            data{
+          attributes{
+            Title
+            Slug
           }
+        }
         }
         createdAt
         updatedAt
         publishedAt
+       
         seo {
           metaTitle
           metaDescription
@@ -613,7 +935,7 @@ export async function getStaticProps() {
           }
           keywords
           metaRobots
-          metaViewport
+           metaViewport
           canonicalURL
           OGSitename
           OGmodifiedtime
@@ -632,7 +954,9 @@ export async function getStaticProps() {
       }
     }
   }
-}`,
+}
+`,
+        variables: { page, pageSize },
       }),
     });
     const featuredProducts_ = await featuredProducts.json();
@@ -640,22 +964,20 @@ export async function getStaticProps() {
     return {
       props: {
         pageData_,
-        heroSlideData_,
         homeTwoData_,
-        featuredProducts_,
+        pageDataAbout_,
+        featuredProducts_
       },
-      revalidate: 60, // Revalidate the page every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
       props: {
         pageData_: null,
-        heroSlideData_: null,
         homeTwoData_: null,
+        pageDataAbout_: null,
         featuredProducts_: null,
       },
-      revalidate: 60, // Optional: You can still specify a revalidation interval even if there's an error
     };
   }
 }

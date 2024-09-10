@@ -31,6 +31,9 @@ export const ContactData = (initialData) => {
                                                     attributes{
                                                     Address
                                                     Phone
+                                                    Tiktok
+                                                    Snapchat
+                                                    Whatsapp
                                                     Email
                                                     Instagram
                                                     Facebook

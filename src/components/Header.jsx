@@ -219,7 +219,7 @@ function Nav({ theme, page, initialData }) {
 
     return (
       <>
-        {sortedCategories.map(([mainCategory, subcategories]) => (
+        {sortedCategories && sortedCategories.map(([mainCategory, subcategories]) => (
           <li key={mainCategory}>
             <Link
               aria-label={mainCategory}

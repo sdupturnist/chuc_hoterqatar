@@ -79,8 +79,8 @@ export default function Footer({ page, initialData }) {
 
     return (
       <>
-        {sortedCategories.map(([mainCategory, subcategories]) => (
-          <div className="" key={mainCategory}>
+        {sortedCategories && sortedCategories.map(([mainCategory, subcategories]) => (
+         dataCategory?.data?.shops?.data?.length !== 0 ? <div className="" key={mainCategory}>
             <h4 className="text-[15px] font-semibold uppercase mb-[24px]">{mainCategory}</h4>
             <ul className="[&>*]:text-[14px] grid gap-[12px] [&>*]:transition-all capitalize">
               {[...subcategories].map((subcategory, index) => (
@@ -99,12 +99,12 @@ export default function Footer({ page, initialData }) {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> : null
+  
         ))}
       </>
     );
   };
-
 
 
 
@@ -164,8 +164,8 @@ export default function Footer({ page, initialData }) {
 
     return (
       <>
-        {sortedCategories.map(([mainCategory, subcategories]) => (
-          <div key={mainCategory} className="collapse collapse-plus rounded-none">
+        {sortedCategories && sortedCategories.map(([mainCategory, subcategories]) => (
+        dataCategory?.data?.shops?.data?.length !== 0 ?  <div key={mainCategory} className="collapse collapse-plus rounded-none">
             <input
               type="radio"
               className="min-h-[10px] after:top-0"
@@ -194,7 +194,7 @@ export default function Footer({ page, initialData }) {
                 ))}
               </ul>
             </div>
-          </div>
+          </div> : null
         ))}
       </>
     );
@@ -207,11 +207,51 @@ export default function Footer({ page, initialData }) {
   const year = date.getFullYear();
 
 
+  function socialLinks(){
+    return(<>
+       <ul className="sm:[&>*]:text-[14px] text-[12px] flex sm:gap-[20px] gap-[10px] [&>*]:transition-all">
+                <li>
+                  {contactData && <Link
+                    aria-label="Tiktok"
+                    title="Tiktok"
+                    href={contactData.Tiktok == null ? '#' : contactData.Tiktok}
+                    className="hover:opacity-50"
+                    target="_blank"
+                  >
+                    Tiktok
+                  </Link>}
+                </li>
+                <li>
+                  {contactData && <Link
+                    aria-label="Facebook"
+                    title="Facebook"
+                    href={contactData.Facebook == null ? '#' : contactData.Facebook}
+                  className="hover:opacity-50"
+                     target="_blank"
+                  >
+                    Facebook
+                  </Link>}
+                </li>
+                <li>
+                  {contactData && <Link
+                    aria-label="Snapchat"
+                    title="Snapchat"
+                    href={contactData.Snapchat == null ? '#' : contactData.Snapchat}
+                   className="hover:opacity-50"
+                     target="_blank"
+                  >
+                    Snapchat
+                  </Link>}
+                </li>
+  </ul>
+    </>)
+  }
+
 
   function homeFooter() {
     return (<>
       <footer className={`container border-t border-solid md:py-[70px] py-[50px] lg:block hidden`}>
-        <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid gap-[50px]">
+        <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid sm:gap-[50px] gap-[30px]">
           <div className="md:flex md:justify-between md:gap-0 grid grid-cols-2 gap-[30px]">
             <div className=" ">
               <h4 className="text-[15px] font-semibold uppercase mb-[24px]">SITEMAP</h4>
@@ -286,39 +326,7 @@ export default function Footer({ page, initialData }) {
               <p>All rights reserved {year}</p>
             </div>
             <div >
-              <ul className="[&>*]:text-[14px] flex gap-[20px] [&>*]:transition-all">
-                <li>
-                  {contactData && <Link
-                    aria-label="Instagram"
-                    title="Instagram"
-                    href={contactData.Instagram}
-                    className="hover:opacity-50"
-                  >
-                    Instagram
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Facebook"
-                    title="Facebook"
-                    href={contactData.Facebook}
-                    className="hover:opacity-50"
-                  >
-                    Facebook
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Pintrest"
-                    title="Pintrest"
-                    href={contactData.Pintrest}
-                    className="hover:opacity-50"
-                  >
-                    Pintrest
-                  </Link>}
-                </li>
-
-              </ul>
+            {socialLinks()}
             </div>
           </div>
         </div>
@@ -336,9 +344,9 @@ export default function Footer({ page, initialData }) {
           >
             Store
           </Link>
-          <div className="accordion grid gap-[24px]">
+          {dataCategory?.data?.shops?.data?.length !== 0 ? <div className="accordion grid gap-[24px]">
             {FilteredCategoriesAccordin()}
-          </div>
+          </div> : null}
           <Link aria-label='About' title='About' href={"/about"}
             className='hover:bg-transparent'
           >About</Link>
@@ -360,39 +368,7 @@ export default function Footer({ page, initialData }) {
             <p>All rights reserved {year}</p>
           </div>
           <div className="order-1 sm:order-2">
-            <ul className="flex gap-[10px] [&>*]:transition-all">
-              <li>
-                {contactData && <Link
-                  aria-label="Instagram"
-                  title="Instagram"
-                  href={contactData.Instagram}
-                  className="hover:opacity-50"
-                >
-                  Instagram
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Facebook"
-                  title="Facebook"
-                  href={contactData.Facebook}
-                  className="hover:opacity-50"
-                >
-                  Facebook
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Pintrest"
-                  title="Pintrest"
-                  href={contactData.Pintrest}
-                  className="hover:opacity-50"
-                >
-                  Pintrest
-                </Link>}
-              </li>
-
-            </ul>
+           {socialLinks()}
           </div>
         </div>
       </footer>
@@ -402,7 +378,7 @@ export default function Footer({ page, initialData }) {
 
   function home2Footer() {
     return (<>
-      <footer className={`container border-t border-solid md:py-[70px] py-[50px] lg:block hidden bg-events-900 border-events-100 [&>*]:text-events-100`}>
+      <footer className={`container border-t border-solid md:py-[70px] py-[50px] lg:block hidden `}>
         <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid gap-[50px]">
           <div className="md:flex md:justify-between md:gap-0 grid grid-cols-2 gap-[30px]">
             <div className=" ">
@@ -473,50 +449,18 @@ export default function Footer({ page, initialData }) {
             </div>
             {FilteredCategories()}
           </div>
-          <div className={`${page == 'home2' ? 'bg-events-900 border-events-100 [&>*]:text-events-100' : 'border-black'} flex justify-between border-t border-solid  py-[30px] [&>*]:text-[14px]`}>
+          <div className={`${page == 'home2' ? '' : 'border-black'} flex justify-between border-t border-solid  py-[30px] [&>*]:text-[14px]`}>
             <div >
               <p>All rights reserved {year}</p>
             </div>
             <div >
-              <ul className="[&>*]:text-[14px] flex gap-[20px] [&>*]:transition-all">
-                <li>
-                  {contactData && <Link
-                    aria-label="Instagram"
-                    title="Instagram"
-                    href={contactData.Instagram}
-                    className="hover:opacity-50"
-                  >
-                    Instagram
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Facebook"
-                    title="Facebook"
-                    href={contactData.Facebook}
-                    className="hover:opacity-50"
-                  >
-                    Facebook
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Pintrest"
-                    title="Pintrest"
-                    href={contactData.Pintrest}
-                    className="hover:opacity-50"
-                  >
-                    Pintrest
-                  </Link>}
-                </li>
-
-              </ul>
+             {socialLinks()}
             </div>
           </div>
         </div>
       </footer>
 
-      <footer className={`lg:hidden bg-events-900 border-events-100 [&>*]:text-events-100  container border-t border-solid  py-[30px] uppercase [&>*]:text-[12px] [&>*]:font-semibold`}>
+      <footer className={`lg:hidden  container border-t border-solid  py-[30px] uppercase [&>*]:text-[12px] [&>*]:font-semibold`}>
         <div className="grid  gap-[24px]">
           <Link aria-label='Home' title='Home' href={"/"}
             className='hover:bg-transparent'
@@ -552,39 +496,7 @@ export default function Footer({ page, initialData }) {
             <p>All rights reserved {year}</p>
           </div>
           <div className="order-1 sm:order-2">
-            <ul className="flex gap-[10px] [&>*]:transition-all">
-              <li>
-                {contactData && <Link
-                  aria-label="Instagram"
-                  title="Instagram"
-                  href={contactData.Instagram}
-                  className="hover:opacity-50"
-                >
-                  Instagram
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Facebook"
-                  title="Facebook"
-                  href={contactData.Facebook}
-                  className="hover:opacity-50"
-                >
-                  Facebook
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Pintrest"
-                  title="Pintrest"
-                  href={contactData.Pintrest}
-                  className="hover:opacity-50"
-                >
-                  Pintrest
-                </Link>}
-              </li>
-
-            </ul>
+           {socialLinks()}
           </div>
         </div>
       </footer>
@@ -672,38 +584,7 @@ export default function Footer({ page, initialData }) {
               <p>All rights reserved {year}</p>
             </div>
             <div >
-              <ul className="[&>*]:text-[14px] flex gap-[20px] [&>*]:transition-all">
-                <li>
-                  {contactData && <Link
-                    aria-label="Instagram"
-                    title="Instagram"
-                    href={contactData.Instagram}
-                    className="hover:opacity-50"
-                  >
-                    Instagram
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Facebook"
-                    title="Facebook"
-                    href={contactData.Facebook}
-                    className="hover:opacity-50"
-                  >
-                    Facebook
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Pintrest"
-                    title="Pintrest"
-                    href={contactData.Pintrest}
-                    className="hover:opacity-50"
-                  >
-                    Pintrest
-                  </Link>}
-                </li>
-              </ul>
+            {socialLinks()}
             </div>
           </div>
         </div>
@@ -745,39 +626,7 @@ export default function Footer({ page, initialData }) {
             <p>All rights reserved {year}</p>
           </div>
           <div className="order-1 sm:order-2">
-            <ul className="flex gap-[10px] [&>*]:transition-all">
-              <li>
-                {contactData && <Link
-                  aria-label="Instagram"
-                  title="Instagram"
-                  href={contactData.Instagram}
-                  className="hover:opacity-50"
-                >
-                  Instagram
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Facebook"
-                  title="Facebook"
-                  href={contactData.Facebook}
-                  className="hover:opacity-50"
-                >
-                  Facebook
-                </Link>}
-              </li>
-              <li>
-                {contactData && <Link
-                  aria-label="Pintrest"
-                  title="Pintrest"
-                  href={contactData.Pintrest}
-                  className="hover:opacity-50"
-                >
-                  Pintrest
-                </Link>}
-              </li>
-
-            </ul>
+          {socialLinks()}
           </div>
         </div>
       </footer>
@@ -863,39 +712,7 @@ export default function Footer({ page, initialData }) {
               <p>All rights reserved {year}</p>
             </div>
             <div >
-              <ul className="[&>*]:text-[14px] flex gap-[20px] [&>*]:transition-all">
-                <li>
-                  {contactData && <Link
-                    aria-label="Instagram"
-                    title="Instagram"
-                    href={contactData.Instagram}
-                    className="hover:opacity-50"
-                  >
-                    Instagram
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Facebook"
-                    title="Facebook"
-                    href={contactData.Facebook}
-                    className="hover:opacity-50"
-                  >
-                    Facebook
-                  </Link>}
-                </li>
-                <li>
-                  {contactData && <Link
-                    aria-label="Pintrest"
-                    title="Pintrest"
-                    href={contactData.Pintrest}
-                    className="hover:opacity-50"
-                  >
-                    Pintrest
-                  </Link>}
-                </li>
-
-              </ul>
+            {socialLinks()}
             </div>
           </div>
         </div>
