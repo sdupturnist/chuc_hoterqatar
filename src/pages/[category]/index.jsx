@@ -33,12 +33,15 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 
 
 
-  //console.log(productData_?.data?.shops?.data?.length)
+  //console.log(query.category)
 
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      if (productData_?.data?.shops?.data?.length === 0) {
+      if (
+        productData_?.data?.shops?.data?.length === 0  && 
+        !['flowers', 'cakes', 'events', 'chocolates'].includes(query.category)
+      ) {
         router.push('/404');
       }
     }, 1000); // Delay in milliseconds (e.g., 1000ms = 1 second)
