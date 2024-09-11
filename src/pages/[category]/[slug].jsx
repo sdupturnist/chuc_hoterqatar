@@ -9,9 +9,8 @@ import Review from "@/components/Review";
 import ImageGallery from "react-image-gallery";
 import { useProductContext } from "@/context/productContext";
 import { useCartContext } from "@/context/cartContext";
-import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Metatags from "@/components/Seo";
-import Loading from "@/components/Loading";
+import Images from '@/components/Images';
 
 
 
@@ -41,7 +40,7 @@ export default function ProductSingle({ singleProductData }) {
   // Update product context
   useEffect(() => {
     setProductId(singleProductData?.data?.shops?.data[0]?.id ?? null);
-   // setProductReviewCount(reviewData_?.data?.review?.data?.length ?? 0);
+    // setProductReviewCount(reviewData_?.data?.review?.data?.length ?? 0);
   }, []);
 
 
@@ -112,7 +111,7 @@ export default function ProductSingle({ singleProductData }) {
 
   return (
     <>
-  <Metatags seo={singleProductData && singleProductData?.data?.shops?.data[0]?.attributes?.seo} />
+      <Metatags seo={singleProductData && singleProductData?.data?.shops?.data[0]?.attributes?.seo} />
       <Layout page="product-single">
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid sm:gap-[10px] gap-[10px] sm:mb-[50px] mb-[30px] mt-[10px] ">
@@ -135,16 +134,32 @@ export default function ProductSingle({ singleProductData }) {
               ]}
             />
 
-        
+
             <div className="grid grid-cols-1 lg:grid-cols-2 sm:gap-[50px] gap-[30px]">
               <div className="">
                 {!singleProductData && <div className="skeleton mx-auto w-full block rounded-[8px] object-cover sm:min-h-[700px]"></div>}
 
-                {images && <ImageGallery
+                {images.length !== 0 && <ImageGallery
                   items={images}
                   showNav={false}
                   lazyLoad={true}
                 />}
+
+                {images.length == 0 &&
+
+                  <Images
+                    width={500}
+                    height={500}
+                    quality={100}
+                    placeholder={false}
+                    imageurl={frontendUrl + 'images/plcaeholder-ni-image.webp'}
+                    classes={'w-full object-cover rounded-[10px] aspect-square'}
+                    alt={'Sorry no image available'}
+                    title={'Sorry no image available'}
+                  />
+
+
+                }
 
               </div>
               <div className="flex items-center lg:px-[20px]">
@@ -176,7 +191,7 @@ export default function ProductSingle({ singleProductData }) {
                     }
                     <span className='text-[24px] font-bold'>
                       {product?.offerPrice ?? null}
-                      {!product?.offerPrice && <span>{product?.normalPrice ?? null}</span>} QR
+                      {!product?.offerPrice && <span>{product?.normalPrice ?? null}</span>} QR {product?.Unit && <span className='text-[11px] font-light uppercase '>/ {product?.Unit}</span>}
                     </span>
                   </span>
 
@@ -231,7 +246,7 @@ export default function ProductSingle({ singleProductData }) {
                         name="my_tabs_2"
                         role="tab"
                         defaultChecked={product.Includes}
-                       className="tab rounded-lg !border-black uppercase sm:text-[16px] text-[14px] font-semibold tracking-[1%] min-h-[50px] border-b border-solid sm:min-w-[150px] min-w-[120px]"
+                        className="tab rounded-lg !border-black uppercase sm:text-[16px] text-[14px] font-semibold tracking-[1%] min-h-[50px] border-b border-solid sm:min-w-[150px] min-w-[120px]"
                         aria-label="Includes"
                       />
 
@@ -280,10 +295,10 @@ export default function ProductSingle({ singleProductData }) {
                 {reviewCount > 0 &&
                   <>
                     <input type="radio"
-                 defaultChecked={!product.Includes ||  !product.Description}
+                      defaultChecked={!product.Includes || !product.Description}
                       name="my_tabs_2" role="tab"
-                     className="tab rounded-lg !border-black uppercase sm:text-[16px] text-[14px] font-semibold tracking-[1%] min-h-[50px] border-b border-solid sm:min-w-[150px] min-w-[120px]"
-                       aria-label={`${reviewCount} Reviews`} />
+                      className="tab rounded-lg !border-black uppercase sm:text-[16px] text-[14px] font-semibold tracking-[1%] min-h-[50px] border-b border-solid sm:min-w-[150px] min-w-[120px]"
+                      aria-label={`${reviewCount} Reviews`} />
                     <div role="tabpanel" className="tab-content bg-base-100 border-black rounded-lg sm:p-[32px] p-[24px]">
                       <ul className="grid review-list">
                         {publicReviews && publicReviews.map((item, key) => {
@@ -349,6 +364,7 @@ export async function getServerSideProps(context) {
                     }
                   }
                 }
+                  Unit
                   reviews {
                     id
                     rating

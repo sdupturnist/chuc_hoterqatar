@@ -42,7 +42,7 @@ export default function CartItem({ item }) {
                         height={item?.attributes?.photo?.data[0]?.attributes?.height ?? '170'}
                         quality={100}
                         placeholder={true}
-                        imageurl={adminUrl + (item?.attributes?.photo?.data[0]?.attributes?.url || '')}
+                        imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + (item?.attributes?.photo?.data[0]?.attributes?.url)}
                         classes='md:w-[60px] md:h-[60px] md:min-w-[60px] md:min-h-[60px] w-[100px] h-[130px] min-w-[130px] min-h-[130px] object-cover rounded-[4px]'
                         alt={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
                         title={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}

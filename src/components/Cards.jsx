@@ -2,23 +2,22 @@ import Images from '@/components/Images';
 import { useThemeContext } from '@/context/themeContext';
 import Link from 'next/link';
 import Cart from './Cart';
-import { useCartContext } from '@/context/cartContext';
 import { useEffect, useState } from 'react';
-import { adminUrl,  frontendUrl } from '@/utils/variables';
+import { adminUrl, frontendUrl } from '@/utils/variables';
 import { truncateWords } from '@/utils/TruncateWords';
 
 
 export default function Card({ theme, desc, type, item, review }) {
 
 
-    
+
 
     const { themeLayout } = useThemeContext();
 
     const [isLoading, setIsLoading] = useState(true);
 
 
-   // console.log(item?.attributes?.sub_category?.data?.attributes?.slug)
+    // console.log(item?.attributes?.sub_category?.data?.attributes?.slug)
 
 
     useEffect(() => {
@@ -72,13 +71,13 @@ export default function Card({ theme, desc, type, item, review }) {
                 ) : (
                     <div className='grid gap-[10px] w-full card-cat sm:mb-[10px] mb-2' data-id={item?.id ?? null} data-review={item?.attributes?.reviewCount}>
                         <div className='relative overflow-hidden'>
-                           <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase()}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? '#'}`}>
-                                 <Images
+                            <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase()}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? '#'}`}>
+                                <Images
                                     width={item?.attributes?.photo?.data[0]?.attributes?.width ?? '170'}
                                     height={item?.attributes?.photo?.data[0]?.attributes?.height ?? '170'}
                                     quality={100}
                                     placeholder={true}
-                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url ||  frontendUrl + 'images/plcaeholder-ni-image.webp'}
+                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url}
                                     classes={'w-full object-cover rounded-[10px] aspect-square 2xl:min-w-[170px]'}
                                     alt={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
                                     title={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
@@ -107,7 +106,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             }
                         </div>
 
-                        {review ?  
+                        {review ?
                             <>
                                 <span className='flex gap-[6px] text-[12px] text-black text-opacity-80 items-center'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" className='mb-[3px]' height="12" fill="none" viewBox="0 0 13 13">
@@ -125,7 +124,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             }
                             <span className='text-[14px] font-semibold'>
                                 {item?.attributes?.offerPrice ?? null}
-                                {!item?.attributes?.offerPrice && <span>{item?.attributes?.normalPrice ?? null}</span>} QR
+                                {!item?.attributes?.offerPrice && <span>{item?.attributes?.normalPrice ?? null}</span>} QR {item?.attributes?.Unit && <span className='text-[11px] font-light uppercase '>/ {item?.attributes?.Unit}</span>}
                             </span>
                         </span>
                         <div className='xl:hidden mt-[4px]'>
@@ -195,14 +194,14 @@ export default function Card({ theme, desc, type, item, review }) {
                     <div className='grid gap-[10px] w-full card-cat sm:mb-[10px] max-w-[190px]' data-id={item?.id ?? null}>
                         <div className='relative overflow-hidden'>
                             <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase() ?? null}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? null}`}>
-                             
-                           
+
+
                                 <Images
                                     width={item?.attributes?.photo?.data[0]?.attributes?.width ?? '170'}
                                     height={item?.attributes?.photo?.data[0]?.attributes?.height ?? '170'}
                                     quality={100}
                                     placeholder={true}
-                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url ||  frontendUrl + 'images/plcaeholder-ni-image.webp'}
+                                    imageurl={item?.attributes?.photo?.data[0]?.attributes?.url && adminUrl + item?.attributes?.photo?.data[0]?.attributes?.url}
                                     classes={'w-full object-cover rounded-[10px] aspect-square 2xl:min-w-[170px]'}
                                     alt={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
                                     title={item?.attributes?.photo?.data[0]?.attributes?.alternativeText ?? 'Product'}
@@ -218,12 +217,12 @@ export default function Card({ theme, desc, type, item, review }) {
                         <div className='grid gap-[7px] mt-[2px]'>
                             <Link href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase() ?? null}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? null}`}>
                                 <h4 className='text-[14px] text-black'>{item?.attributes.Heading ?? null}</h4>
-                                
+
                             </Link>
                             {!desc == true ?
                                 <span className='block text-[12px] text-black text-opacity-80 capitalize'>
-                                     {item?.attributes?.sub_categories?.data[0]?.attributes?.slug?.replace(/-/g, ' ') ?? null}</span>
-                               :
+                                    {item?.attributes?.sub_categories?.data[0]?.attributes?.slug?.replace(/-/g, ' ') ?? null}</span>
+                                :
                                 null
                             }
                             {type == true ?
@@ -232,7 +231,7 @@ export default function Card({ theme, desc, type, item, review }) {
                                 null
                             }
                         </div>
-                        {review ?  
+                        {review ?
                             <>
                                 <span className='flex gap-[6px] text-[12px] text-black text-opacity-80 items-center'>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" className='mb-[3px]' height="12" fill="none" viewBox="0 0 13 13">
@@ -250,7 +249,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             }
                             <span className='text-[14px] font-semibold'>
                                 {item?.attributes?.offerPrice ?? null}
-                                {!item?.attributes?.offerPrice && <span>{item?.attributes?.normalPrice ?? null}</span>} QR
+                                {!item?.attributes?.offerPrice && <span>{item?.attributes?.normalPrice ?? null}</span>} QR {item?.attributes?.Unit && <span className='text-[11px] font-light uppercase '>/ {item?.attributes?.Unit}</span>}
                             </span>
                         </span>
                         <div className='xl:hidden mt-[4px]'>

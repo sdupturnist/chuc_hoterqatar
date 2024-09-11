@@ -97,7 +97,7 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
                   );
                 })}
               </div>
-              <div className="text-center">
+              <div className="text-center pb-[100px] lg:pb-[0]">
                 <Pagination
                   currentPage={pagination.page}
                   pageCount={pagination.pageCount}
@@ -118,7 +118,7 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 export async function getServerSideProps(context) {
   const { query } = context;
   const page = parseInt(query.page) || 1; // Default to page 1 if not provided
-  const pageSize = 12; // Set your desired page size
+  const pageSize = 30; // Set your desired page size
   const maincategoryName = query.category?.replace(/-/g, '_')?.toLowerCase();
   const maincategoryNameColl = query.category?.replace(/-/g, '-')?.toLowerCase();
   const minPrice = 0;
@@ -168,6 +168,7 @@ export async function getServerSideProps(context) {
                       }
                     }
                   }
+                    Unit
                   reviews {
                     id
                     rating
@@ -295,6 +296,7 @@ export async function getServerSideProps(context) {
                         }
                       }
                     }
+                      Unit
                     reviews {
                       id
                       rating

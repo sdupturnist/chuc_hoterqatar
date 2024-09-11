@@ -27,7 +27,7 @@ const Pagination = ({ currentPage, pageCount }) => {
   }
 
   return (
-    <div className="join sm:mt-[70px] mt-[30px] mx-auto">
+    <div className="join mx-auto">
       {Array.from({ length: pageCount }, (_, index) => index + 1).map((page) => (
         <button
           key={page}
