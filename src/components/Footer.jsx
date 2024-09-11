@@ -266,16 +266,7 @@ export default function Footer({ page, initialData }) {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    aria-label="Home"
-                    title="Home"
-                    href="/store"
-                    className="hover:opacity-50"
-                  >
-                    Store
-                  </Link>
-                </li>
+               
                 <li>
                   <Link
                     aria-label="About"
@@ -339,11 +330,7 @@ export default function Footer({ page, initialData }) {
           >
             Home
           </Link>
-          <Link aria-label='Home' title='Home' href={"/store"}
-            className='hover:bg-transparent'
-          >
-            Store
-          </Link>
+      
           {dataCategory?.data?.shops?.data?.length !== 0 ? <div className="accordion grid gap-[24px]">
             {FilteredCategoriesAccordin()}
           </div> : null}
@@ -394,16 +381,7 @@ export default function Footer({ page, initialData }) {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    aria-label="Home"
-                    title="Home"
-                    href="/store"
-                    className="hover:opacity-50"
-                  >
-                    Store
-                  </Link>
-                </li>
+          
                 <li>
                   <Link
                     aria-label="About"
@@ -467,11 +445,7 @@ export default function Footer({ page, initialData }) {
           >
             Home
           </Link>
-          <Link aria-label='Home' title='Home' href={"/store"}
-            className='hover:bg-transparent'
-          >
-            Store
-          </Link>
+          
           <div className="accordion grid gap-[24px]">
             {FilteredCategoriesAccordin()}
           </div>
@@ -523,17 +497,7 @@ export default function Footer({ page, initialData }) {
                     Home
                   </Link>
                 </li>
-                <li>
-
-                  <Link
-                    aria-label="Home"
-                    title="Home"
-                    href="/store"
-                    className="hover:opacity-50"
-                  >
-                    Store
-                  </Link>
-                </li>
+               
                 <li>
                   <Link
                     aria-label="About"
@@ -597,11 +561,7 @@ export default function Footer({ page, initialData }) {
           >
             Home
           </Link>
-          <Link aria-label='Home' title='Home' href={"/store"}
-            className='hover:bg-transparent'
-          >
-            Store
-          </Link>
+          
           <div className="accordion grid gap-[24px]">
             {FilteredCategoriesAccordin()}
           </div>
@@ -652,16 +612,7 @@ export default function Footer({ page, initialData }) {
                     Home
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    aria-label="Home"
-                    title="Home"
-                    href="/store"
-                    className="hover:opacity-50"
-                  >
-                    Store
-                  </Link>
-                </li>
+                
                 <li>
                   <Link
                     aria-label="About"

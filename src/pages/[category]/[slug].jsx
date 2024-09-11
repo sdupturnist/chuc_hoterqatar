@@ -162,7 +162,7 @@ export default function ProductSingle({ singleProductData }) {
                 }
 
               </div>
-              <div className="flex items-center lg:px-[20px]">
+              <div className="items-center lg:px-[20px]">
                 <div>
                   {!singleProductData && <div className="flex w-full flex-col gap-4">
                     <div className="skeleton h-4 w-28"></div>
