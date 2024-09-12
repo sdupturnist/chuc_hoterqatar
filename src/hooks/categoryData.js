@@ -4,14 +4,10 @@ import { wordpressGraphQlApiUrl } from '@/utils/variables';
 import { useEffect, useState } from 'react';
 
 export const CategoryData = (initialData) => {
-
-
     const [dataCategory, setDataCategory] = useState(initialData);
     const [errorDataCategory, setErrorDataCategory] = useState(null);
 
-
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const res = await fetch(wordpressGraphQlApiUrl, {
@@ -20,59 +16,61 @@ export const CategoryData = (initialData) => {
                         "Content-Type": "application/json",
                     },
                     body: JSON.stringify({
-                        query: ` query {
+                        query: `query {
   shops(pagination: { limit: 1000 }) {
     data {
       attributes {
         main_categories {
-         data{
-          attributes{
-            Slug
-            Title
+          data {
+            attributes {
+              Slug
+              Title
+            }
           }
         }
-        }
-      sub_categories{
-        data{
-          attributes{
-            slug
+        sub_categories {
+          data {
+            attributes {
+              slug
+            }
           }
         }
-      }
       }
     }
   }
 }
 `,
                     }),
-                    next: { revalidate: 10 },
-                },
-                    {
-                        cache: 'force-cache',
-                        cache: 'no-store'
-                    });
+                });
+
                 if (!res.ok) {
                     throw new Error('Failed to fetch data');
                 }
+
                 const data = await res.json();
 
+                // Save data to localStorage
+                localStorage.setItem('categoryData', JSON.stringify(data));
 
                 setDataCategory(data);
-                //console.log(data)
             } catch (error) {
                 setErrorDataCategory(error.message);
             }
         };
 
         if (!initialData) {
-            fetchData();
+            // Try to get data from localStorage
+            const storedData = localStorage.getItem('categoryData');
+            
+            if (storedData) {
+                setDataCategory(JSON.parse(storedData));
+            } else {
+                fetchData();
+            }
+        } else {
+            setDataCategory(initialData);
         }
     }, [initialData]);
 
-
-
     return { dataCategory, errorDataCategory };
 };
-
-
-

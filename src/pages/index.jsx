@@ -602,16 +602,17 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                       </h2>
                     </div>
                     <div className="overflow-hidden events-image-1 mx-auto h-[70vh] w-[50%] hidden xl:block">
-                      <video
-                        className="mx-auto"
-                        src={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url : ''}
-                        muted
-                        autoPlay={"autoplay"}
-                        loop
-                      >
-                        video tag is not supported by your browser
-                      </video>
-                    </div>
+                    <Images
+                      width={707}
+                      height={829}
+                      quality={100}
+                      placeholder={true}
+                      imageurl={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                      classes={'chocolate-image-1 max-width-[100%] block mx-auto  bottom-[5%] right-0 left-0 z-[-1] hidden xl:block'}
+                      alt={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                      title={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                    />
+                     </div>
 
                     <div className="content2">
                       <div className="grid gap-[30px] xl:mt-[50px] mt-[10px]">
