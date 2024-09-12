@@ -219,7 +219,7 @@ function Nav({ theme, page, initialData }) {
 
     return (
       <>
-        {sortedCategories && sortedCategories.map(([mainCategory, subcategories]) => (
+        {sortedCategories && sortedCategories.map(([mainCategory, subcategories, ]) => (
           <li key={mainCategory}>
             <Link
               aria-label={mainCategory}
@@ -321,7 +321,7 @@ function Nav({ theme, page, initialData }) {
             <div className='flex gap-[24px] items-center font-semibold text-[14px] uppercase [&>li>*]:rounded-[4px] [&>summary>*]:rounded-[4px]'>
               <ul className="xl:flex hidden gap-[24px] items-center justify-end">
                 <li><Link aria-label='Home' title='Home' href={"/"} onClick={(e) => setThemeLayout('gray')}>Home</Link></li>
-                {FilteredCategories()}
+                {FilteredCategories(headerColor)}
                 <li><Link aria-label='About' title='About' href={"/about"} onClick={(e) => setThemeLayout('gray')}>About</Link></li>
                 <li><Link aria-label='Careers' title='Careers' href={"/careers"} onClick={(e) => setThemeLayout('gray')}>Careers</Link></li>
                 {/* <li><Link aria-label='Blog' title='Blog' href={"/blogs"} onClick={(e) => setThemeLayout('gray')}>Blog</Link></li> */}
@@ -353,7 +353,7 @@ function Nav({ theme, page, initialData }) {
             <div className='flex gap-[24px] items-center font-semibold text-[14px] uppercase [&>li>*]:rounded-[4px] [&>summary>*]:rounded-[4px]'>
               <ul className="xl:flex hidden gap-[24px] items-center justify-end">
                 <li><Link aria-label='Home' title='Home' href={"/"} onClick={(e) => setThemeLayout('gray')}>Home</Link></li>
-                {FilteredCategories()}
+                {FilteredCategories(headerColor)}
                 <li><Link aria-label='About' title='About' href={"/about"} onClick={(e) => setThemeLayout('gray')}>About</Link></li>
                 <li><Link aria-label='Careers' title='Careers' href={"/careers"} onClick={(e) => setThemeLayout('gray')}>Careers</Link></li>
                 {/* <li><Link aria-label='Blog' title='Blog' href={"/blogs"} onClick={(e) => setThemeLayout('gray')}>Blog</Link></li> */}
@@ -395,7 +395,7 @@ function Nav({ theme, page, initialData }) {
                     color: headerColor
                   }}
                 >Home</Link></li>
-                {FilteredCategories()}
+                {FilteredCategories(headerColor)}
                 <li><Link aria-label='About' title='About' href={"/about"} onClick={(e) => setThemeLayout('gray')}
                   style={{
                     color: headerColor
