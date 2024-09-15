@@ -92,7 +92,7 @@ export async function getStaticProps() {
       props: {
         pageData_
       },
-      revalidate: 3600, // Revalidate every hour
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);

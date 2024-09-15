@@ -958,7 +958,7 @@ export async function getStaticProps() {
         pageDataAbout_,
         featuredProducts_,
       },
-      revalidate: 60 * 60, // Revalidate every hour (3600 seconds)
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
