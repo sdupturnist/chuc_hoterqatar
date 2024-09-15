@@ -931,6 +931,16 @@ export async function getStaticProps() {
           OGmodifiedtime
           OGdescription
         }
+              Unit
+                  reviews {
+                    id
+                    rating
+                    author
+                    comment
+                    postedDate
+                    authorEmail
+                    showPublic
+                  }
         photo {
           data {
             attributes {
