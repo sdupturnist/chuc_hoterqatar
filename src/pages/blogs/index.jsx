@@ -6,42 +6,27 @@ import Pagination from "@/components/Pagination";
 import Card from "@/components/Cards";
 import NoData from "@/components/Nodata";
 
-
 export default function Blogs({ pageData_, blogData_ }) {
-
-
-
-  const pageData = pageData_?.data?.blogPage?.data?.attributes
+  const pageData = pageData_?.data?.blogPage?.data?.attributes;
   const blogs = blogData_?.data?.posts?.data ?? [];
   const pagination = blogData_?.data?.posts?.meta?.pagination ?? {};
 
-
   return (
     <>
-      <Metatags seo={pageData_ && pageData_?.data?.blogPage?.data?.attributes?.seo} />
-      <Layout
-        page="blog"
-      >
+      <Metatags seo={pageData_?.data?.blogPage?.data?.attributes?.seo} />
+      <Layout page="blog">
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%]">
-            <PageHeader
-              title={pageData_ && pageData?.Heading}
-            />
+            <PageHeader title={pageData?.Heading} />
             <div className="sm:pb-[50px] pb-[30px] justify-between lg:gap-[100px] gap-[50px]">
-              {!blogs.length == 0 ? (
+              {blogs.length ? (
                 <>
-                  <div className="grid grid-cols-1 md:grid-cols-2 sm:gap-[50px] gap-[30px]" >
-                    {blogs && blogs.map((item, key) => {
-                      return (
-                        <div className="w-full grid gap-[20px]" key={key}>
-                          <Card
-                            type="blog"
-                            item={item}
-
-                          />
-                        </div>
-                      )
-                    })}
+                  <div className="grid grid-cols-1 md:grid-cols-2 sm:gap-[50px] gap-[30px]">
+                    {blogs.map((item, key) => (
+                      <div className="w-full grid gap-[20px]" key={key}>
+                        <Card type="blog" item={item} />
+                      </div>
+                    ))}
                   </div>
                   <div className="text-center">
                     <Pagination
@@ -53,8 +38,6 @@ export default function Blogs({ pageData_, blogData_ }) {
               ) : (
                 <NoData title="Sorry, no blog posts available." />
               )}
-
-
             </div>
           </div>
         </div>
@@ -63,9 +46,7 @@ export default function Blogs({ pageData_, blogData_ }) {
   );
 }
 
-
-
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const page = parseInt(context.query.page) || 1; // Default to page 1 if not provided
   const pageSize = 4; // Set your desired page size
 
@@ -81,37 +62,34 @@ export async function getServerSideProps(context) {
             data {
               attributes {
                 Heading
-                seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  structuredData
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
+                }
               }
             }
           }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          structuredData
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
-              }
-              
-            }
-          }
-        }
-
-`,
+        }`,
       }),
     });
     const pageData_ = await pageData.json();
@@ -125,7 +103,7 @@ export async function getServerSideProps(context) {
         query: `query($page: Int, $pageSize: Int) {
           posts(pagination: { page: $page, pageSize: $pageSize }) {
             data {
-             id
+              id
               attributes {
                 Banner {
                   data {
@@ -164,6 +142,7 @@ export async function getServerSideProps(context) {
         pageData_,
         blogData_,
       },
+      revalidate: 3600, // Revalidate every hour
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -172,6 +151,7 @@ export async function getServerSideProps(context) {
         pageData_: null,
         blogData_: null,
       },
+      revalidate: 3600, // Revalidate every hour in case of error
     };
   }
 }

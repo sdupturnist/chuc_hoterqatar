@@ -707,14 +707,11 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
 
 
 
-export async function getServerSideProps(context) {
-  const page = parseInt(context.query.page) || 1; // Default to page 1 if not provided
+export async function getStaticProps() {
   const pageSize = 4; // Set your desired page size
 
   try {
-
-
-
+    // Fetch the data for the page
     const pageDataAbout = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -744,7 +741,6 @@ export async function getServerSideProps(context) {
           }
           keywords
           metaRobots
-          
           canonicalURL
           OGtitle
           OGSitename
@@ -758,9 +754,6 @@ export async function getServerSideProps(context) {
       }),
     });
     const pageDataAbout_ = await pageDataAbout.json();
-
-
-
 
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
@@ -804,10 +797,7 @@ export async function getServerSideProps(context) {
     });
     const pageData_ = await pageData.json();
 
-
-
-
-    //HOME2DATA
+    // Fetch HOME2DATA
     const homeTwoData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -850,13 +840,12 @@ export async function getServerSideProps(context) {
 }
 }
 `,
-        variables: { page, pageSize },
+        variables: { page: 1, pageSize }, // Default to page 1 if not provided
       }),
     });
     const homeTwoData_ = await homeTwoData.json();
 
-
-
+    // Fetch featured products
     const featuredProducts = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -957,7 +946,7 @@ export async function getServerSideProps(context) {
   }
 }
 `,
-        variables: { page, pageSize },
+        variables: { page: 1, pageSize }, // Default to page 1 if not provided
       }),
     });
     const featuredProducts_ = await featuredProducts.json();
@@ -967,8 +956,9 @@ export async function getServerSideProps(context) {
         pageData_,
         homeTwoData_,
         pageDataAbout_,
-        featuredProducts_
+        featuredProducts_,
       },
+      revalidate: 60 * 60, // Revalidate every hour (3600 seconds)
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -979,6 +969,8 @@ export async function getServerSideProps(context) {
         pageDataAbout_: null,
         featuredProducts_: null,
       },
+      revalidate: 60 * 60, // Revalidate every hour (3600 seconds) in case of error
     };
   }
 }
+

@@ -7,19 +7,12 @@ import { ContactData } from "@/hooks/contactData";
 import { useEffect, useState } from "react";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
 
-
-
 export default function Contact({ initialData, pageData_ }) {
 
-  const pageData = pageData_.data.contact.data.attributes
-
- 
+  const pageData = pageData_.data.contact.data.attributes;
 
   const { dataContact } = ContactData(initialData);
-
-  const contactData = dataContact && dataContact.data.contactInfos.data[0].attributes
-
-
+  const contactData = dataContact && dataContact.data.contactInfos.data[0].attributes;
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,21 +22,13 @@ export default function Contact({ initialData, pageData_ }) {
     }
   }, [dataContact]);
 
-
-
-
   return (
     <>
       <Metatags seo={pageData_ && pageData_?.data?.contact?.data?.attributes?.seo} />
-      <Layout
-        page="contact"
-      >
-       
+      <Layout page="contact">
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%]">
-            <PageHeader
-              title={pageData_ && pageData.Title}
-            />
+            <PageHeader title={pageData_ && pageData.Title} />
 
             <div className="md:flex grid [&>*]:text-gray-600 lg:mb-[70px] sm:py-[50px] pb-[30px] justify-between lg:gap-[100px] gap-[50px]">
               <div className="grid gap-[32px] w-full">
@@ -56,7 +41,7 @@ export default function Contact({ initialData, pageData_ }) {
                     </div>
                   ) : (
                     <div>
-                      <h2 className="font-semibold text-[16px] uppercase tracking-[1%] mb-[12px]  text-black">
+                      <h2 className="font-semibold text-[16px] uppercase tracking-[1%] mb-[12px] text-black">
                         Office
                       </h2>
                       <p className="mb-[8px]">
@@ -69,24 +54,20 @@ export default function Contact({ initialData, pageData_ }) {
                         {contactData.Email}
                       </p>
                     </div>
-
                   )}
 
                   <div>
-                    <h2 className="font-semibold text-[16px] uppercase tracking-[1%] mb-[12px]  text-black">
+                    <h2 className="font-semibold text-[16px] uppercase tracking-[1%] mb-[12px] text-black">
                       Business Inquiries
                     </h2>
                     <p>
-                     {pageData_ && pageData.Content}
-                     </p>
+                      {pageData_ && pageData.Content}
+                    </p>
                   </div>
                 </div>
               </div>
-              <>
-                <ContactForm />
-              </>
+              <ContactForm />
             </div>
-
           </div>
         </div>
       </Layout>
@@ -94,59 +75,56 @@ export default function Contact({ initialData, pageData_ }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   try {
-
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query{
-                      contact{
-                        data{
-                          attributes{
-                            Title
-                           Content
-                               seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
-              }
-            }
-          }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
+        query: `query {
+          contact {
+            data {
+              attributes {
+                Title
+                Content
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
                       }
                     }
                   }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
+                }
               }
-`,
+            }
+          }
+        }`,
       }),
     });
     const pageData_ = await pageData.json();
 
-
-
     return {
       props: {
-        pageData_
+        pageData_,
       },
+      revalidate: 3600, // Revalidate every hour (3600 seconds)
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -154,6 +132,7 @@ export async function getServerSideProps(context) {
       props: {
         pageData_: null,
       },
+      revalidate: 3600, // Revalidate every hour (3600 seconds) in case of error
     };
   }
 }

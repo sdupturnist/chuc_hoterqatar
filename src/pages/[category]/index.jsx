@@ -118,43 +118,66 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 }
 
 
-export async function getServerSideProps(context) {
-  const { query } = context;
-  const page = parseInt(query.page) || 1; // Default to page 1 if not provided
+export async function getStaticPaths() {
+  try {
+    // Fetch a list of all categories or relevant paths
+    const response = await fetch(wordpressGraphQlApiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        query: `
+          query {
+            mainCategories(pagination: { limit: 1000 }) {
+              data {
+                attributes {
+                  Slug
+                }
+              }
+            }
+          }
+        `,
+      }),
+    });
+    const data = await response.json();
+    const paths = data.data.mainCategories.data.map(cat => ({
+      params: { category: cat.attributes.Slug }
+    }));
+
+    return { paths, fallback: 'blocking' }; // 'blocking' to ensure all paths are generated at build time
+  } catch (error) {
+    console.error('Error fetching static paths:', error);
+    return { paths: [], fallback: 'blocking' };
+  }
+}
+
+
+
+export async function getStaticProps(context) {
+  const { params } = context;
+  const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
+  const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
+  const page = 1; // Default to page 1 for static props
   const pageSize = 30; // Set your desired page size
-  const maincategoryName = query.category?.replace(/-/g, '_')?.toLowerCase();
-  const maincategoryNameColl = query.category?.replace(/-/g, '-')?.toLowerCase();
   const minPrice = 0;
-  const maxPrice = parseFloat(query.maxPrice) || 100000;
-  const minReviewRating = parseInt(query.minReviewCount) || 0; // Add this line
+  const maxPrice = 100000;
+  const minReviewRating = 0;
 
   try {
     // Fetch data for the provided subcategory
     const productDataResponse = await fetch(wordpressGraphQlApiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
-           query (
-              $page: Int, 
-              $pageSize: Int, 
-              $maincategoryNameColl: String
-              $minPrice: Float, 
-              $maxPrice: Float,
-            ${minReviewRating !== 0 ? '$minReviewRating: Int' : ''}
-             
-          
+          query ($page: Int, $pageSize: Int, $categorySlug: String, $minPrice: Float, $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
+            shops(
+              pagination: { page: $page, pageSize: $pageSize }
+              filters: {
+                sub_categories: { slug: { eq: $categorySlug } }
+                normalPrice: { gte: $minPrice, lte: $maxPrice }
+                ${minReviewRating > 0 ? 'reviews: { rating: { gte: $minReviewRating } }' : ''}
+              }
             ) {
-              shops(
-                pagination: { page: $page, pageSize: $pageSize }
-                filters: {
-                 sub_categories: { slug: { eq: $maincategoryNameColl } }
-                  normalPrice: { gte: $minPrice, lte: $maxPrice }
-               ${minReviewRating !== 0 ? ' reviews: { rating: { gte: $minReviewRating } }' : ''}
-                }
-              ) {
               data {
                 id
                 attributes {
@@ -171,7 +194,7 @@ export async function getServerSideProps(context) {
                       }
                     }
                   }
-                    Unit
+                  Unit
                   reviews {
                     id
                     rating
@@ -247,7 +270,7 @@ export async function getServerSideProps(context) {
             }
           }
         `,
-        variables: { page, pageSize, maincategoryNameColl, minPrice, maxPrice, minReviewRating },
+        variables: { page, pageSize, categorySlug: categorySlugFallback, minPrice, maxPrice, minReviewRating },
       }),
     });
     const productData_ = await productDataResponse.json();
@@ -258,29 +281,19 @@ export async function getServerSideProps(context) {
     let finalProductData = productData_;
 
     if (!hasDesiredCategory) {
+      // Fetch fallback data based on main category
       const fallbackProductDataResponse = await fetch(wordpressGraphQlApiUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: `
-            query (
-              $page: Int, 
-              $pageSize: Int, 
-              $maincategoryName: String, 
-              $minPrice: Float, 
-              $maxPrice: Float,
-            ${minReviewRating !== 0 ? '$minReviewRating: Int' : ''}
-             
-          
-            ) {
+            query ($page: Int, $pageSize: Int, $categorySlug: String, $minPrice: Float, $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
               shops(
                 pagination: { page: $page, pageSize: $pageSize }
                 filters: {
-                  main_categories: { Slug: { contains: $maincategoryName } }
+                  main_categories: { Slug: { contains: $categorySlug } }
                   normalPrice: { gte: $minPrice, lte: $maxPrice }
-               ${minReviewRating !== 0 ? ' reviews: { rating: { gte: $minReviewRating } }' : ''}
+                  ${minReviewRating > 0 ? 'reviews: { rating: { gte: $minReviewRating } }' : ''}
                 }
               ) {
                 data {
@@ -299,7 +312,7 @@ export async function getServerSideProps(context) {
                         }
                       }
                     }
-                      Unit
+                    Unit
                     reviews {
                       id
                       rating
@@ -375,7 +388,7 @@ export async function getServerSideProps(context) {
               }
             }
           `,
-          variables: { page, pageSize, maincategoryName, minPrice, maxPrice, minReviewRating },
+          variables: { page, pageSize, categorySlug: categorySlug, minPrice, maxPrice, minReviewRating },
         }),
       });
       finalProductData = await fallbackProductDataResponse.json();
@@ -384,17 +397,13 @@ export async function getServerSideProps(context) {
     // Fetch additional page data
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
-          query( $maincategoryNameColl: String)  {
+          query ($categorySlug: String) {
             subCategorie(
               pagination: { limit: 1000 }
-              filters: {
-                slug: { contains: $maincategoryNameColl }
-              }
+              filters: { slug: { contains: $categorySlug } }
             ) {
               data {
                 attributes {
@@ -422,7 +431,7 @@ export async function getServerSideProps(context) {
             }
           }
         `,
-        variables: { maincategoryNameColl },
+        variables: { categorySlug: categorySlugFallback },
       }),
     });
     const pageData_ = await pageData.json();
@@ -430,17 +439,13 @@ export async function getServerSideProps(context) {
     // Fetch main category SEO data
     const pageDataMainCatSeo = await fetch(wordpressGraphQlApiUrl, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
-          query( $maincategoryNameColl: String)  {
+          query ($categorySlug: String) {
             mainCategories(
               pagination: { limit: 1000 }
-              filters: {
-                Slug: { contains: $maincategoryNameColl }
-              }
+              filters: { Slug: { contains: $categorySlug } }
             ) {
               data {
                 attributes {
@@ -480,7 +485,7 @@ export async function getServerSideProps(context) {
             }
           }
         `,
-        variables: { maincategoryNameColl },
+        variables: { categorySlug: categorySlugFallback },
       }),
     });
     const pageDataMainCatSeo_ = await pageDataMainCatSeo.json();
@@ -491,6 +496,7 @@ export async function getServerSideProps(context) {
         pageData_,
         pageDataMainCatSeo_,
       },
+      revalidate: 60 * 60 * 24, // Revalidate every 24 hours
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -500,11 +506,10 @@ export async function getServerSideProps(context) {
         pageData_: null,
         pageDataMainCatSeo_: null,
       },
+      revalidate: 60 * 60 * 24, // Revalidate every 24 hours
     };
   }
 }
-
-
 
 
 

@@ -10,7 +10,6 @@ import NoData from "@/components/Nodata";
 import Metatags from "@/components/Seo";
 import { wordpressGraphQlApiUrl } from "@/utils/variables";
 
-
 // GraphQL query for search
 const SEARCH_PAGES = gql`
   query($searchTerm: String) {
@@ -21,98 +20,93 @@ const SEARCH_PAGES = gql`
       pagination: { limit: 100 }
     ) {
       data {
-     
-              id
+        id
+        attributes {
+          Featured
+          Slug
+          Heading
+          photo {
+            data {
               attributes {
-              
-                Featured
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+          Description
+          normalPrice
+          offerPrice
+          productCode
+          Includes
+          ShortDescription
+          main_categories {
+            data {
+              attributes {
+                Title
                 Slug
-                Heading
-                photo {
-                  data {
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                Description
-                normalPrice
-                offerPrice
-                productCode
-               Includes
-                ShortDescription
-                main_categories {
-                  data{
-                    attributes{
-                      Title
-                      Slug
-                    }
-                  }
-                }
-                sub_categories{
-                  data{
-                    attributes{
-                      slug
-                      Title
-                    }
-                  }
-                }
-                createdAt
-                updatedAt
-                publishedAt
-                seo {
-                  metaTitle
-                  metaDescription
-                  metaImage {
-                    data {
-                      attributes {
-                        alternativeText
-                        url
-                      }
-                    }
-                  }
-                  metaSocial {
-                    image {
-                      data {
-                        attributes {
-                          url
-                        }
-                      }
-                    }
-                    description
-                    title
-                  }
-                  keywords
-                  metaRobots
-                  metaViewport
-                  canonicalURL
-                  OGSitename
-                  OGmodifiedtime
-                  OGdescription
-                }
-                photo {
-                  data {
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
+              }
+            }
+          }
+          sub_categories {
+            data {
+              attributes {
+                slug
+                Title
+              }
+            }
+          }
+          createdAt
+          updatedAt
+          publishedAt
+          seo {
+            metaTitle
+            metaDescription
+            metaImage {
+              data {
+                attributes {
+                  alternativeText
+                  url
                 }
               }
             }
+            metaSocial {
+              image {
+                data {
+                  attributes {
+                    url
+                  }
+                }
+              }
+              description
+              title
+            }
+            keywords
+            metaRobots
+            metaViewport
+            canonicalURL
+            OGSitename
+            OGmodifiedtime
+            OGdescription
+          }
+          photo {
+            data {
+              attributes {
+                alternativeText
+                width
+                height
+                url
+              }
+            }
+          }
+        }
       }
+    }
   }
-
-        
 `;
 
 export default function Search({ pageData_, reviewCountData_ }) {
-
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchPages, { loading, data }] = useLazyQuery(SEARCH_PAGES, {
@@ -129,28 +123,21 @@ export default function Search({ pageData_, reviewCountData_ }) {
     }
   }, [router.query]);
 
-
   return (
     <>
       <Metatags seo={pageData_ && pageData_?.data?.search?.data?.attributes?.seo} />
       <Layout page="search">
         <div className="container [&>*]:text-black grid xl:gap-[50px] gap-[5px] lg:pt-[30px] xl:pb-[70px] pb-[20px]">
-          <PageHeader
-            title={`Search ${searchTerm}`}
-          />
+          <PageHeader title={`Search ${searchTerm}`} />
 
           {loading && <Loading />}
 
           {!loading && data?.shops?.data.length === 0 && (
-            <NoData
-              title={"Sorry, no products were found. Please try searching with different keywords."}
-            />
-
+            <NoData title={"Sorry, no products were found. Please try searching with different keywords."} />
           )}
 
           {data?.shops?.data.length > 0 && (
             <div className="grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-[40px] gap-[20px]">
-
               {data.shops.data.map((item, key) => {
                 const publicReviews = item?.attributes?.reviews?.filter(review => review.showPublic);
                 return (
@@ -163,26 +150,17 @@ export default function Search({ pageData_, reviewCountData_ }) {
                   </div>
                 );
               })}
-
-
             </div>
           )}
-
-          <div className="text-center">
-          </div>
         </div>
       </Layout>
     </>
   );
 }
 
-
-
-
-export async function getServerSideProps(context) {
-
-
+export async function getStaticProps() {
   try {
+    // Fetch the data for the page
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -190,44 +168,40 @@ export async function getServerSideProps(context) {
       },
       body: JSON.stringify({
         query: `query {
-   search{
-    data{
-      attributes{
-        Heading
-        seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
+          search {
+            data {
+              attributes {
+                Heading
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
+                }
               }
             }
           }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
-      }
-    }
-  }
-  }
-
-`,
+        }`,
       }),
     });
     const pageData_ = await pageData.json();
-
-
 
     // Fetch review count data
     const reviewCountResponse = await fetch(wordpressGraphQlApiUrl, {
@@ -237,37 +211,35 @@ export async function getServerSideProps(context) {
       },
       body: JSON.stringify({
         query: `
-       query {
-          review(
-          pagination: { limit: 6 }
-          ) {
-            data {
-              attributes {
-                productId
-               
+          query {
+            review(pagination: { limit: 6 }) {
+              data {
+                attributes {
+                  productId
+                }
               }
             }
           }
-}
-        
         `,
       }),
     });
     const reviewCountData_ = await reviewCountResponse.json();
-
 
     return {
       props: {
         pageData_,
         reviewCountData_
       },
+      revalidate: 3600, // Revalidate every hour (3600 seconds)
     };
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
       props: {
         pageData_: null,
+        reviewCountData_: null
       },
+      revalidate: 3600, // Revalidate every hour (3600 seconds) in case of error
     };
   }
 }

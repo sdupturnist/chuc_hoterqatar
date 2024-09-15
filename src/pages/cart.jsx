@@ -1,7 +1,6 @@
 import { frontendUrl, deliveryFee, wordpressGraphQlApiUrl } from "@/utils/variables";
 import Layout from "@/components/Layout";
 import Metatags from '@/components/Seo';
-
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { useCartContext } from "@/context/cartContext";
 import { useEffect, useState } from "react";
@@ -9,44 +8,27 @@ import OrderForm from "@/components/Forms/OrderForm";
 import CartItem from "@/components/CartItem";
 import NoData from "@/components/Nodata";
 
-
-
-
-
 export default function Cart({ pageData_, allProducts_ }) {
-
-
-  const pageData = pageData_.data.itemsCart.data.attributes
-  const allPRoducts = allProducts_?.data?.shops?.data
-
-console.log(pageData_)
+  const pageData = pageData_.data.itemsCart.data.attributes;
+  const allProducts = allProducts_?.data?.shops?.data;
 
   const { cartItems } = useCartContext();
 
-
-
-
-
-  const filteredProducts = allPRoducts.filter(product =>
+  const filteredProducts = allProducts.filter(product =>
     cartItems && cartItems.some(item => item.id === product.id)
   );
 
-
   useEffect(() => {
-
     const storedData = localStorage.getItem('cartData');
     if (storedData) {
       setCartData(JSON.parse(storedData));
     }
   }, []);
 
-
-
   // Calculate the total amount
   const totalAmount = cartItems?.reduce((total, item) => {
     return total + (item?.quantity * item?.price);
   }, 0);
-
 
   // State for order
   const [currentOrder, setCurrentOrder] = useState([]);
@@ -57,15 +39,10 @@ console.log(pageData_)
     setCurrentOrder(updatedOrder);
   }, [totalAmount]);
 
-
-
   return (
     <>
       <Metatags seo={pageData_ && pageData_?.data?.itemsCart?.data?.attributes?.seo} />
-      <Layout
-        page="cart"
-      >
-
+      <Layout page="cart">
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid">
             <div className="flex justify-between items-center border-b border-black">
@@ -73,43 +50,35 @@ console.log(pageData_)
                 {pageData_ && pageData.Title}
               </h1>
               <Breadcrumbs
-                pages={
-                  [
-                    {
-                      "name": "order",
-                      "link": "",
-                    },
-                  ]
-                }
+                pages={[
+                  {
+                    "name": "order",
+                    "link": "",
+                  },
+                ]}
               />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-[10px] lg:gap-[50px] lg:mb-0 mb-[30px]">
               <div className={`${cartItems && cartItems.length !== 0 ? 'lg:col-span-3' : 'lg:col-span-12'} sm:py-[50px]`}>
-
                 {cartItems && cartItems.length !== 0 ? (
-                  <>
-                    <div className="cart-item-wrpr grid sm:gap-[16px] border-b lg:border-none border-black border-solid sm:pb-[20px] lg:pb-[0]">
-                      {filteredProducts.map((product, key) => {
-                        // Find the corresponding added item to get quantity
-                        const addedItem = cartItems.find(item => item.id === product.id);
-                        const quantity = addedItem ? addedItem.quantity : 0;
+                  <div className="cart-item-wrpr grid sm:gap-[16px] border-b lg:border-none border-black border-solid sm:pb-[20px] lg:pb-[0]">
+                    {filteredProducts.map((product, key) => {
+                      // Find the corresponding added item to get quantity
+                      const addedItem = cartItems.find(item => item.id === product.id);
+                      const quantity = addedItem ? addedItem.quantity : 0;
 
-                        return (
-                          <CartItem
-                            key={key}
-                            item={product}
-                            price={product?.attributes?.offerPrice !== null ? product?.attributes?.offerPrice : product?.attributes?.normalPrice}
-                          />
-
-                        );
-                      })}
-
-                    </div>
-                  </>
+                      return (
+                        <CartItem
+                          key={key}
+                          item={product}
+                          price={product?.attributes?.offerPrice !== null ? product?.attributes?.offerPrice : product?.attributes?.normalPrice}
+                        />
+                      );
+                    })}
+                  </div>
                 ) : (
                   <NoData title={`Your cart is empty`} />
                 )}
-
 
                 {cartItems && cartItems.length !== 0 &&
                   <div className="lg:border lg:rounded-[6px] rounded-none border-solid lg:border-gray-200 border-black lg:p-[20px] py-[16px] lg:mt-[20px] lg:border-t ">
@@ -135,7 +104,7 @@ console.log(pageData_)
               {cartItems && cartItems.length !== 0 &&
                 <div className="lg:col-span-2 lg:border-l border-black border-solid lg:p-[50px]">
                   <OrderForm
-                    totalAMount={parseFloat(totalAmount) + parseFloat(deliveryFee)}
+                    totalAmount={parseFloat(totalAmount) + parseFloat(deliveryFee)}
                     items={cartItems}
                   />
                 </div>
@@ -148,56 +117,49 @@ console.log(pageData_)
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   try {
-
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query{
-  itemsCart{
-  data{
-    attributes{
-      Title
-       seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
+        query: `query {
+          itemsCart {
+            data {
+              attributes {
+                Title
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
+                }
               }
             }
           }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
-    }
-  }
-}
-}
-
-`,
+        }`,
       }),
     });
     const pageData_ = await pageData.json();
-
-
-
-
 
     const allProducts = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
@@ -206,64 +168,66 @@ export async function getServerSideProps(context) {
       },
       body: JSON.stringify({
         query: `query {
-    shops(
-      pagination: { limit: 500 }
-    ) {
-      data {
-        id
-        attributes {
-           Slug
-          Heading
-          normalPrice
-          offerPrice
-          productCode
-        sub_categories{
-          data{
-            attributes{
-              Title
-             slug
-            }
-          }
-        }
-         main_categories {
-           data{
-            attributes{
-               Title
-             Slug
-            }
-          }
-          }
-        photo {
+          shops(
+            pagination: { limit: 500 }
+          ) {
             data {
+              id
               attributes {
-                alternativeText
-                width
-                height
-                url
+                Slug
+                Heading
+                normalPrice
+                offerPrice
+                productCode
+                sub_categories {
+                  data {
+                    attributes {
+                      Title
+                      slug
+                    }
+                  }
+                }
+                main_categories {
+                  data {
+                    attributes {
+                      Title
+                      Slug
+                    }
+                  }
+                }
+                photo {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
               }
             }
           }
-        }
-      }
-    }
-  }
-  `,
+        }`,
       }),
     });
     const allProducts_ = await allProducts.json();
-
-
-
-
 
     return {
       props: {
         pageData_,
         allProducts_
-
       },
+      revalidate: 3600, // Revalidate every hour
     };
   } catch (error) {
     console.error('Error fetching data:', error);
+    return {
+      props: {
+        pageData_: null,
+        allProducts_: null,
+      },
+      revalidate: 3600, // Revalidate every hour in case of error
+    };
   }
 }

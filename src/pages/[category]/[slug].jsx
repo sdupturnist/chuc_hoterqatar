@@ -334,12 +334,70 @@ export default function ProductSingle({ singleProductData }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticPaths() {
+  try {
+    // Fetch all categories and slugs from your API
+    const response = await fetch(wordpressGraphQlApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `query {
+          shops {
+            data {
+              attributes {
+                Slug
+                main_categories {
+                  data {
+                    attributes {
+                      Slug
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`,
+      }),
+      cache: 'no-store'
+    });
+
+    const data = await response.json();
+    const paths = [];
+
+    // Iterate through the categories and slugs to build the paths
+    data?.data?.shops?.data.forEach(shop => {
+      const slug = shop.attributes.Slug;
+      const categories = shop.attributes.main_categories.data;
+      
+      categories.forEach(category => {
+        const categorySlug = category.attributes.Slug;
+        paths.push({
+          params: { category: categorySlug, slug },
+        });
+      });
+    });
+
+    return {
+      paths,
+      fallback: 'blocking', // Use 'blocking' to wait until new data is available
+    };
+  } catch (error) {
+    console.error('Error fetching paths:', error);
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+}
+
+export async function getStaticProps(context) {
   const { params } = context;
-  const { slug } = params;
+  const { category, slug } = params;
 
   try {
-    // Fetch single product data
+    // Fetch single product data based on category and slug
     const productDataResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -347,7 +405,7 @@ export async function getServerSideProps(context) {
       },
       body: JSON.stringify({
         query: `query {
-          shops(filters: { Slug: { eq: "${slug}" } }) {
+          shops(filters: { Slug: { eq: "${slug}" }, main_categories: { Slug: { eq: "${category}" } } }) {
            data {
               id
               attributes {
@@ -364,21 +422,21 @@ export async function getServerSideProps(context) {
                     }
                   }
                 }
-                  Unit
-                  reviews {
-                    id
-                    rating
-                    author
-                    comment
-                    postedDate
-                    authorEmail
-                    showPublic
-                  }
+                Unit
+                reviews {
+                  id
+                  rating
+                  author
+                  comment
+                  postedDate
+                  authorEmail
+                  showPublic
+                }
                 Description
                 normalPrice
                 offerPrice
                 productCode
-               Includes
+                Includes
                 ShortDescription
                 main_categories {
                  data{
@@ -447,22 +505,19 @@ export async function getServerSideProps(context) {
 
     const singleProductData = await productDataResponse.json();
 
-    // Fetch review data if product ID is available
-    const productId = singleProductData?.data?.shops?.data[0]?.id;
-
     return {
       props: {
         singleProductData,
       },
+      revalidate: 60, // Regenerate the page every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
-    // Return fallback props in case of an error
     return {
       props: {
         singleProductData: null,
-        reviewData_: null
       },
+      revalidate: 60, // Regenerate the page every 60 seconds, even if there was an error
     };
   }
 }
