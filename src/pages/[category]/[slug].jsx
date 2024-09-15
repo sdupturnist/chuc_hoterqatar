@@ -9,7 +9,7 @@ import Review from "@/components/Review";
 import ImageGallery from "react-image-gallery";
 import { useProductContext } from "@/context/productContext";
 import { useCartContext } from "@/context/cartContext";
-import Metatags from "@/components/Seo";
+import Metatags from "@/components/SeoProducts";
 import Images from '@/components/Images';
 
 
@@ -111,7 +111,7 @@ export default function ProductSingle({ singleProductData }) {
 
   return (
     <>
-      <Metatags seo={singleProductData && singleProductData?.data?.shops?.data[0]?.attributes?.seo} />
+      <Metatags seo={singleProductData && singleProductData?.data?.shops?.data[0]?.attributes} />
       <Layout page="product-single">
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid sm:gap-[10px] gap-[10px] sm:mb-[50px] mb-[30px] mt-[10px] ">
