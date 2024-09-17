@@ -222,6 +222,7 @@ export default function Footer({ page, initialData }) {
                     Facebook
                   </Link>}
                 </li>
+              
                 <li>
                   {contactData && <Link
                     aria-label="Instagram"
