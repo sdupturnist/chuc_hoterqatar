@@ -207,21 +207,11 @@ export default function Footer({ page, initialData }) {
   const year = date.getFullYear();
 
 
+
   function socialLinks(){
     return(<>
        <ul className="sm:[&>*]:text-[14px] text-[12px] flex sm:gap-[20px] gap-[10px] [&>*]:transition-all">
-                <li>
-                  {contactData && <Link
-                    aria-label="Tiktok"
-                    title="Tiktok"
-                    href={contactData.Tiktok == null ? '#' : contactData.Tiktok}
-                    className="hover:opacity-50"
-                    target="_blank"
-                  >
-                    Tiktok
-                  </Link>}
-                </li>
-                <li>
+       <li>
                   {contactData && <Link
                     aria-label="Facebook"
                     title="Facebook"
@@ -230,6 +220,17 @@ export default function Footer({ page, initialData }) {
                      target="_blank"
                   >
                     Facebook
+                  </Link>}
+                </li>
+                <li>
+                  {contactData && <Link
+                    aria-label="Instagram"
+                    title="Instagram"
+                    href={contactData.Instagram == null ? '#' : contactData.Instagram}
+                    className="hover:opacity-50"
+                    target="_blank"
+                  >
+                    Instagram
                   </Link>}
                 </li>
                 <li>
