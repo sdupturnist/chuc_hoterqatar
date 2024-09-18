@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -70,29 +69,52 @@ module.exports = {
           800: '#BFE6E9',
           900: '#eaf4f3',
         },
+        black: '#c89a3f',
+        gray: '#c89a3f',
+        red: {
+          DEFAULT: '#FF0000', // Set the default red color
+        },
       },
       fontFamily: {
         primary: ['Italiana', 'sans-serif'],
         secondary: ['bon_vivantregular'],
         tertiary: ['Inter', 'sans-serif'],
       },
-   
     },
   },
- 
-
-  plugins: [require("daisyui")],
-
+  plugins: [
+    require("daisyui"),
+    function ({ addComponents }) {
+      addComponents({
+        '.btn': {
+          backgroundColor: '#c89a3f', // Set button background to red
+          borderColor:'#c89a3f', 
+          color: '#FFFFFF', // Set button text color to white
+          '&:hover': {
+            backgroundColor: '#e1be64', // Darker red on hover
+             borderColor:'#e1be64', 
+          },
+        },
+        '.btn-outline': {
+          backgroundColor: '#fff', // Set button background to red
+          borderColor:'#c89a3f', 
+          color: '#c89a3f', // Set button text color to white
+          '&:hover': {
+            backgroundColor: '#e1be64', // Darker red on hover
+             borderColor:'#e1be64', 
+          },
+        },
+      });
+    },
+  ],
   daisyui: {
-    themes: false, 
-    darkTheme: "light", 
-    base: true, 
+    themes: false,
+    darkTheme: "light",
+    base: true,
     styled: true,
-    utils: true, 
-    prefix: "", 
-    logs: true, 
+    utils: true,
+    prefix: "",
+    logs: true,
     themeRoot: ":root",
   },
-
-
 };

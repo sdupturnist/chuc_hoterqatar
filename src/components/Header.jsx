@@ -11,7 +11,7 @@ import SearchBox from './Search';
 
 
 
-function Nav({ theme, page, initialData }) {
+export default function Nav({ theme, page, initialData }) {
 
 
   const { setModalFor, setShowModal } = useModalContext();
@@ -20,7 +20,6 @@ function Nav({ theme, page, initialData }) {
 
 
   const { dataCategory } = CategoryData(initialData);
-
 
 
 
@@ -38,6 +37,7 @@ function Nav({ theme, page, initialData }) {
   const color = "#c89a3f"
 
 
+ 
 
   function update() {
     if (scrollY?.current < scrollY?.prev) {
@@ -168,6 +168,9 @@ function Nav({ theme, page, initialData }) {
 
 
   const FilteredCategories = (headerColor) => {
+
+
+
     // Define custom order
     const customOrder = ['Chocolates', 'Flowers', 'Cakes', 'Events']; // Adjust according to your custom order
 
@@ -177,6 +180,7 @@ function Nav({ theme, page, initialData }) {
       const mainCategories = item?.attributes?.main_categories?.data || [];
       const subcategories = item?.attributes?.sub_categories?.data || [];
 
+      
       // Process each main category
       mainCategories.forEach(mainCategoryItem => {
         const mainCategory = mainCategoryItem?.attributes?.Title;
@@ -196,8 +200,12 @@ function Nav({ theme, page, initialData }) {
         }
       });
 
+      
       return acc;
+      
     }, {});
+
+
 
     // Return empty array if categoriesMap is undefined or null
     if (!categoriesMap) return null;
@@ -219,7 +227,7 @@ function Nav({ theme, page, initialData }) {
 
     return (
       <>
-        {sortedCategories && sortedCategories.map(([mainCategory, subcategories, ]) => (
+  {sortedCategories && sortedCategories.map(([mainCategory, subcategories, ]) => (
           <li key={mainCategory}>
             <Link
               aria-label={mainCategory}
@@ -447,4 +455,7 @@ function Nav({ theme, page, initialData }) {
   );
 }
 
-export default Nav;
+
+
+
+

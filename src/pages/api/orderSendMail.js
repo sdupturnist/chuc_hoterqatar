@@ -28,7 +28,7 @@ export default async function handler(req, res) {
 </head>
 <body style="font-family: Arial, sans-serif; color: #333; line-height: 1.6; padding: 20px; background-color: #f9f9f9; margin: 0;">
     <div style="max-width: 600px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-        <h2 style="color: #000;">New Order Received</h2>
+        <h2 style="color: #c89a3f;">New Order Received</h2>
         
         <div style="margin-bottom: 20px;">
             <h3 style="margin-bottom: 10px; font-size: 18px;">Order Details:</h3>

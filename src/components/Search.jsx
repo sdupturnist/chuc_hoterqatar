@@ -71,7 +71,7 @@ export default function SearchBox({ theme, page }) {
             color = "#258F89";
             break;
         default:
-            color = "#000";
+            color = "#c89a3f";
             break;
     }
 
@@ -95,7 +95,7 @@ export default function SearchBox({ theme, page }) {
             color2 = "#258F89";
             break;
         default:
-            color2 = "#000";
+            color2 = "#c89a3f";
             break;
     }
 
@@ -127,7 +127,7 @@ export default function SearchBox({ theme, page }) {
                     }
                     {isSearchVisible && (
                         <div ref={searchRef} className="search-box sm:relative sm:top-0 sm:right-0 sm:left-0 fixed left-[20px] right-[20px] top-[20px]">
-                            <label className="input input-bordered flex items-center gap-2">
+                            <label className="input  placeholder:text-black border-black flex items-center gap-2">
                                 <input
                                     type="text"
                                     className="grow bg-white"
@@ -182,7 +182,7 @@ export default function SearchBox({ theme, page }) {
                     }
                     {isSearchVisible && (
                         <div ref={searchRef} className="search-box sm:relative sm:top-0 sm:right-0 sm:left-0 fixed left-[20px] right-[20px] top-[20px]">
-                            <label className="input input-bordered flex items-center gap-2">
+                            <label className="input  placeholder:text-black border-black flex items-center gap-2">
                                 <input
                                     type="text"
                                     className="grow bg-white"
@@ -253,7 +253,7 @@ export default function SearchBox({ theme, page }) {
                     }
                     {isSearchVisible && (
                         <div ref={searchRef} className="search-box sm:relative sm:top-0 sm:right-0 sm:left-0 fixed left-[20px] right-[20px] top-[20px]">
-                            <label className="input input-bordered flex items-center gap-2 border-${themeLayout.toLowerCase()}-100">
+                            <label className="input  placeholder:text-black border-black flex items-center gap-2 border-${themeLayout.toLowerCase()}-100">
                                 <input
                                     type="text"
                                     className={`grow bg-white text-${themeLayout.toLowerCase()}-100`}
@@ -305,7 +305,7 @@ export default function SearchBox({ theme, page }) {
                 }
                 {isSearchVisible && (
                     <div ref={searchRef} className="search-box sm:relative sm:top-0 sm:right-0 sm:left-0 fixed left-[20px] right-[20px] top-[20px]">
-                        <label className="input input-bordered flex items-center gap-2">
+                        <label className="input  placeholder:text-black border-black flex items-center gap-2">
                             <input
                                 type="text"
                                 className="grow bg-white"

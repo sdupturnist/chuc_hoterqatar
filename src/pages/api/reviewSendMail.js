@@ -33,7 +33,7 @@ export default async function handler(req, res) {
         <p style="color: #666666; line-height: 1.6;">Hello Admin</p>
         <p style="color: #666666; line-height: 1.6;">A new review has been submitted and is awaiting your approval. Product id is: [`+productId+`]</p>
 
-        <div style="background-color: #f9f9f9; border-left: 4px solid #000; padding: 10px; margin-bottom: 20px;">
+        <div style="background-color: #f9f9f9; border-left: 4px solid #c89a3f; padding: 10px; margin-bottom: 20px;">
             <p style="margin: 0;"><strong>Reviewer Name:</strong> [`+name+`]</p>
             <p style="margin: 0;"><strong>Submission Date:</strong> [`+todayDate+`]</p>
            <p style="margin: 0;"><strong>Rating:</strong> [`+rating+`]</p>

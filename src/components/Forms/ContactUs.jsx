@@ -114,7 +114,7 @@ export default function ContactForm() {
         <input
           type="text"
           placeholder="Full name"
-          className="input input-bordered w-full text-black rounded-[6px]"
+          className="input  placeholder:text-black border-black w-full text-black rounded-[6px]"
           value={name}
           onChange={(e) => setName(e.target.value)}
           name="name"
@@ -124,7 +124,7 @@ export default function ContactForm() {
         <input
           type="number"
           placeholder="Phone Number"
-          className="input input-bordered w-full text-black rounded-[6px]"
+          className="input  placeholder:text-black border-black w-full text-black rounded-[6px]"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           name="phone"
@@ -134,7 +134,7 @@ export default function ContactForm() {
         <input
           type="email"
           placeholder="Email"
-          className="input input-bordered w-full text-black rounded-[6px]"
+          className="input  placeholder:text-black border-black w-full text-black rounded-[6px]"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           name="email"
@@ -142,7 +142,7 @@ export default function ContactForm() {
         />
         {errors.email && <p className='text-red-500'>{errors.email}</p>}
         <textarea
-          className="textarea textarea-bordered w-full text-black rounded-[6px]"
+          className="textarea  placeholder:text-black border-black textarea-bordered w-full text-black rounded-[6px]"
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
@@ -153,7 +153,7 @@ export default function ContactForm() {
 
         <div>
 
-          <button title="Submit" aria-label="Submit" type="submit" className="btn btn-neutral bg-black rounded-[6px] w-full" onClick={submitEmail}>
+          <button title="Submit" aria-label="Submit" type="submit" className="btn rounded-[6px] w-full" onClick={submitEmail}>
           <span className={buttonLabel == false ? "hidden" : ""}>
                             Proceed to order
                         </span>

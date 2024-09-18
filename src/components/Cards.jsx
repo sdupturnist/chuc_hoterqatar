@@ -46,7 +46,7 @@ export default function Card({ theme, desc, type, item, review }) {
             color = "#258F89";
             break;
         default:
-            color = "#000";
+            color = "#c89a3f";
             break;
     }
 

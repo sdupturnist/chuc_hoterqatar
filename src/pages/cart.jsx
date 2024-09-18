@@ -8,11 +8,14 @@ import OrderForm from "@/components/Forms/OrderForm";
 import CartItem from "@/components/CartItem";
 import NoData from "@/components/Nodata";
 import { AOSInit } from "@/components/Aos";
+import { useThemeContext } from "@/context/themeContext";
+
 
 export default function Cart({ pageData_, allProducts_ }) {
   const pageData = pageData_.data.itemsCart.data.attributes;
   const allProducts = allProducts_?.data?.shops?.data;
-
+ 
+  const { themeLayout } = useThemeContext();
   const { cartItems } = useCartContext();
 
   const filteredProducts = allProducts.filter(product =>
@@ -39,6 +42,32 @@ export default function Cart({ pageData_, allProducts_ }) {
     const updatedOrder = [...filteredProducts, { totalAmount }];
     setCurrentOrder(updatedOrder);
   }, [totalAmount]);
+
+
+  
+    // Determine button color based on theme
+    let color;
+    switch (themeLayout.toLowerCase()) {
+        case "white":
+            color = "white";
+            break;
+        case 'chocolates':
+            color = "#c89a3f";
+            break;
+        case 'flowers':
+            color = "#E62263";
+            break;
+        case 'cakes':
+            color = "#E79F02";
+            break;
+        case 'events':
+            color = "#258F89";
+            break;
+        default:
+            color = "#c89a3f";
+            break;
+    }
+
 
   return (
     <>
@@ -74,6 +103,7 @@ export default function Cart({ pageData_, allProducts_ }) {
                           key={key}
                           item={product}
                           price={product?.attributes?.offerPrice !== null ? product?.attributes?.offerPrice : product?.attributes?.normalPrice}
+                          color={color}
                         />
                       );
                     })}

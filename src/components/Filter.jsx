@@ -74,7 +74,7 @@ export default function FilterProducts() {
       color = "#258F89";
       break;
     default:
-      color = "#000";
+      color = "#c89a3f";
       break;
   }
 

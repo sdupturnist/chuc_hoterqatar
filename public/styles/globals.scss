@@ -35,7 +35,8 @@
 
 body {
     @apply font-tertiary;
-    background: #fff;
+    @apply bg-white;
+    @apply text-black;
   }
 
 
@@ -60,10 +61,10 @@ footer{
     font-weight: 600;
   }
 
-  .btn:hover{
-    background: #111;
-    border-color: #111;
-  }
+  // .btn:hover{
+  //   background: #111;
+  //   border-color: #111;
+  // }
 
  .main-nav .collapse-title:after {
   

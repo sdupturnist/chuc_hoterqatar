@@ -190,7 +190,7 @@ export default function AddReviewForm({ productId }) {
           <input
             type="radio"
             name="rating-1"
-            className="mask mask-star-2"
+            className="mask mask-star-2 bg-black"
             value="1"
             checked={rating === '1'}
             onChange={() => setRating('1')}
@@ -198,7 +198,7 @@ export default function AddReviewForm({ productId }) {
           <input
             type="radio"
             name="rating-1"
-            className="mask mask-star-2"
+            className="mask mask-star-2 bg-black"
             value="2"
             checked={rating === '2'}
             onChange={() => setRating('2')}
@@ -206,7 +206,7 @@ export default function AddReviewForm({ productId }) {
           <input
             type="radio"
             name="rating-1"
-            className="mask mask-star-2"
+            className="mask mask-star-2 bg-black"
             value="3"
             checked={rating === '3'}
             onChange={() => setRating('3')}
@@ -214,7 +214,7 @@ export default function AddReviewForm({ productId }) {
           <input
             type="radio"
             name="rating-1"
-            className="mask mask-star-2"
+            className="mask mask-star-2 bg-black"
             value="4"
             checked={rating === '4'}
             onChange={() => setRating('4')}
@@ -222,7 +222,7 @@ export default function AddReviewForm({ productId }) {
           <input
             type="radio"
             name="rating-1"
-            className="mask mask-star-2"
+            className="mask mask-star-2 bg-black"
             value="5"
             checked={rating === '5'}
             onChange={() => setRating('5')}
@@ -231,7 +231,7 @@ export default function AddReviewForm({ productId }) {
         <input
           type="text"
           placeholder="Full name"
-          className="input input-bordered w-full text-black rounded-[6px]"
+          className="input  placeholder:text-black border-black w-full text-black rounded-[6px]"
           value={name}
           onChange={(e) => setName(e.target.value)}
           name="name"
@@ -241,7 +241,7 @@ export default function AddReviewForm({ productId }) {
         <input
           type="email"
           placeholder="Email"
-          className="input input-bordered w-full text-black rounded-[6px]"
+          className="input  placeholder:text-black border-black w-full text-black rounded-[6px]"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           name="email"
@@ -249,7 +249,7 @@ export default function AddReviewForm({ productId }) {
         />
         {errors.email && <p className='text-red-500 mb-3'>{errors.email}</p>}
         <textarea
-          className="textarea textarea-bordered w-full text-black rounded-[6px]"
+          className="textarea  placeholder:text-black border-black textarea-bordered w-full text-black rounded-[6px]"
           placeholder="Review this product"
           value={comment}
           rows={5}

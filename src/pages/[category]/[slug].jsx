@@ -214,7 +214,7 @@ export default function ProductSingle({ singleProductData }) {
                       product?.normalPrice ?? null,
                       product?.offerPrice ?? null,
                       product?.Heading ?? null)}
-                      className="btn border border-black border-solid bg-black hover:bg-gray-900 hover:border-black rounded-[6px] sm:max-w-[170px] min-w-[170px] min-h-[60px] text-white">Add to cart</button>
+                      className="btn border border-black border-solid bg-black hover:bg-gray-900  rounded-[6px] sm:max-w-[170px] min-w-[170px] min-h-[60px] text-white">Add to cart</button>
                   </div>
                   {product?.productCode && <span className="block text-[12px] uppercase text-gray-400 sm:my-[40px] mb-[30px] mt-[40px]">Product code:
                     <span className="text-black pl-2">
@@ -225,7 +225,7 @@ export default function ProductSingle({ singleProductData }) {
                   {
                     !reviewCount &&
                     <button
-                      className="btn border border-black border-solid bg-white sm:mt-[32px] mt-[24px] hover:bg-gray-900 hover:border-black rounded-[6px] sm:w-[170px] w-[100%] min-h-[60px] hover:text-white"
+                      className="btn border border-black text-black border-solid bg-white sm:mt-[32px] mt-[24px] hover:bg-gray-900  rounded-[6px] sm:w-[170px] w-[100%] min-h-[60px] hover:text-white"
                       onClick={openAddReviewModal}
                     >
                       Write a review
@@ -318,7 +318,7 @@ export default function ProductSingle({ singleProductData }) {
 
               {product.Description || product.Includes || reviewCount > 0
                 ? <button
-                  className="btn border border-black border-solid bg-white sm:mt-[32px] mt-[24px] hover:bg-gray-900 hover:border-black rounded-[6px] sm:w-[170px] w-[100%] min-h-[60px] hover:text-white"
+                  className="btn border border-black border-solid bg-white sm:mt-[32px] mt-[24px] hover:bg-gray-900  rounded-[6px] sm:w-[170px] w-[100%] min-h-[60px] hover:text-white"
                   onClick={openAddReviewModal}
                 >
                   Write a review

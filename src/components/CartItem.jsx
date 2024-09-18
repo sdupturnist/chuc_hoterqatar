@@ -4,8 +4,10 @@ import { useCartContext } from "@/context/cartContext";
 import { adminUrl } from "@/utils/variables";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { X } from "@phosphor-icons/react";
 
-export default function CartItem({ item }) {
+
+export default function CartItem({ item, color }) {
     const { cartItems, setCartItems } = useCartContext();
     const [quantity, setQuantity] = useState(1);
     const itemid = item.id;
@@ -55,9 +57,9 @@ export default function CartItem({ item }) {
                          id="removeFromCart"
                          onClick={(e) => removeFromCartConfirm(itemid)}
                         className="md:hidden absolute right-0 top-0">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="9" className="min-w-[10px] min-h-[10px]" fill="none" viewBox="0 0 10 9">
-                                <path stroke="#000" strokeLinecap="round" strokeOpacity=".5" strokeWidth=".7" d="m1 .5 4 4m0 0 4 4m-4-4 4-4m-4 4-4 4" />
-                            </svg>
+                            <X
+                           color={color}
+                           />
                         </button>
                         <Link href={`/${item.main_category}/${item.slug}`}>
                             <h4 className='text-[14px] text-black'>{item?.attributes?.Heading}</h4>
@@ -82,9 +84,9 @@ export default function CartItem({ item }) {
                             id="removeFromCart"
                             onClick={(e) => removeFromCartConfirm(itemid)}
                             className="hidden md:flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="9" className="min-w-[10px] min-h-[10px]" fill="none" viewBox="0 0 10 9">
-                                <path stroke="#000" strokeLinecap="round" strokeOpacity=".5" strokeWidth=".7" d="m1 .5 4 4m0 0 4 4m-4-4 4-4m-4 4-4 4" />
-                            </svg>
+                            <X
+                           color={color}
+                           />
                         </button>
                     </div>
                 </div>

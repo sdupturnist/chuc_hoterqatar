@@ -292,11 +292,11 @@ export default function OrderForm({ totalAMount, items }) {
 
                     <div className='sm:flex grid gap-[16px]'>
                         {/* <div className='w-full'> */}
-                            {/* <input */}
+                            {/* <input  placeholder:text-black*/}
                                 {/* autocomplete="off" */}
                                 {/* type="date" */}
                                 {/* placeholder="Date" */}
-                                {/* className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]" */}
+                                {/* className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]" */}
                                 {/* value={deliveryDate} */}
                                 {/* onChange={(e) => setDeliveryDate(e.target.value)} */}
                                 {/* name="deliveryDate" */}
@@ -306,11 +306,11 @@ export default function OrderForm({ totalAMount, items }) {
                         {/* </div> */}
 
                         {/* <div className='w-full'> */}
-                            {/* <input */}
+                            {/* <input  placeholder:text-black*/}
                                 {/* autocomplete="off" */}
                                 {/* type="time" */}
                                 {/* placeholder="Time" */}
-                                {/* className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]" */}
+                                {/* className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]" */}
                                 {/* value={deliveryTime} */}
                                 {/* onChange={(e) => setDeliveryTime(e.target.value)} */}
                                 {/* name="deliveryTime" */}
@@ -324,7 +324,7 @@ export default function OrderForm({ totalAMount, items }) {
                             autocomplete="off"
                             type="text"
                             placeholder="Full name"
-                            className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                            className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                             value={fullname}
                             onChange={(e) => setFullname(e.target.value)}
                             name="fullname"
@@ -338,7 +338,7 @@ export default function OrderForm({ totalAMount, items }) {
                                 autocomplete="off"
                                 type="number"
                                 placeholder="Phone"
-                                className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
                                 name="phone"
@@ -352,7 +352,7 @@ export default function OrderForm({ totalAMount, items }) {
                                 autocomplete="off"
                                 type="email"
                                 placeholder="Email"
-                                className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 name="email"
@@ -365,7 +365,7 @@ export default function OrderForm({ totalAMount, items }) {
                     <div>
                         <input
                             autocomplete="off"
-                            className="input input-bordered w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
+                            className="input  placeholder:text-black border-black w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
                             placeholder="Address"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
@@ -378,7 +378,7 @@ export default function OrderForm({ totalAMount, items }) {
                             autocomplete="off"
                             type="text"
                             placeholder="City"
-                            className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                            className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                             value={city}
                             onChange={(e) => setCity(e.target.value)}
                             name="fullname"
@@ -389,7 +389,7 @@ export default function OrderForm({ totalAMount, items }) {
                     <div>
                         <input
                             autocomplete="off"
-                            className="input input-bordered w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
+                            className="input  placeholder:text-black border-black w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
                             placeholder="Additional Instructions"
                             value={instructions}
                             onChange={(e) => setInstructions(e.target.value)}
@@ -414,7 +414,7 @@ export default function OrderForm({ totalAMount, items }) {
                                 autocomplete="off"
                                 type="text"
                                 placeholder="Receiver name"
-                                className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                                 value={receiverName}
                                 onChange={(e) => setReceiverName(e.target.value)}
                                 name="receiverName"
@@ -427,7 +427,7 @@ export default function OrderForm({ totalAMount, items }) {
                                 autocomplete="off"
                                 type="number"
                                 placeholder="Receiver phone"
-                                className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                                 value={receiverPhone}
                                 onChange={(e) => setReceiverPhone(e.target.value)}
                                 name="receiverPhone"
@@ -438,7 +438,7 @@ export default function OrderForm({ totalAMount, items }) {
                         <div>
                             <input
                                 autocomplete="off"
-                                className="input input-bordered w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px]  min-h-[55px] text-[14px]"
                                 placeholder="Receiver address"
                                 value={receiverAddress}
                                 onChange={(e) => setReceiverAddress(e.target.value)}
@@ -451,7 +451,7 @@ export default function OrderForm({ totalAMount, items }) {
                                 autocomplete="off"
                                 type="text"
                                 placeholder="Receiver city"
-                                className="input input-bordered w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
+                                className="input  placeholder:text-black border-black w-full text-black rounded-[6px] min-h-[55px] text-[14px]"
                                 value={receiverCity}
                                 onChange={(e) => setReceiverCity(e.target.value)}
                                 name="receiverCity"

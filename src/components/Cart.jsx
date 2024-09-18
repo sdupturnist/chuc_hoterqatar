@@ -1,6 +1,7 @@
 import { useCartContext } from "@/context/cartContext";
 import { useThemeContext } from "@/context/themeContext";
 import { useEffect, useMemo, useState } from "react";
+import { Minus, Plus } from "@phosphor-icons/react";
 
 export default function Cart({ type, size, itemid, price, name }) {
     const { cartItems, setCartItems } = useCartContext();
@@ -108,7 +109,7 @@ export default function Cart({ type, size, itemid, price, name }) {
             color = "#258F89";
             break;
         default:
-            color = "#000";
+            color = "#c89a3f";
             break;
     }
 
@@ -133,9 +134,9 @@ export default function Cart({ type, size, itemid, price, name }) {
                     onClick={handleCartAction}
                     className="btn btn-outline w-auto border-gray-300 border border-solid rounded-[4px] hover:bg-white hover:border-gray-300 hover:text-black"
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" className="mb-1" fill="none" viewBox="0 0 14 12">
-                        <path fill="#000" d="m13.484 2.982-1.437 5.17a1.348 1.348 0 0 1-1.293.986H5.216a1.348 1.348 0 0 1-1.298-.985L1.952 1.069H.948a.448.448 0 0 1 0-.897h1.345a.448.448 0 0 1 .432.329l.531 1.913h9.796a.448.448 0 0 1 .432.568Zm-8.501 7.052a.897.897 0 1 0 0 1.794.897.897 0 0 0 0-1.794Zm5.827 0a.897.897 0 1 0 0 1.794.897.897 0 0 0 0-1.794Z" />
-                    </svg>
+                   <Plus
+                   color={color}
+                   />
                     {isInCart ? 'Remove' : 'Add'}
                 </button>
             );
@@ -145,12 +146,12 @@ export default function Cart({ type, size, itemid, price, name }) {
             cartType = (
                 <div className={`${size} rounded-[6px] border border-solid border-black flex justify-between sm:max-w-[150px] sm:min-w-[150px] overflow-hidden`}>
                     <button
-                        className="btn bg-transparent rounded-none border-none shadow-none hover:bg-gray-100 min-h-[55px]"
+                        className="btn bg-transparent rounded-none border-none shadow-none  hover:bg-white min-h-[55px]"
                         onClick={CartMinus}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="2" fill="none" viewBox="0 0 13 2">
-                            <path stroke="#000" d="M13 1.33H0" />
-                        </svg>
+                      <Minus
+                       color={color}
+                      />
                     </button>
                     <input
                         type="number"
@@ -159,12 +160,12 @@ export default function Cart({ type, size, itemid, price, name }) {
                        readOnly
                     />
                     <button
-                        className="btn bg-transparent rounded-none border-none shadow-none hover:bg-gray-100 min-h-[55px]"
+                        className="btn bg-transparent rounded-none border-none shadow-none  hover:bg-white min-h-[55px]"
                         onClick={CartPlus}
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="14" fill="none" viewBox="0 0 13 14">
-                            <path stroke="#000" d="M6.5.83v13m6.5-6.5H0" />
-                        </svg>
+                        <Plus
+                         color={color}
+                        />
                     </button>
                 </div>
             );
