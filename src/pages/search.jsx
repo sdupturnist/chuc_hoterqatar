@@ -10,6 +10,7 @@ import NoData from "@/components/Nodata";
 import Metatags from "@/components/Seo";
 import { wordpressGraphQlApiUrl } from "@/utils/variables";
 
+
 // GraphQL query for search
 const SEARCH_PAGES = gql`
   query($searchTerm: String) {

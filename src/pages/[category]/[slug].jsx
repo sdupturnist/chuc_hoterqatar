@@ -11,7 +11,7 @@ import { useProductContext } from "@/context/productContext";
 import { useCartContext } from "@/context/cartContext";
 import Metatags from "@/components/SeoProducts";
 import Images from '@/components/Images';
-
+import { AOSInit } from '@/components/Aos';
 
 
 export default function ProductSingle({ singleProductData }) {
@@ -113,6 +113,7 @@ export default function ProductSingle({ singleProductData }) {
     <>
       <Metatags seo={singleProductData && singleProductData?.data?.shops?.data[0]?.attributes} />
       <Layout page="product-single">
+      <AOSInit />
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid sm:gap-[10px] gap-[10px] sm:mb-[50px] mb-[30px] mt-[10px] ">
             <Breadcrumbs
@@ -136,7 +137,7 @@ export default function ProductSingle({ singleProductData }) {
 
 
             <div className="grid grid-cols-1 lg:grid-cols-2 sm:gap-[50px] gap-[30px]">
-              <div className="">
+              <div data-aos="fade-up">
                 {!singleProductData && <div className="skeleton mx-auto w-full block rounded-[8px] object-cover sm:min-h-[700px]"></div>}
 
                 {images.length !== 0 && <ImageGallery
@@ -162,7 +163,7 @@ export default function ProductSingle({ singleProductData }) {
                 }
 
               </div>
-              <div className="items-center lg:px-[20px]">
+              <div data-aos="fade-up" data-aos-delay="500" className="items-center lg:px-[20px]">
                 <div>
                   {!singleProductData && <div className="flex w-full flex-col gap-4">
                     <div className="skeleton h-4 w-28"></div>
@@ -235,7 +236,7 @@ export default function ProductSingle({ singleProductData }) {
               </div>
             </div>
 
-            <div className="mt-[32px]">
+            <div className="mt-[32px]" data-aos="fade-up">
               <div role="tablist" className="tabs tabs-lifted md:mt-[40px]">
 
                 {product.Includes &&

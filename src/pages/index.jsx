@@ -13,6 +13,7 @@ import Header from "@/components/Header";
 import Slider from "react-slick";
 import Card from "@/components/Cards";
 import useWindowWidth from "@/components/WindowWidth";
+import { AOSInit } from "@/components/Aos";
 
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -385,6 +386,7 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
         page="home2"
         header="color"
       >
+        <AOSInit/>
         {/* LARGE DEVICES */}
         <>
           <section
@@ -408,14 +410,18 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
               <div className="container relative z-[1] content">
                 <div className="mx-auto 2xl:w-[80%] xl:w-[90%] grid gap-[20px] px-[20px]">
                   <div className="w-[100%]">
-                    <h1 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] mt-[-50px] xl:pl-[20%]">
-                      <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%] text-end block">
-                        {homeTwoData_ && homePageTwoData[0].attributes.Category.AllCategories}
+                    <h1 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] mt-[-50px] xl:pl-[20%]" data-aos="fade-up">
+                      <span className="text-[6vw] font-secondary leading-[1.4] xl:ml-[5%] xl:text-end block pb-[40px] xl:pb-[0]">
+                        {homeTwoData_ && homePageTwoData[0].attributes.Category?.ProductMainCategory}
                       </span>
                       <span className="mt-[-50px] block">
                         {homeTwoData_ && homePageTwoData[0].attributes.Heading}
                       </span>
                     </h1>
+                    <div
+                    data-aos="fade-up"
+                     data-aos-delay="500"
+                    >
                     <Images
                       width={300}
                       height={300}
@@ -426,7 +432,8 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                       alt={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
                       title={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
                     />
-                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]">
+                    </div>
+                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]" data-aos="fade-up" data-aos-delay="500">
                       <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[65%] tracking-[3%] sm:leading-[1.6] leading-[1.8] uppercase">
                         <p className="">
                           {homeTwoData_ && homePageTwoData[0].attributes.Description[0].children[0].text}
@@ -463,10 +470,10 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
               <div className="container z-[1] relative">
                 <div className="mx-auto 2xl:w-[60%] xl:w-[70%] grid gap-[20px] px-[20px]">
                   <div >
-                    <div className="content z-20 relative">
+                    <div className="content z-20 relative" data-aos="fade-up">
                       <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] sm:pt-[100px] pt-[50px] xl:pt-[0]">
-                        <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%]  block">
-                          {homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories}
+                        <span className="text-[6vw] font-secondary leading-[1.4] xl:ml-[5%]  block pb-[40px] xl:pb-[0]">
+                          {homeTwoData_ && homePageTwoData[1].attributes.Category?.ProductMainCategory}
                         </span>
                         <span className="mt-[-50px] block">
                           {homeTwoData_ && homePageTwoData[1].attributes.Heading}
@@ -484,14 +491,14 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                       title={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
                     />
 
-                    <div className="content2">
+                    <div className="content2" data-aos="fade-up">
                       <div className="grid gap-[30px] xl:mt-[50px] mt-[30px]">
-                        <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[85%] tracking-[3%] sm:leading-[1.6] leading-[1.7] uppercase mx-auto">
+                        <div  className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[85%] tracking-[3%] sm:leading-[1.6] leading-[1.7] uppercase mx-auto">
                           <p className="">
                             {homeTwoData_ && homePageTwoData[1].attributes.Description[0].children[0].text}
                           </p>
                         </div>
-                        <div>
+                        <div >
                           <Link
                             aria-label={homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories} title={homeTwoData_ && homePageTwoData[1].attributes.Category.AllCategories} href={`/${homeTwoData_ && homePageTwoData[1].attributes.Slug}`} onClick={(e) => setThemeLayout(homeTwoData_ && homePageTwoData[1].attributes.Slug)}
                             className="btn btn-lg px-[40px] bg-transparent border border-solid border-flowers-100 hover:bg-flowers-100 text-flowers-100 hover:border-flowers-100 hover:text-white rounded-full"
@@ -535,15 +542,15 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
               <div className="container relative z-[1] content">
                 <div className="mx-auto 2xl:w-[80%] xl:w-[90%] grid gap-[20px] px-[20px]">
                   <div className="w-[100%]">
-                    <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] xl:pl-[20%] sm:pt-[50px] pt-[50px] xl:pt-[0]">
-                      <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%] text-end block">
-                        {homeTwoData_ && homePageTwoData[2].attributes.Category.AllCategories}
+                    <h2 data-aos="fade-up" className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] xl:pl-[20%] sm:pt-[50px] pt-[50px] xl:pt-[0]">
+                      <span className="text-[6vw] font-secondary leading-[1.4] xl:ml-[5%] xl:text-end block pb-[40px] xl:pb-[0]">
+                        {homeTwoData_ && homePageTwoData[2].attributes.Category?.ProductMainCategory}
                       </span>
                       <span className="mt-[-50px] block">
                         {homeTwoData_ && homePageTwoData[2].attributes.Heading}
                       </span>
                     </h2>
-                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]">
+                    <div className="grid gap-[30px] sm:mt-[50px] mt-[20px]" data-aos="fade-up" data-aos-delay="500">
                       <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[65%] tracking-[3%] sm:leading-[1.6] leading-[1.8] uppercase">
                         <p className="">
                           {homeTwoData_ && homePageTwoData[2].attributes.Description[0].children[0].text}
@@ -561,6 +568,10 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                   </div>
                 </div>
               </div>
+              <div 
+              data-aos="fade-up"
+              data-aos-delay="500"
+              >
               <Images
                 width={300}
                 height={300}
@@ -571,6 +582,7 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                 alt={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
                 title={homePageTwoData[0]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
               />
+              </div>
               <Images
                 width={388}
                 height={489}
@@ -591,10 +603,10 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
               <div className="container z-[1] relative">
                 <div className="mx-auto 2xl:w-[60%] xl:w-[70%] grid gap-[20px] px-[20px]">
                   <div >
-                    <div className="content z-20 relative">
+                    <div className="content z-20 relative" data-aos="fade-up">
                       <h2 className="xl:text-[5.5vw] sm:text-[60px] text-[32px] font-primary leading-[1] xl:mt-[-50px] sm:pt-[100px] pt-[50px] xl:pt-[0]">
-                        <span className="text-[6vw] font-secondary leading-[1.4] ml-[5%]  block">
-                          {homeTwoData_ && homePageTwoData[3].attributes.Category.AllCategories}
+                        <span className="text-[6vw] font-secondary leading-[1.4] xl:ml-[5%]  block pb-[40px] xl:pb-[0]">
+                          {homeTwoData_ && homePageTwoData[3].attributes.Category?.ProductMainCategory}
                         </span>
                         <span className="mt-[-50px] block">
                           {homeTwoData_ && homePageTwoData[3].attributes.Heading}
@@ -602,19 +614,19 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                       </h2>
                     </div>
                     <div className="overflow-hidden events-image-1 mx-auto h-[70vh] w-[50%] hidden xl:block">
-                    <Images
-                      width={707}
-                      height={829}
-                      quality={100}
-                      placeholder={true}
-                      imageurl={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url : ''}
-                      classes={'chocolate-image-1 max-width-[100%] block mx-auto  bottom-[5%] right-0 left-0 z-[-1] hidden xl:block'}
-                      alt={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
-                      title={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
-                    />
-                     </div>
+                      <Images
+                        width={707}
+                        height={829}
+                        quality={100}
+                        placeholder={true}
+                        imageurl={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url ? adminUrl + homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.url : ''}
+                        classes={'chocolate-image-1 max-width-[100%] block mx-auto  bottom-[5%] right-0 left-0 z-[-1] hidden xl:block'}
+                        alt={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                        title={homePageTwoData[3]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
+                      />
+                    </div>
 
-                    <div className="content2">
+                    <div className="content2" data-aos="fade-up">
                       <div className="grid gap-[30px] xl:mt-[50px] mt-[10px]">
                         <div className="xl:[&>*]:text-[20px] sm:text-[20px] text-[15px] xl:w-[85%] mx-auto tracking-[3%] sm:leading-[1.6] leading-[1.7] uppercase">
                           <p className="">
@@ -636,6 +648,10 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                   </div>
                 </div>
               </div>
+              <div 
+              data-aos="fade-up"
+              data-aos-delay="500"
+              >
               <Images
                 width={300}
                 height={300}
@@ -646,11 +662,12 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
                 alt={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
                 title={homePageTwoData[1]?.attributes?.Banner1?.data?.attributes?.alternativeText || 'Default title text'}
               />
+              </div>
             </div>
           </section>
           {productsFeatured.length !== 0 && windowWidth > 999 ? <section>
 
-            <div className="container">
+            <div className="container" data-aos="fade-in">
               <div className="mx-auto 2xl:w-[70%] xl:w-[90%]  gap-[20px] md:py-[60px] py-[50px]">
                 <h2 className="text-[16px] uppercase font-semibold mb-[30px]">Featured products</h2>
                 <div className="slider-container slider-featured-items mt-[30px]">
@@ -675,7 +692,7 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
           </section>
             : null
           }
-          <section>
+          <section data-aos="fade-in">
             <div className="container">
               <div className={`mx-auto 2xl:w-[70%] xl:w-[90%] grid sm:gap-[20px] gap-[16px] md:py-[60px] py-[30px] justify-end ${productsFeatured.length !== 0 && windowWidth > 999 ? 'border-t border-solid border-black ' : null}`}>
                 <div className="md:pl-[15%]">

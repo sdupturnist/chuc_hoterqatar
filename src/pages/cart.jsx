@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import OrderForm from "@/components/Forms/OrderForm";
 import CartItem from "@/components/CartItem";
 import NoData from "@/components/Nodata";
+import { AOSInit } from "@/components/Aos";
 
 export default function Cart({ pageData_, allProducts_ }) {
   const pageData = pageData_.data.itemsCart.data.attributes;
@@ -43,6 +44,7 @@ export default function Cart({ pageData_, allProducts_ }) {
     <>
       <Metatags seo={pageData_ && pageData_?.data?.itemsCart?.data?.attributes?.seo} />
       <Layout page="cart">
+        <AOSInit/>
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%] grid">
             <div className="flex justify-between items-center border-b border-black">
@@ -59,7 +61,7 @@ export default function Cart({ pageData_, allProducts_ }) {
               />
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-[10px] lg:gap-[50px] lg:mb-0 mb-[30px]">
-              <div className={`${cartItems && cartItems.length !== 0 ? 'lg:col-span-3' : 'lg:col-span-12'} sm:py-[50px]`}>
+              <div className={`${cartItems && cartItems.length !== 0 ? 'lg:col-span-3' : 'lg:col-span-12'} sm:py-[50px]`} data-aos="fade-up">
                 {cartItems && cartItems.length !== 0 ? (
                   <div className="cart-item-wrpr grid sm:gap-[16px] border-b lg:border-none border-black border-solid sm:pb-[20px] lg:pb-[0]">
                     {filteredProducts.map((product, key) => {
@@ -102,7 +104,7 @@ export default function Cart({ pageData_, allProducts_ }) {
                 }
               </div>
               {cartItems && cartItems.length !== 0 &&
-                <div className="lg:col-span-2 lg:border-l border-black border-solid lg:p-[50px]">
+                <div className="lg:col-span-2 lg:border-l border-black border-solid lg:p-[50px]"  data-aos="fade-in" data-aos-delay="500">
                   <OrderForm
                     totalAmount={parseFloat(totalAmount) + parseFloat(deliveryFee)}
                     items={cartItems}

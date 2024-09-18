@@ -5,6 +5,7 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import Images from '@/components/Images';
 import PageHeader from "@/components/PageHeader";
 import { useEffect, useState } from "react";
+import { AOSInit } from '@/components/Aos';
 
 export default function About({ pageData_ }) {
   const pageData = pageData_.data.about.data.attributes;
@@ -22,10 +23,11 @@ export default function About({ pageData_ }) {
     <>
       <Metatags seo={pageData_?.data?.about?.data?.attributes?.seo} />
       <Layout page={'about'}>
+        <AOSInit />
         <div className="container [&>*]:text-black">
-          <div className="mx-auto 2xl:w-[70%] xl:w-[80%]">
+          <div className="mx-auto 2xl:w-[70%] xl:w-[80%] ">
             {isLoading ? (
-              <div className='grid gap-[12px]'>
+              <div className='grid gap-[12px] sm:py-[100px] py-[50px]'>
                 <div className="skeleton h-32 w-full sm:min-h-[100px] rounded-[10px]"></div>
                 <div className="skeleton h-4 w-[80%] rounded-[10px]"></div>
                 <div className="skeleton h-4 w-full rounded-[10px]"></div>
@@ -33,19 +35,24 @@ export default function About({ pageData_ }) {
               </div>
             ) : (
               <>
-                <PageHeader title={pageData?.Heading} />
+                <div data-aos="fade-up">
+                  <PageHeader title={pageData?.Heading} />
+                </div>
                 <div>
-                  <Images
-                    width={aboutData?.width}
-                    height={aboutData?.height}
-                    quality={100}
-                    placeholder={true}
-                    imageurl={adminUrl + aboutData?.url}
-                    classes={'mx-auto w-full block rounded-[10px]'}
-                    alt={aboutData?.alternativeText}
-                    title={aboutData?.alternativeText}
-                  />
-                  <div className="grid gap-[30px] md:pt-[60px] sm:pt-[30px] pt-[20px] sm:pb-[100px] pb-[30px] justify-end">
+                  <div data-aos="fade-up" data-aos-delay="500">
+                    <Images
+                      width={aboutData?.width}
+                      height={aboutData?.height}
+                      quality={100}
+                      placeholder={true}
+                      imageurl={adminUrl + aboutData?.url}
+                      classes={'mx-auto w-full block rounded-[10px]'}
+                      alt={aboutData?.alternativeText}
+                      title={aboutData?.alternativeText}
+
+                    />
+                  </div>
+                  <div className="grid gap-[30px] md:pt-[60px] sm:pt-[30px] pt-[20px] sm:pb-[100px] pb-[30px] justify-end" data-aos="fade-up" data-aos-delay="700">
                     <BlocksRenderer content={pageData?.Content} />
                   </div>
                 </div>

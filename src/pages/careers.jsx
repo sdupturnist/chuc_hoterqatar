@@ -3,6 +3,7 @@ import Layout from "@/components/Layout";
 import Metatags from '@/components/Seo';
 import PageHeader from "@/components/PageHeader";
 import { useEffect, useState } from "react";
+import { AOSInit } from "@/components/Aos";
 
 export default function Career({ pageData_ }) {
   const pageData = pageData_.data.careers.data.attributes;
@@ -19,19 +20,21 @@ export default function Career({ pageData_ }) {
     <>
       <Metatags seo={pageData_?.data?.careers?.data?.attributes?.seo} />
       <Layout page={'about'}>
+        <AOSInit/>
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[60%] xl:w-[60%]">
             {isLoading ? (
-              <div className='grid gap-[12px]'>
-                <div className="skeleton h-32 w-full sm:min-h-[100px] rounded-[10px]"></div>
-                <div className="skeleton h-4 w-[80%] rounded-[10px]"></div>
+          <div className='grid gap-[12px] sm:py-[100px] py-[50px]'>
+          <div className="skeleton h-4 w-[80%] rounded-[10px]"></div>
                 <div className="skeleton h-4 w-full rounded-[10px]"></div>
                 <div className="skeleton h-4 w-full rounded-[10px]"></div>
               </div>
             ) : (
               <>
-                <PageHeader title={pageData?.Heading} />
-                <div className="grid gap-[30px] sm:pb-[100px] pb-[30px] text-center">
+                 <div data-aos="fade-up">
+                  <PageHeader title={pageData?.Heading} />
+                </div>
+                <div data-aos="fade-up" data-aos-delay="500" className="grid gap-[30px] sm:pb-[100px] pb-[30px] text-center">
                   <div className="content-general" dangerouslySetInnerHTML={{ __html: pageData?.Content }} />
                 </div>
               </>

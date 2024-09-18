@@ -6,6 +6,7 @@ import ContactForm from "@/components/Forms/ContactUs";
 import { ContactData } from "@/hooks/contactData";
 import { useEffect, useState } from "react";
 import { BlocksRenderer } from "@strapi/blocks-react-renderer";
+import { AOSInit } from "@/components/Aos";
 
 export default function Contact({ initialData, pageData_ }) {
 
@@ -26,12 +27,13 @@ export default function Contact({ initialData, pageData_ }) {
     <>
       <Metatags seo={pageData_ && pageData_?.data?.contact?.data?.attributes?.seo} />
       <Layout page="contact">
+        <AOSInit/>
         <div className="container [&>*]:text-black">
           <div className="mx-auto 2xl:w-[70%] xl:w-[80%]">
             <PageHeader title={pageData_ && pageData.Title} />
 
             <div className="md:flex grid [&>*]:text-gray-600 lg:mb-[70px] sm:py-[50px] pb-[30px] justify-between lg:gap-[100px] gap-[50px]">
-              <div className="grid gap-[32px] w-full">
+              <div className="grid gap-[32px] w-full" data-aos="fade-up">
                 <div className="grid gap-[32px] w-full">
                   {isLoading ? (
                     <div>
@@ -66,8 +68,10 @@ export default function Contact({ initialData, pageData_ }) {
                   </div>
                 </div>
               </div>
+              <div className="w-full block" data-aos="fade-up" data-aos-delay="500">
               <ContactForm />
-            </div>
+              </div>
+             </div>
           </div>
         </div>
       </Layout>

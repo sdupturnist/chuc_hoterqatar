@@ -5,6 +5,7 @@ import Cart from './Cart';
 import { useEffect, useState } from 'react';
 import { adminUrl, frontendUrl } from '@/utils/variables';
 import { truncateWords } from '@/utils/TruncateWords';
+import { AOSInit } from './Aos';
 
 
 export default function Card({ theme, desc, type, item, review }) {
@@ -62,14 +63,16 @@ export default function Card({ theme, desc, type, item, review }) {
 
             cardType = <>
                 {isLoading ? (
-                    <div className='grid gap-[12px]'>
+                  <div className='grid gap-[12px]'>
                         <div className="skeleton h-32 w-full sm:min-h-[100px] rounded-[10px]"></div>
                         <div className="skeleton h-4 w-[80%] rounded-[10px]"></div>
                         <div className="skeleton h-4 w-full rounded-[10px]"></div>
                         <div className="skeleton h-4 w-full rounded-[10px]"></div>
                     </div>
                 ) : (
-                    <div className='grid gap-[10px] w-full card-cat sm:mb-[10px] mb-2' data-id={item?.id ?? null} data-review={item?.attributes?.reviewCount}>
+                    <>
+                    <AOSInit/>
+                    <div data-aos="fade-up" className='grid gap-[10px] w-full card-cat sm:mb-[10px] mb-2' data-id={item?.id ?? null} data-review={item?.attributes?.reviewCount}>
                         <div className='relative overflow-hidden'>
                             <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase()}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? '#'}`}>
                                 <Images
@@ -136,6 +139,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             />
                         </div>
                     </div>
+                    </>
                 )}
             </>
             break;
@@ -155,7 +159,9 @@ export default function Card({ theme, desc, type, item, review }) {
                         <div className="skeleton h-4 w-[30%]"></div>
                     </>
                 ) : (
-                    <Link href={`${frontendUrl}/blogs/${item && item.attributes.Slug}`} className="grid gap-[20px]">
+                    <>
+                     <AOSInit/>
+                     <Link data-aos="fade-up" href={`${frontendUrl}/blogs/${item && item.attributes.Slug}`} className="grid gap-[20px]">
 
                         <Images
                             width={item?.attributes?.Banner?.data?.attributes?.width || 0}  // Provide a default value
@@ -175,6 +181,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             </p>
                         </div>
                     </Link>
+                    </>
                 )}
             </>
             break;
@@ -191,7 +198,9 @@ export default function Card({ theme, desc, type, item, review }) {
                         <div className="skeleton h-4 w-full rounded-[10px]"></div>
                     </div>
                 ) : (
-                    <div className='grid gap-[10px] w-full card-cat sm:mb-[10px] max-w-[190px]' data-id={item?.id ?? null}>
+                    <>
+                    <AOSInit/>
+                    <div data-aos="fade-up" className='grid gap-[10px] w-full card-cat sm:mb-[10px] max-w-[190px]' data-id={item?.id ?? null}>
                         <div className='relative overflow-hidden'>
                             <Link className='block' href={`/${item?.attributes?.main_categories?.data[0]?.attributes?.Slug.toLowerCase() ?? null}/${item?.attributes?.Slug == null ? item?.attributes?.Heading?.toLowerCase().replace(/ /g, '-') ?? null : item?.attributes?.Slug ?? null}`}>
 
@@ -260,6 +269,7 @@ export default function Card({ theme, desc, type, item, review }) {
                             />
                         </div>
                     </div>
+                    </>
                 )}
             </>
             break;
