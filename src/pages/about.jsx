@@ -14,6 +14,7 @@ export default function About({ pageData_ }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    
     if (pageData_) {
       setIsLoading(false);
     }
