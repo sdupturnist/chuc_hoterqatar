@@ -118,6 +118,7 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 }
 
 
+
 export async function getStaticPaths() {
   try {
     // Fetch a list of all categories or relevant paths
