@@ -36,27 +36,27 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
   //console.log(query.category)
 
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (
-        productData_?.data?.shops?.data?.length === 0  && 
-        !['flowers', 'cakes', 'events', 'chocolates'].includes(query.category)
-      ) {
-        router.push('/404');
-      }
-    }, 1000); // Delay in milliseconds (e.g., 1000ms = 1 second)
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     if (
+  //       productData_?.data?.shops?.data?.length === 0  && 
+  //       !['flowers', 'cakes', 'events', 'chocolates'].includes(query.category)
+  //     ) {
+  //       router.push('/404');
+  //     }
+  //   }, 1000); // Delay in milliseconds (e.g., 1000ms = 1 second)
 
-    // Cleanup function to clear the timeout if the component unmounts or dependencies change
-    return () => clearTimeout(timeoutId);
-  }, [productData_?.data?.shops?.data?.length, router]);
+  //   // Cleanup function to clear the timeout if the component unmounts or dependencies change
+  //   return () => clearTimeout(timeoutId);
+  // }, [productData_?.data?.shops?.data?.length, router]);
   
 
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setCurrentUrl(`${window.location.origin}${router.asPath}`);
-    }
-  }, [router.asPath]);
+  // useEffect(() => {
+  //   if (typeof window !== 'undefined') {
+  //     setCurrentUrl(`${window.location.origin}${router.asPath}`);
+  //   }
+  // }, [router.asPath]);
 
 
 
