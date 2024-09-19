@@ -14,7 +14,7 @@ export default function About({ pageData_ }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    
+
     if (pageData_) {
       setIsLoading(false);
     }
@@ -66,7 +66,7 @@ export default function About({ pageData_ }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     const pageData = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
@@ -118,14 +118,15 @@ export async function getStaticProps() {
           }
         }`,
       }),
+      cache: 'no-store',
     });
+    
     const pageData_ = await pageData.json();
 
     return {
       props: {
-        pageData_
+        pageData_,
       },
-      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -133,7 +134,6 @@ export async function getStaticProps() {
       props: {
         pageData_: null,
       },
-      revalidate: 3600, // Revalidate every hour in case of error
     };
   }
 }

@@ -724,259 +724,251 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
 
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const pageSize = 4; // Set your desired page size
 
   try {
-    // Fetch the data for the page
-    const pageDataAbout = await fetch(wordpressGraphQlApiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query{
-  home{
-    data{
-      attributes{
-         Heading
-        Content
-        seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
-              }
-            }
-          }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
-      }
-    }
-  }
-}`,
-      }),
-    });
-    const pageDataAbout_ = await pageDataAbout.json();
-
-    const pageData = await fetch(wordpressGraphQlApiUrl, {
+    // Fetch the data for the home page
+    const pageDataAboutResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         query: `query {
-  homeTwoPage{
-     data{
-      attributes{
-     seo{
-          metaTitle
-          metaDescription
-          metaImage{
-            data{
-              attributes{
-                url
-              }
-            }
-          }
-          metaSocial{
-            title
-            description
-            socialNetwork
-          }
-          keywords
-          metaRobots
-          canonicalURL
-          OGtitle
-          OGSitename
-          OGdescription
-          OGmodifiedtime
-        }
-      }
-    }
-  }
-}
-`,
-      }),
-    });
-    const pageData_ = await pageData.json();
-
-    // Fetch HOME2DATA
-    const homeTwoData = await fetch(wordpressGraphQlApiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query{
- home2S{
-  data{
-    attributes{
-      Category{
-        ProductMainCategory
-      }
-      Heading
-      Description
-      Slug
-      Banner1{
-        data{
-          attributes{
-            alternativeText
-            width
-            height
-          url
-          }
-        }
-      }
-      Banner2{
-            data{
-          attributes{
-            alternativeText
-            width
-            height
-          url
-          }
-        }
-      }
-      
-    }
-  }
-}
-}
-`,
-        variables: { page: 1, pageSize }, // Default to page 1 if not provided
-      }),
-    });
-    const homeTwoData_ = await homeTwoData.json();
-
-    // Fetch featured products
-    const featuredProducts = await fetch(wordpressGraphQlApiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query {
-  shops(
-    filters: { 
-       Featured: { eq: true }
-    }, 
-    sort: "createdAt:desc",
-    pagination: { limit: 5 }
-  ) {
-    data {
-      id
-      attributes {
-       Featured
-        Slug
-        Heading
-        photo {
-          data {
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-        Description
-        normalPrice
-        offerPrice
-        productCode
-      sub_categories{
-        data{
-          attributes{
-            Title
-             slug
-          }
-        }
-      }
-        Includes
-         main_categories {
-            data{
-          attributes{
-            Title
-            Slug
-          }
-        }
-        }
-        createdAt
-        updatedAt
-        publishedAt
-       
-        seo {
-          metaTitle
-          metaDescription
-          metaImage {
+          home {
             data {
               attributes {
-                alternativeText
-                url
-              }
-            }
-          }
-          metaSocial {
-            image {
-              data {
-                attributes {
-                  url
+                Heading
+                Content
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
                 }
               }
             }
-            description
-            title
           }
-          keywords
-          metaRobots
-           metaViewport
-          canonicalURL
-          OGSitename
-          OGmodifiedtime
-          OGdescription
-        }
-              Unit
-                  reviews {
-                    id
-                    rating
-                    author
-                    comment
-                    postedDate
-                    authorEmail
-                    showPublic
-                  }
-        photo {
-          data {
-            attributes {
-              alternativeText
-              width
-              height
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-}
-`,
-        variables: { page: 1, pageSize }, // Default to page 1 if not provided
+        }`,
       }),
     });
-    const featuredProducts_ = await featuredProducts.json();
+    const pageDataAbout_ = await pageDataAboutResponse.json();
+
+    const pageDataResponse = await fetch(wordpressGraphQlApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `query {
+          homeTwoPage {
+            data {
+              attributes {
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    title
+                    description
+                    socialNetwork
+                  }
+                  keywords
+                  metaRobots
+                  canonicalURL
+                  OGtitle
+                  OGSitename
+                  OGdescription
+                  OGmodifiedtime
+                }
+              }
+            }
+          }
+        }`,
+      }),
+    });
+    const pageData_ = await pageDataResponse.json();
+
+    // Fetch HOME2DATA
+    const homeTwoDataResponse = await fetch(wordpressGraphQlApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `query {
+          home2S {
+            data {
+              attributes {
+                Category {
+                  ProductMainCategory
+                }
+                Heading
+                Description
+                Slug
+                Banner1 {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
+                Banner2 {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`,
+      }),
+    });
+    const homeTwoData_ = await homeTwoDataResponse.json();
+
+    // Fetch featured products
+    const featuredProductsResponse = await fetch(wordpressGraphQlApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: `query {
+          shops(
+            filters: { 
+               Featured: { eq: true }
+            }, 
+            sort: "createdAt:desc",
+            pagination: { limit: 5 }
+          ) {
+            data {
+              id
+              attributes {
+                Featured
+                Slug
+                Heading
+                photo {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
+                Description
+                normalPrice
+                offerPrice
+                productCode
+                sub_categories {
+                  data {
+                    attributes {
+                      Title
+                      slug
+                    }
+                  }
+                }
+                main_categories {
+                  data {
+                    attributes {
+                      Title
+                      Slug
+                    }
+                  }
+                }
+                createdAt
+                updatedAt
+                publishedAt
+                seo {
+                  metaTitle
+                  metaDescription
+                  metaImage {
+                    data {
+                      attributes {
+                        alternativeText
+                        url
+                      }
+                    }
+                  }
+                  metaSocial {
+                    image {
+                      data {
+                        attributes {
+                          url
+                        }
+                      }
+                    }
+                    description
+                    title
+                  }
+                  keywords
+                  metaRobots
+                  metaViewport
+                  canonicalURL
+                  OGSitename
+                  OGmodifiedtime
+                  OGdescription
+                }
+                Unit
+                reviews {
+                  id
+                  rating
+                  author
+                  comment
+                  postedDate
+                  authorEmail
+                  showPublic
+                }
+                photo {
+                  data {
+                    attributes {
+                      alternativeText
+                      width
+                      height
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`,
+      }),
+    });
+    const featuredProducts_ = await featuredProductsResponse.json();
 
     return {
       props: {
@@ -985,7 +977,6 @@ export async function getStaticProps() {
         pageDataAbout_,
         featuredProducts_,
       },
-      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -996,8 +987,6 @@ export async function getStaticProps() {
         pageDataAbout_: null,
         featuredProducts_: null,
       },
-      revalidate: 60 * 60, // Revalidate every hour (3600 seconds) in case of error
     };
   }
 }
-

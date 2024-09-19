@@ -159,10 +159,10 @@ export default function Search({ pageData_, reviewCountData_ }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   try {
     // Fetch the data for the page
-    const pageData = await fetch(wordpressGraphQlApiUrl, {
+    const pageDataResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -202,7 +202,7 @@ export async function getStaticProps() {
         }`,
       }),
     });
-    const pageData_ = await pageData.json();
+    const pageData_ = await pageDataResponse.json();
 
     // Fetch review count data
     const reviewCountResponse = await fetch(wordpressGraphQlApiUrl, {
@@ -231,7 +231,6 @@ export async function getStaticProps() {
         pageData_,
         reviewCountData_
       },
-      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -240,7 +239,6 @@ export async function getStaticProps() {
         pageData_: null,
         reviewCountData_: null
       },
-      revalidate: 3600, // Revalidate every hour (3600 seconds) in case of error
     };
   }
 }
