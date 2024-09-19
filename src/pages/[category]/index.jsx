@@ -119,6 +119,7 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 
 
 
+
 export async function getServerSideProps(context) {
   const { params } = context;
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
@@ -240,9 +241,8 @@ export async function getServerSideProps(context) {
         variables: { page, pageSize, categorySlug: categorySlugFallback, minPrice, maxPrice, minReviewRating },
       }),
     });
-    const productData_ = await productDataResponse.json();
 
-    // Check if the desired subcategory has any results
+    const productData_ = await productDataResponse.json();
     const hasDesiredCategory = productData_.data.shops.data.length > 0;
 
     let finalProductData = productData_;
@@ -273,8 +273,6 @@ export async function getServerSideProps(context) {
                       data {
                         attributes {
                           alternativeText
-                          width
-                          height
                           url
                         }
                       }
@@ -358,6 +356,7 @@ export async function getServerSideProps(context) {
           variables: { page, pageSize, categorySlug: categorySlug, minPrice, maxPrice, minReviewRating },
         }),
       });
+
       finalProductData = await fallbackProductDataResponse.json();
     }
 
@@ -401,6 +400,7 @@ export async function getServerSideProps(context) {
         variables: { categorySlug: categorySlugFallback },
       }),
     });
+
     const pageData_ = await pageData.json();
 
     // Fetch main category SEO data
@@ -455,10 +455,9 @@ export async function getServerSideProps(context) {
         variables: { categorySlug: categorySlugFallback },
       }),
     });
+
     const pageDataMainCatSeo_ = await pageDataMainCatSeo.json();
 
-
-    
     return {
       props: {
         productData_: finalProductData,
@@ -477,8 +476,5 @@ export async function getServerSideProps(context) {
     };
   }
 }
-
-
-
 
 
