@@ -118,45 +118,13 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
 }
 
 
-export async function getStaticPaths() {
-  try {
-    // Fetch a list of all categories or relevant paths
-    const response = await fetch(wordpressGraphQlApiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query: `
-          query {
-            mainCategories(pagination: { limit: 1000 }) {
-              data {
-                attributes {
-                  Slug
-                }
-              }
-            }
-          }
-        `,
-      }),
-    });
-    const data = await response.json();
-    const paths = data.data.mainCategories.data.map(cat => ({
-      params: { category: cat.attributes.Slug }
-    }));
-
-    return { paths, fallback: 'blocking' }; // 'blocking' to ensure all paths are generated at build time
-  } catch (error) {
-    console.error('Error fetching static paths:', error);
-    return { paths: [], fallback: 'blocking' };
-  }
-}
 
 
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
   const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
-  const page = 1; // Default to page 1 for static props
+  const page = 1; // Default to page 1 for server-side props
   const pageSize = 30; // Set your desired page size
   const minPrice = 0;
   const maxPrice = 100000;
@@ -273,9 +241,8 @@ export async function getStaticProps(context) {
         variables: { page, pageSize, categorySlug: categorySlugFallback, minPrice, maxPrice, minReviewRating },
       }),
     });
-    const productData_ = await productDataResponse.json();
 
-    // Check if the desired subcategory has any results
+    const productData_ = await productDataResponse.json();
     const hasDesiredCategory = productData_.data.shops.data.length > 0;
 
     let finalProductData = productData_;
@@ -306,8 +273,6 @@ export async function getStaticProps(context) {
                       data {
                         attributes {
                           alternativeText
-                          width
-                          height
                           url
                         }
                       }
@@ -391,6 +356,7 @@ export async function getStaticProps(context) {
           variables: { page, pageSize, categorySlug: categorySlug, minPrice, maxPrice, minReviewRating },
         }),
       });
+
       finalProductData = await fallbackProductDataResponse.json();
     }
 
@@ -434,6 +400,7 @@ export async function getStaticProps(context) {
         variables: { categorySlug: categorySlugFallback },
       }),
     });
+
     const pageData_ = await pageData.json();
 
     // Fetch main category SEO data
@@ -488,6 +455,7 @@ export async function getStaticProps(context) {
         variables: { categorySlug: categorySlugFallback },
       }),
     });
+
     const pageDataMainCatSeo_ = await pageDataMainCatSeo.json();
 
     return {
@@ -496,7 +464,6 @@ export async function getStaticProps(context) {
         pageData_,
         pageDataMainCatSeo_,
       },
-      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -506,11 +473,8 @@ export async function getStaticProps(context) {
         pageData_: null,
         pageDataMainCatSeo_: null,
       },
-      revalidate: 60 * 60 * 24, // Revalidate every 24 hours
     };
   }
 }
-
-
 
 
