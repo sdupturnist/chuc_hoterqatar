@@ -335,65 +335,9 @@ export default function ProductSingle({ singleProductData }) {
   );
 }
 
-export async function getStaticPaths() {
-  try {
-    // Fetch all categories and slugs from your API
-    const response = await fetch(wordpressGraphQlApiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        query: `query {
-          shops {
-            data {
-              attributes {
-                Slug
-                main_categories {
-                  data {
-                    attributes {
-                      Slug
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }`,
-      }),
-      cache: 'no-store'
-    });
 
-    const data = await response.json();
-    const paths = [];
 
-    // Iterate through the categories and slugs to build the paths
-    data?.data?.shops?.data.forEach(shop => {
-      const slug = shop.attributes.Slug;
-      const categories = shop.attributes.main_categories.data;
-      
-      categories.forEach(category => {
-        const categorySlug = category.attributes.Slug;
-        paths.push({
-          params: { category: categorySlug, slug },
-        });
-      });
-    });
-
-    return {
-      paths,
-      fallback: 'blocking', // Use 'blocking' to wait until new data is available
-    };
-  } catch (error) {
-    console.error('Error fetching paths:', error);
-    return {
-      paths: [],
-      fallback: 'blocking',
-    };
-  }
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const { category, slug } = params;
 
@@ -405,101 +349,93 @@ export async function getStaticProps(context) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `query {
-          shops(filters: { Slug: { eq: "${slug}" }, main_categories: { Slug: { eq: "${category}" } } }) {
-           data {
-              id
-              attributes {
-                Featured
-                Slug
-                Heading
-                photo {
-                  data {
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
-                    }
-                  }
-                }
-                Unit
-                reviews {
-                  id
-                  rating
-                  author
-                  comment
-                  postedDate
-                  authorEmail
-                  showPublic
-                }
-                Description
-                normalPrice
-                offerPrice
-                productCode
-                Includes
-                ShortDescription
-                main_categories {
-                 data{
-                    attributes{
-                      Slug
-                    }
-                  }
-                }
-                sub_categories{
-                  data{
-                    attributes{
-                      slug
-                    }
-                  }
-                }
-                createdAt
-                updatedAt
-                publishedAt
-                seo {
-                  metaTitle
-                  metaDescription
-                  metaImage {
+        query: `
+          query {
+            shops(filters: { Slug: { eq: "${slug}" }, main_categories: { Slug: { eq: "${category}" } } }) {
+              data {
+                id
+                attributes {
+                  Featured
+                  Slug
+                  Heading
+                  photo {
                     data {
                       attributes {
                         alternativeText
+                        width
+                        height
                         url
                       }
                     }
                   }
-                  metaSocial {
-                    image {
+                  Unit
+                  reviews {
+                    id
+                    rating
+                    author
+                    comment
+                    postedDate
+                    authorEmail
+                    showPublic
+                  }
+                  Description
+                  normalPrice
+                  offerPrice
+                  productCode
+                  Includes
+                  ShortDescription
+                  main_categories {
+                    data {
+                      attributes {
+                        Slug
+                      }
+                    }
+                  }
+                  sub_categories {
+                    data {
+                      attributes {
+                        slug
+                      }
+                    }
+                  }
+                  createdAt
+                  updatedAt
+                  publishedAt
+                  seo {
+                    metaTitle
+                    metaDescription
+                    metaImage {
                       data {
                         attributes {
+                          alternativeText
                           url
                         }
                       }
                     }
-                    description
-                    title
-                  }
-                  keywords
-                  metaRobots
-                  metaViewport
-                  canonicalURL
-                  OGSitename
-                  OGmodifiedtime
-                  OGdescription
-                }
-                photo {
-                  data {
-                    attributes {
-                      alternativeText
-                      width
-                      height
-                      url
+                    metaSocial {
+                      image {
+                        data {
+                          attributes {
+                            url
+                          }
+                        }
+                      }
+                      description
+                      title
                     }
+                    keywords
+                    metaRobots
+                    metaViewport
+                    canonicalURL
+                    OGSitename
+                    OGmodifiedtime
+                    OGdescription
                   }
                 }
               }
             }
           }
-        }`,
+        `,
       }),
       cache: 'no-store'
     });
@@ -510,7 +446,6 @@ export async function getStaticProps(context) {
       props: {
         singleProductData,
       },
-      revalidate: 60, // Regenerate the page every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -518,7 +453,6 @@ export async function getStaticProps(context) {
       props: {
         singleProductData: null,
       },
-      revalidate: 60, // Regenerate the page every 60 seconds, even if there was an error
     };
   }
 }
