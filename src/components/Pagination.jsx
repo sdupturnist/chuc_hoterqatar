@@ -32,7 +32,7 @@ const Pagination = ({ currentPage, pageCount }) => {
         <button
           key={page}
           onClick={() => handlePageChange(page)}
-          className={`join-item btn bg-transparent border-0 shadow-none hover:!bg-transparent hover:opacity-30 ${page === currentPage ? 'text-opacity-30' : ''}`}
+          className={`join-item btn bg-transparent border-0 shadow-none hover:!bg-transparent hover:opacity-30 text-black ${page === currentPage ? 'text-opacity-30' : ''}`}
         >
           {page}
         </button>
