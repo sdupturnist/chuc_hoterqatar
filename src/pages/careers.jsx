@@ -46,9 +46,9 @@ export default function Career({ pageData_ }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
-    const pageData = await fetch(wordpressGraphQlApiUrl, {
+    const pageDataResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,15 +88,15 @@ export async function getServerSideProps() {
           }
         }`,
       }),
-      cache: 'no-store', // Ensure fresh data on each request
     });
     
-    const pageData_ = await pageData.json();
+    const pageData_ = await pageDataResponse.json();
 
     return {
       props: {
         pageData_,
       },
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -104,6 +104,7 @@ export async function getServerSideProps() {
       props: {
         pageData_: null,
       },
+      revalidate: 60, // Optional: still allow revalidation even on error
     };
   }
 }

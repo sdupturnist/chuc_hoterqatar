@@ -9,70 +9,30 @@ import { useEffect, useState } from 'react';
 import { useThemeContext } from '@/context/themeContext';
 import Metatags from '@/components/Seo';
 
-
-
-
-export default function AllProducts({ productData_, pageData_, pageDataMainCatSeo_}) {
-
-
-
+export default function AllProducts({ productData_, pageData_, pageDataMainCatSeo_ }) {
   const allProducts = productData_?.data?.shops?.data ?? [];
   const pagination = productData_?.data?.shops?.meta?.pagination ?? {};
-
-
-
-
   const { themeLayout } = useThemeContext();
-
-
   const router = useRouter();
   const { query } = router;
-
-
   const [currentUrl, setCurrentUrl] = useState('');
 
-
-
-  //console.log(query.category)
-
-
-  // useEffect(() => {
-  //   const timeoutId = setTimeout(() => {
-  //     if (
-  //       productData_?.data?.shops?.data?.length === 0  && 
-  //       !['flowers', 'cakes', 'events', 'chocolates'].includes(query.category)
-  //     ) {
-  //       router.push('/404');
-  //     }
-  //   }, 1000); // Delay in milliseconds (e.g., 1000ms = 1 second)
-
-  //   // Cleanup function to clear the timeout if the component unmounts or dependencies change
-  //   return () => clearTimeout(timeoutId);
-  // }, [productData_?.data?.shops?.data?.length, router]);
-  
-
-
-  // useEffect(() => {
-  //   if (typeof window !== 'undefined') {
-  //     setCurrentUrl(`${window.location.origin}${router.asPath}`);
-  //   }
-  // }, [router.asPath]);
-
-
-
-
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setCurrentUrl(`${window.location.origin}${router.asPath}`);
+    }
+  }, [router.asPath]);
 
   return (
     <>
-
-
-      {pageData_?.data?.subCategorie?.data[0]?.attributes?.seo && <Metatags seo={pageData_ && pageData_?.data?.subCategorie?.data[0]?.attributes?.seo} />}
-      {!pageData_?.data?.subCategorie?.data[0]?.attributes?.seo && <Metatags seo={pageDataMainCatSeo_ && pageDataMainCatSeo_?.data?.mainCategories?.data[0]?.attributes?.seo} />}
-
-
+      {pageData_?.data?.subCategorie?.data[0]?.attributes?.seo && (
+        <Metatags seo={pageData_?.data?.subCategorie?.data[0]?.attributes?.seo} />
+      )}
+      {!pageData_?.data?.subCategorie?.data[0]?.attributes?.seo && (
+        <Metatags seo={pageDataMainCatSeo_?.data?.mainCategories?.data[0]?.attributes?.seo} />
+      )}
 
       <Layout page="category">
-
         <div className="container [&>*]:text-black grid xl:gap-[50px] gap-[30px] lg:pt-[30px] xl:pb-[70px] pb-[20px] overflow-hidden">
           <PageHeader
             type="cat"
@@ -81,11 +41,10 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
             data={productData_}
           />
 
-
           {productData_?.data?.shops?.data.length > 0 ? (
             <>
-              <div className="grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-[40px] gap-[20px]" >
-                {productData_ && allProducts.map((item, key) => {
+              <div className="grid xl:grid-cols-6 lg:grid-cols-4 sm:grid-cols-3 grid-cols-2 sm:gap-[40px] gap-[20px]">
+                {allProducts.map((item, key) => {
                   const publicReviews = item?.attributes?.reviews?.filter(review => review.showPublic);
 
                   return (
@@ -117,12 +76,19 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
   );
 }
 
+export async function getStaticPaths() {
+  // Fetch paths for categories if needed
+  return {
+    paths: [], // Provide paths to pre-render, e.g., [{ params: { category: 'your-category' } }]
+    fallback: 'blocking', // Can also be true or false
+  };
+}
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { params } = context;
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
   const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
-  const page = 1; // Default to page 1 for server-side props
+  const page = 1; // Default to page 1 for static props
   const pageSize = 30; // Set your desired page size
   const minPrice = 0;
   const maxPrice = 100000;
@@ -373,11 +339,6 @@ export async function getServerSideProps(context) {
             ) {
               data {
                 attributes {
-                  slug
-                  Title
-                  mainCategory {
-                    ProductMainCategory
-                  }
                   seo {
                     metaTitle
                     metaDescription
@@ -389,8 +350,6 @@ export async function getServerSideProps(context) {
                         }
                       }
                     }
-                    keywords
-                    metaRobots
                   }
                 }
               }
@@ -402,8 +361,8 @@ export async function getServerSideProps(context) {
     });
     const pageData_ = await pageData.json();
 
-    // Fetch main category SEO data
-    const pageDataMainCatSeo = await fetch(wordpressGraphQlApiUrl, {
+    // Fetch SEO data for the main category
+    const mainCategorySeoResponse = await fetch(wordpressGraphQlApiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -411,11 +370,10 @@ export async function getServerSideProps(context) {
           query ($categorySlug: String) {
             mainCategories(
               pagination: { limit: 1000 }
-              filters: { Slug: { contains: $categorySlug } }
+              filters: { slug: { contains: $categorySlug } }
             ) {
               data {
                 attributes {
-                  Slug
                   seo {
                     metaTitle
                     metaDescription
@@ -427,24 +385,6 @@ export async function getServerSideProps(context) {
                         }
                       }
                     }
-                    metaSocial {
-                      image {
-                        data {
-                          attributes {
-                            url
-                          }
-                        }
-                      }
-                      description
-                      title
-                    }
-                    keywords
-                    metaRobots
-                    metaViewport
-                    canonicalURL
-                    OGSitename
-                    OGmodifiedtime
-                    OGdescription
                   }
                 }
               }
@@ -454,7 +394,7 @@ export async function getServerSideProps(context) {
         variables: { categorySlug: categorySlugFallback },
       }),
     });
-    const pageDataMainCatSeo_ = await pageDataMainCatSeo.json();
+    const pageDataMainCatSeo_ = await mainCategorySeoResponse.json();
 
     return {
       props: {
@@ -462,17 +402,12 @@ export async function getServerSideProps(context) {
         pageData_,
         pageDataMainCatSeo_,
       },
+      revalidate: 60, // Regenerate the page every 60 seconds
     };
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error("Error fetching data:", error);
     return {
-      props: {
-        productData_: null,
-        pageData_: null,
-        pageDataMainCatSeo_: null,
-      },
+      notFound: true, // Return 404 if there's an error
     };
   }
 }
-
-

@@ -337,7 +337,7 @@ export default function ProductSingle({ singleProductData }) {
 
 
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { params } = context;
   const { category, slug } = params;
 
@@ -446,6 +446,7 @@ export async function getServerSideProps(context) {
       props: {
         singleProductData,
       },
+      revalidate: 30, // Revalidate every 30 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -453,6 +454,15 @@ export async function getServerSideProps(context) {
       props: {
         singleProductData: null,
       },
+      revalidate: 30, // Still revalidate even if there's an error
     };
   }
+}
+
+export async function getStaticPaths() {
+  // You can implement a way to generate paths if needed.
+  return {
+    paths: [],
+    fallback: 'blocking', // Use 'blocking' to support dynamic routes
+  };
 }

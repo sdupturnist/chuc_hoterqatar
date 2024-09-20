@@ -723,8 +723,7 @@ export default function Home({ homeTwoData_, pageData_, pageDataAbout_, featured
 }
 
 
-
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const pageSize = 4; // Set your desired page size
 
   try {
@@ -977,6 +976,7 @@ export async function getServerSideProps() {
         pageDataAbout_,
         featuredProducts_,
       },
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -987,6 +987,7 @@ export async function getServerSideProps() {
         pageDataAbout_: null,
         featuredProducts_: null,
       },
+      revalidate: 60, // Optional: still allow revalidation even on error
     };
   }
 }

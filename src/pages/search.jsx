@@ -159,7 +159,7 @@ export default function Search({ pageData_, reviewCountData_ }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
     // Fetch the data for the page
     const pageDataResponse = await fetch(wordpressGraphQlApiUrl, {
@@ -211,17 +211,15 @@ export async function getServerSideProps() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        query: `
-          query {
-            review(pagination: { limit: 6 }) {
-              data {
-                attributes {
-                  productId
-                }
+        query: `query {
+          review(pagination: { limit: 6 }) {
+            data {
+              attributes {
+                productId
               }
             }
           }
-        `,
+        }`,
       }),
     });
     const reviewCountData_ = await reviewCountResponse.json();
@@ -229,16 +227,18 @@ export async function getServerSideProps() {
     return {
       props: {
         pageData_,
-        reviewCountData_
+        reviewCountData_,
       },
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
     return {
       props: {
         pageData_: null,
-        reviewCountData_: null
+        reviewCountData_: null,
       },
+      revalidate: 60, // Optional: still allow revalidation even on error
     };
   }
 }

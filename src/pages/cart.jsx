@@ -149,8 +149,9 @@ export default function Cart({ pageData_, allProducts_ }) {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   try {
+    // Fetch data for items in the cart
     const pageDataResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -190,10 +191,10 @@ export async function getServerSideProps() {
           }
         }`,
       }),
-      cache: 'no-store', // Fetch fresh data on each request
     });
     const pageData_ = await pageDataResponse.json();
 
+    // Fetch all products
     const allProductsResponse = await fetch(wordpressGraphQlApiUrl, {
       method: "POST",
       headers: {
@@ -243,7 +244,6 @@ export async function getServerSideProps() {
           }
         }`,
       }),
-      cache: 'no-store', // Ensure fresh data on each request
     });
     const allProducts_ = await allProductsResponse.json();
 
@@ -252,6 +252,7 @@ export async function getServerSideProps() {
         pageData_,
         allProducts_,
       },
+      revalidate: 60, // Revalidate every 60 seconds
     };
   } catch (error) {
     console.error('Error fetching data:', error);
@@ -260,7 +261,7 @@ export async function getServerSideProps() {
         pageData_: null,
         allProducts_: null,
       },
+      revalidate: 60, // Optional: still allow revalidation even on error
     };
   }
 }
-
