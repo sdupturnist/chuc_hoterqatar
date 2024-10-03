@@ -53,7 +53,7 @@ export default function About({ pageData_ }) {
 
                     />
                   </div>
-                  <div className="grid gap-[30px] md:pt-[60px] sm:pt-[30px] pt-[20px] sm:pb-[100px] pb-[30px] justify-end" data-aos="fade-up" data-aos-delay="700">
+                  <div className="grid gap-[30px] md:pt-[60px] sm:pt-[30px] pt-[20px] sm:pb-[100px] pb-[30px] justify-end [&>*]:text-justify" data-aos="fade-up" data-aos-delay="700">
                     <BlocksRenderer content={pageData?.Content} />
                   </div>
                 </div>
