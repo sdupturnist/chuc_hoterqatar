@@ -82,7 +82,7 @@ export async function getServerSideProps(context) {
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
   const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
   const page = parseInt(query.page) || 1; // Default to page 1 for static props
-  const pageSize = 30; // Set your desired page size
+  const pageSize = 12; // Set your desired page size
   const minPrice = 0;
   const maxPrice = 100000;
   const minReviewRating = 0;
