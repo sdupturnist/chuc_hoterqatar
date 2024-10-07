@@ -9,13 +9,14 @@ import { useEffect, useState } from 'react';
 import { useThemeContext } from '@/context/themeContext';
 import Metatags from '@/components/Seo';
 
-export default function AllProducts({ productData_, pageData_, pageDataMainCatSeo_ }) {
+export default function AllProducts({ productData_, pageData_, pageDataMainCatSeo_}) {
   const allProducts = productData_?.data?.shops?.data ?? [];
   const pagination = productData_?.data?.shops?.meta?.pagination ?? {};
   const { themeLayout } = useThemeContext();
   const router = useRouter();
   const { query } = router;
   const [currentUrl, setCurrentUrl] = useState('');
+
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -76,19 +77,11 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
   );
 }
 
-export async function getStaticPaths() {
-  // Fetch paths for categories if needed
-  return {
-    paths: [], // Provide paths to pre-render, e.g., [{ params: { category: 'your-category' } }]
-    fallback: 'blocking', // Can also be true or false
-  };
-}
-
-export async function getStaticProps(context) {
-  const { params } = context;
+export async function getServerSideProps(context) {
+  const { params, query } = context;
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
   const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
-  const page = 1; // Default to page 1 for static props
+  const page = parseInt(query.page) || 1; // Default to page 1 for static props
   const pageSize = 30; // Set your desired page size
   const minPrice = 0;
   const maxPrice = 100000;
@@ -396,13 +389,15 @@ export async function getStaticProps(context) {
     });
     const pageDataMainCatSeo_ = await mainCategorySeoResponse.json();
 
+ 
     return {
       props: {
         productData_: finalProductData,
         pageData_,
         pageDataMainCatSeo_,
+       
+        
       },
-      revalidate: 60, // Regenerate the page every 60 seconds
     };
   } catch (error) {
     console.error("Error fetching data:", error);
