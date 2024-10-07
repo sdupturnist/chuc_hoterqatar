@@ -18,6 +18,8 @@ export default function AllProducts({ productData_, pageData_, pageDataMainCatSe
   const [currentUrl, setCurrentUrl] = useState('');
 
 
+
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setCurrentUrl(`${window.location.origin}${router.asPath}`);
@@ -82,10 +84,10 @@ export async function getServerSideProps(context) {
   const categorySlug = params.category?.replace(/-/g, '_')?.toLowerCase();
   const categorySlugFallback = params.category?.replace(/-/g, '-')?.toLowerCase();
   const page = parseInt(query.page) || 1; // Default to page 1 for static props
-  const pageSize = 12; // Set your desired page size
-  const minPrice = 0;
-  const maxPrice = 100000;
-  const minReviewRating = 0;
+  const pageSize = 30; // Set your desired page size
+  const minPrice = parseInt(query.minPrice) || 0
+  const maxPrice = parseInt(query.maxPrice) || 0;
+  const minReviewRating = parseInt(query.minReviewCount) || 0 
 
   try {
     // Fetch data for the provided subcategory
@@ -94,13 +96,13 @@ export async function getServerSideProps(context) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         query: `
-          query ($page: Int, $pageSize: Int, $categorySlug: String, $minPrice: Float, $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
+          query ($page: Int, $pageSize: Int, $categorySlug: String,  $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
             shops(
               pagination: { page: $page, pageSize: $pageSize }
               filters: {
                 sub_categories: { slug: { eq: $categorySlug } }
-                normalPrice: { gte: $minPrice, lte: $maxPrice }
-                ${minReviewRating > 0 ? 'reviews: { rating: { gte: $minReviewRating } }' : ''}
+                normalPrice: { gt: $maxPrice }
+                ${minReviewRating > 0 ? 'reviews: { rating: { eq: $minReviewRating } }' : ''}
               }
             ) {
               data {
@@ -212,13 +214,13 @@ export async function getServerSideProps(context) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           query: `
-            query ($page: Int, $pageSize: Int, $categorySlug: String, $minPrice: Float, $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
+            query ($page: Int, $pageSize: Int, $categorySlug: String, $maxPrice: Float, ${minReviewRating > 0 ? '$minReviewRating: Int' : ''}) {
               shops(
                 pagination: { page: $page, pageSize: $pageSize }
                 filters: {
                   main_categories: { Slug: { contains: $categorySlug } }
-                  normalPrice: { gte: $minPrice, lte: $maxPrice }
-                  ${minReviewRating > 0 ? 'reviews: { rating: { gte: $minReviewRating } }' : ''}
+                  normalPrice: { gt: $maxPrice }
+                  ${minReviewRating > 0 ? 'reviews: { rating: { eq: $minReviewRating } }' : ''}
                 }
               ) {
                 data {
@@ -389,13 +391,14 @@ export async function getServerSideProps(context) {
     });
     const pageDataMainCatSeo_ = await mainCategorySeoResponse.json();
 
+
  
     return {
       props: {
         productData_: finalProductData,
         pageData_,
         pageDataMainCatSeo_,
-       
+     
         
       },
     };

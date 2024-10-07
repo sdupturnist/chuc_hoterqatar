@@ -104,7 +104,7 @@ export default function FilterProducts() {
               checked={maxPrice === 100}
               onChange={handlePriceChange}
             />
-            0 - 100
+           100 &#62;
           </li>
           <li className="flex justify-start items-center gap-2">
             <input
@@ -115,7 +115,7 @@ export default function FilterProducts() {
               checked={maxPrice === 500}
               onChange={handlePriceChange}
             />
-            100 - 500
+          500 &#62;
           </li>
           <li className="flex justify-start items-center gap-2">
             <input
@@ -126,7 +126,7 @@ export default function FilterProducts() {
               checked={maxPrice === 1000}
               onChange={handlePriceChange}
             />
-            500 - 1000
+          1000 &#62;
           </li>
           <li className="flex justify-start items-center gap-2">
             <input
@@ -137,7 +137,7 @@ export default function FilterProducts() {
               checked={maxPrice === 5000}
               onChange={handlePriceChange}
             />
-            1500 - 5000
+         5000 &#62;
           </li>
           <li className="flex justify-start items-center gap-2">
             <input
@@ -148,7 +148,7 @@ export default function FilterProducts() {
               checked={maxPrice > 5000}
               onChange={handlePriceChange}
             />
-            5000+
+            5000 &#62;
           </li>
         </ul>
       </div>
